@@ -67,4 +67,16 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 
 * Role: Developer
-* Responsibilities: Do stuff
+* Responsibilities: UI
+
+### Tok Jun Hui Nicholas
+
+<img src="images/nictjh.png" width="200px">
+
+[[github](http://github.com/nictjh)]
+[[portfolio](team/nictok.md)]
+
+* Role: Developer
+* Responsibilities: BEING the best TEAMMATE ever
+
+
