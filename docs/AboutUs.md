@@ -58,5 +58,13 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](https://github.com/Benjam11n)]
 [[portfolio](team/benjam11n.md)]
 
+### Abdul Hakam Bin Nor Razak
+
+<img src="images/adouble.png" width="200px">
+
+[[github](http://github.com/adobleb)]
+[[portfolio](team/adoubleb.md)]
+
+
 * Role: Developer
-* Responsibilities: UI
+* Responsibilities: Do stuff
