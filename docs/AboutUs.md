@@ -15,22 +15,11 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 <img src="images/yashvangh.png" width="200px">
 
-[[homepage](http://www.comp.nus.edu.sg/~damithch)]
 [[github](https://github.com/YashvanGH)]
 [[portfolio](team/yashvangh.md)]
 
-* Role: Dedicated Team Slacker
-* Responsibilities: Lead Through Fear
-
-### Jane Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
-
-* Role: Team Lead
-* Responsibilities: UI
+* Role: Dedicated Team Slacker (Fax)
+* Responsibilities: Lead Through Fear, Join the zoom call, and make sure everyone is awake
 
 ### Muhammad A'qil
 
@@ -41,16 +30,6 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Developer & Clown 
 * Responsibilities: CI/CD, Backend & Tomfoolery
 
-### Jean Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
-
-* Role: Developer
-* Responsibilities: Dev Ops + Threading
-
 ### Benjamin Wang
 
 <img src="images/benjam11n.png" width="200px">
@@ -58,16 +37,19 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](https://github.com/Benjam11n)]
 [[portfolio](team/benjam11n.md)]
 
+* Role: Developer
+* Responsibilities: Everything in between
+
 ### Abdul Hakam Bin Nor Razak
 
-<img src="images/adouble.png" width="200px">
+<img src="images/adoubleb.png" width="200px">
 
 [[github](http://github.com/adobleb)]
 [[portfolio](team/adoubleb.md)]
 
 
 * Role: Developer
-* Responsibilities: UI
+* Responsibilities: UI, Step up your game, and make sure everyone is awake
 
 ### Tok Jun Hui Nicholas
 
