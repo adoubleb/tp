@@ -11,15 +11,16 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### John Doe
+### Yashvan Alagirisamy
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/yashvangh.png" width="200px">
 
 [[homepage](http://www.comp.nus.edu.sg/~damithch)]
-[[github](https://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](https://github.com/YashvanGH)]
+[[portfolio](team/yashvangh.md)]
 
-* Role: Project Advisor
+* Role: Dedicated Team Slacker
+* Responsibilities: Lead Through Fear
 
 ### Jane Doe
 
@@ -31,14 +32,14 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Team Lead
 * Responsibilities: UI
 
-### Johnny Doe
+### Muhammad A'qil
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/qilstiano.png" width="200px">
 
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
+[[github](http://github.com/qilstiano)] [[portfolio](team/qilstiano.md)]
 
-* Role: Developer
-* Responsibilities: Data
+* Role: Developer & Clown 
+* Responsibilities: CI/CD, Backend & Tomfoolery
 
 ### Jean Doe
 
@@ -50,12 +51,20 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Developer
 * Responsibilities: Dev Ops + Threading
 
-### James Doe
+### Benjamin Wang
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/benjam11n.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](https://github.com/Benjam11n)]
+[[portfolio](team/benjam11n.md)]
+
+### Abdul Hakam Bin Nor Razak
+
+<img src="images/adouble.png" width="200px">
+
+[[github](http://github.com/adobleb)]
+[[portfolio](team/adoubleb.md)]
+
 
 * Role: Developer
 * Responsibilities: UI
@@ -69,3 +78,5 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Developer
 * Responsibilities: BEING the best TEAMMATE ever
+
+
