@@ -32,14 +32,14 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Team Lead
 * Responsibilities: UI
 
-### Johnny Doe
+### Muhammad A'qil
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/qilstiano.png" width="200px">
 
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
+[[github](http://github.com/qilstiano)] [[portfolio](team/qilstiano.md)]
 
-* Role: Developer
-* Responsibilities: Data
+* Role: Developer & Clown 
+* Responsibilities: CI/CD, Backend & Tomfoolery
 
 ### Jean Doe
 
