@@ -7,11 +7,11 @@
 
 We are a team based in the [School of Computing, National University of Singapore](http://www.comp.nus.edu.sg).
 
-You can reach us at the email `seer[at]comp.nus.edu.sg`
+You can find us sweating in COM1
 
 ## Project team
 
-### Yashvan Alagirisamy
+### Yashvan Alagirisamy |`alagirisamyyashvan@gmail.com`
 
 <img src="images/yashvangh.png" width="200px">
 
@@ -21,7 +21,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Dedicated Team Slacker (Fax)
 * Responsibilities: Lead Through Fear, Join the zoom call, and make sure everyone is awake
 
-### Muhammad A'qil
+### Muhammad A'qil |`qilstianooo@gmail.com`
 
 <img src="images/qilstiano.png" width="200px">
 
@@ -30,7 +30,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Developer & Clown 
 * Responsibilities: CI/CD, Backend & Tomfoolery
 
-### Benjamin Wang
+### Benjamin Wang |`ben.wang9000@gmail.com`
 
 <img src="images/benjam11n.png" width="200px">
 
@@ -40,7 +40,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Developer
 * Responsibilities: Everything in between
 
-### Abdul Hakam Bin Nor Razak
+### Abdul Hakam Bin Nor Razak |`abdulhakamnr@gmail.com`
 
 <img src="images/adoubleb.png" width="200px">
 
@@ -51,7 +51,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Developer
 * Responsibilities: UI, Step up your game, and make sure everyone is awake
 
-### Tok Jun Hui Nicholas
+### Tok Jun Hui Nicholas |`nicholastok0101@gmail.com`
 
 <img src="images/nictjh.png" width="200px">
 

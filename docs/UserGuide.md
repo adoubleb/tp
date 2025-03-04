@@ -4,9 +4,9 @@
   pageNav: 3
 ---
 
-# AB-3 User Guide
+# WhoAreYouAgain? User Guide
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+**WhoAreYouAgain?** is a **desktop application** for managing your family contacts, optimized for use via a **Command Line Interface (CLI)** while still offering the benefits of a **Graphical User Interface (GUI)**. If you can type fast, WhoAreYouAgain? helps you keep track of relatives and birthdays more efficiently than traditional address book apps—so you’ll never awkwardly forget a name at reunions again.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -22,7 +22,7 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
 1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar whoareyouagain.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
@@ -31,7 +31,7 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * `add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son` : Adds a relative named `Nickie` to the family book.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -53,10 +53,10 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
 * Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+  e.g `n/NAME [e/EMAIL]` can be used as `n/John Doe e/johnDoe@gmail.com` or as `n/John Doe`.
 
-* Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+* Items with `…`​ after them can accept multiple values.<br>
+  e.g. `delete…​` can be used as `delete 1`, `delete 1 2 4`, etc.
 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
@@ -80,16 +80,18 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `add n/NAME p/PHONE_NUMBER r/RELATIONSHIP [e/EMAIL] [a/ADDRESS] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES]`
 
-<box type="tip" seamless>
+[//]: # (<box type="tip" seamless>)
 
-**Tip:** A person can have any number of tags (including 0)
-</box>
+[//]: # ()
+[//]: # (**Tip:** A person can have any number of tags &#40;including 0&#41;)
+
+[//]: # (</box>)
 
 Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son`
+* `add n/Betsy Crowe p/99999999 r/Other e/betsycrowe@example.com a/Newgate Prison b/2001-03-30 no/Son's girlfriend`
 
 ### Listing all persons : `list`
 
@@ -132,19 +134,20 @@ Examples:
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
-### Deleting a person : `delete`
+### Deleting a person: `delete`
 
-Deletes the specified person from the address book.
+Deletes the specified person(s) from the address book.
 
-Format: `delete INDEX`
+**Format:** `delete INDEX…​`
 
-* Deletes the person at the specified `INDEX`.
+* Deletes the person(s) at the specified `INDEX` values.
 * The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* The index **must be a positive integer** (e.g., 1, 2, 3, …).
+* Supports deleting multiple people at once (e.g., `delete 1 2 4`).
 
-Examples:
+**Examples:**
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+* `find Betsy` followed by `delete 1 3` deletes the 1st and 3rd persons in the results of the `find` command.
 
 ### Clearing all entries : `clear`
 
@@ -197,9 +200,9 @@ _Details coming soon ..._
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Add**    | `add n/NAME p/PHONE_NUMBER r/RELATIONSHIP [e/EMAIL] [a/ADDRESS] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES]` <br> e.g., `add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son`
 **Clear**  | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
+**Delete** | `delete INDEX...`<br> e.g., `delete 3`, `delete 1 2 4`
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list`
