@@ -306,11 +306,163 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 *{More to be added}*
 
-### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+# WhoAreYouAgain? - Use Cases  
 
-**Use case: Delete a person**
+## Use Case 1: Add Nickname to Family Member’s Profile  
+**System**: WhoAreYouAgain?  
+**Use case**: UC01 - Add Nickname  
+**Actor**: User  
+
+### Main Success Scenario (MSS):  
+1. User selects a family member’s profile.  
+2. System displays the family member’s details.  
+3. User chooses to add/edit a nickname.  
+4. System requests nickname input.  
+5. User enters a nickname and confirms.  
+6. System saves the nickname and updates the profile.  
+   **Use case ends.**  
+
+### Extensions:  
+- **4a. User leaves the nickname field empty.**  
+  - 4a1. System displays a warning that the nickname cannot be empty.  
+  - 4a2. User enters a valid nickname.  
+  - Use case resumes from step 5.  
+
+- **5a. User cancels the action before confirmation.**  
+  - 5a1. System discards changes.  
+  - **Use case ends.**  
+
+---
+
+## Use Case 2: View a List of Upcoming Birthdays  
+**System**: WhoAreYouAgain?  
+**Use case**: UC02 - View Upcoming Birthdays  
+**Actor**: User  
+
+### Main Success Scenario (MSS):  
+1. User navigates to the birthdays section.  
+2. System retrieves and displays a list of upcoming birthdays.  
+   **Use case ends.**  
+
+### Extensions:  
+- **2a. There are no upcoming birthdays.**  
+  - 2a1. System displays a message: “No upcoming birthdays.”  
+  - **Use case ends.**  
+
+---
+
+## Use Case 3: Add a Custom Family Event  
+**System**: WhoAreYouAgain?  
+**Use case**: UC03 - Add Custom Family Event  
+**Actor**: User  
+
+### Main Success Scenario (MSS):  
+1. User selects “Add Event” from the events section.  
+2. System requests event details (name, date, time, description, tagged family members).  
+3. User enters event details and confirms.  
+4. System saves the event and updates the event list.  
+   **Use case ends.**  
+
+### Extensions:  
+- **2a. User leaves mandatory fields empty.**  
+  - 2a1. System displays an error and prompts the user to enter the missing information.  
+  - Use case resumes from step 3.  
+
+- **3a. User cancels the action before confirmation.**  
+  - 3a1. System discards changes.  
+  - **Use case ends.**  
+
+---
+
+## Use Case 4: Search for a Family Member in the Tree  
+**System**: WhoAreYouAgain?  
+**Use case**: UC04 - Search Family Member  
+**Actor**: User  
+
+### Main Success Scenario (MSS):  
+1. User opens the family tree view.  
+2. User enters a family member’s name in the search bar.  
+3. System searches and highlights the matching family member in the tree.  
+   **Use case ends.**  
+
+### Extensions:  
+- **3a. No matching family member is found.**  
+  - 3a1. System displays a message: “No results found.”  
+  - **Use case ends.**  
+
+---
+
+## Use Case 5: Export Family Directory as CSV  
+**System**: WhoAreYouAgain?  
+**Use case**: UC05 - Export Family Directory  
+**Actor**: User  
+
+### Main Success Scenario (MSS):  
+1. User selects the export option in settings.  
+2. System prompts user to confirm export.  
+3. User confirms.  
+4. System generates and downloads the CSV file.  
+   **Use case ends.**  
+
+### Extensions:  
+- **3a. User cancels the export.**  
+  - 3a1. System aborts the operation.  
+  - **Use case ends.**  
+
+---
+
+## Use Case 6: View Family Tree Visualization  
+**System**: WhoAreYouAgain?  
+**Use case**: UC06 - View Family Tree  
+**Actor**: User  
+
+### Main Success Scenario (MSS):  
+1. User navigates to the family tree section.  
+2. System displays a hierarchical family tree visualization.  
+   **Use case ends.**  
+
+### Extensions:  
+- **2a. User zooms in or out.**  
+  - 2a1. System adjusts the view accordingly.  
+  - **Use case ends.**  
+
+---
+
+## Use Case 7: Relationship Calculator  
+**System**: WhoAreYouAgain?  
+**Use case**: UC07 - Calculate Family Relationship  
+**Actor**: User  
+
+### Main Success Scenario (MSS):  
+1. User selects the relationship calculator feature.  
+2. System prompts the user to enter two family member names.  
+3. User enters names and confirms.  
+4. System calculates and displays their relationship (e.g., “First Cousin Once Removed”).  
+   **Use case ends.**  
+
+### Extensions:  
+- **3a. Entered names do not exist in the database.**  
+  - 3a1. System displays an error message.  
+  - **Use case ends.**  
+
+---
+
+## Use Case 8: Auntie Name Translator  
+**System**: WhoAreYouAgain?  
+**Use case**: UC08 - Convert Name to Cultural Nickname  
+**Actor**: User  
+
+### Main Success Scenario (MSS):  
+1. User selects a family member’s profile.  
+2. System provides a culturally appropriate nickname based on predefined rules (e.g., "Auntie Mei" instead of "Lisa Tan").  
+   **Use case ends.**  
+
+### Extensions:  
+- **2a. No cultural nickname is available for the entered name.**  
+  - 2a1. System notifies the user that no nickname was found.  
+  - **Use case ends.**  
+```
 
 **MSS**
 
