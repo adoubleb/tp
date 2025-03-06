@@ -321,7 +321,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   - 4a2. User enters a valid nickname.  
   - Use case resumes from step 5.  
 
-- **5a. User cancels the action.**  
+- **5a. User cancels the action before confirmation.**  
   - 5a1. System discards changes.  
   - **Use case ends.**  
 
