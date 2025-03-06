@@ -27,7 +27,7 @@ You can find us sweating in COM1
 
 [[github](http://github.com/qilstiano)] [[portfolio](team/qilstiano.md)]
 
-* Role: Developer & Clown 
+* Role: Developer & Clown
 * Responsibilities: CI/CD, Backend & Tomfoolery
 
 ### Benjamin Wang |`ben.wang9000@gmail.com`
