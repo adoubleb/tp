@@ -3,6 +3,7 @@ package seedu.address.storage;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,9 +44,7 @@ class JsonAdaptedPerson {
         this.phone = phone;
         this.email = email;
         this.address = address;
-        if (birthday != null) {
-            this.birthday = birthday;
-        }
+        this.birthday = birthday;
         if (tags != null) {
             this.tags.addAll(tags);
         }
@@ -59,9 +58,7 @@ class JsonAdaptedPerson {
         phone = source.getPhone().value;
         email = source.getEmail().value;
         address = source.getAddress().value;
-        if (source.getBirthday().value != null) {
-            birthday = source.getBirthday().value;
-        }
+        birthday = source.getBirthday().map(b -> b.value).orElse("");
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -111,14 +108,18 @@ class JsonAdaptedPerson {
 
         final Address modelAddress = new Address(address);
 
-//        if (birthday == null) {
-//            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-//                    Birthday.class.getSimpleName()));
-//        }
-//        if (!Birthday.isValidBirthday(birthday)) {
-//            throw new IllegalValueException(Birthday.MESSAGE_BIRTHDAY_CONSTRAINTS);
-//        }
-        final Birthday modelBirthday = new Birthday(birthday);
+
+        final Optional<Birthday> modelBirthday;
+        if (birthday == null || birthday.isEmpty()) {
+            modelBirthday = Optional.empty();
+        } else {
+            try {
+                modelBirthday = Optional.of(new Birthday(birthday));
+            } catch (IllegalArgumentException e) {
+                throw new IllegalValueException(Birthday.MESSAGE_BIRTHDAY_CONSTRAINTS);
+            }
+        }
+
         final Set<Tag> modelTags = new HashSet<>(personTags);
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelBirthday, modelTags);
     }

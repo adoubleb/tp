@@ -1,6 +1,7 @@
 package seedu.address.testutil;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.model.person.Address;
@@ -27,7 +28,7 @@ public class PersonBuilder {
     private Phone phone;
     private Email email;
     private Address address;
-    private Birthday birthday;
+    private Optional<Birthday> birthday;
     private Set<Tag> tags;
 
     /**
@@ -38,6 +39,7 @@ public class PersonBuilder {
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
+        birthday = Optional.empty();
         tags = new HashSet<>();
     }
 
@@ -49,6 +51,7 @@ public class PersonBuilder {
         phone = personToCopy.getPhone();
         email = personToCopy.getEmail();
         address = personToCopy.getAddress();
+        birthday = personToCopy.getBirthday();
         tags = new HashSet<>(personToCopy.getTags());
     }
 
@@ -86,7 +89,7 @@ public class PersonBuilder {
      * @throws IllegalArgumentException if {@code birthday} is in an invalid format or is a future date.
      */
     public PersonBuilder withBirthday(String birthday) {
-        this.birthday = new Birthday(birthday);
+        this.birthday = Optional.of(new Birthday(birthday));
         return this;
     }
 

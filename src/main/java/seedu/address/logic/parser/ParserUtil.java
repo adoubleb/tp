@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
@@ -90,13 +91,15 @@ public class ParserUtil {
      * @return A {@code Birthday} object if the input string is valid.
      * @throws ParseException If the given {@code birthday} is invalid.
      */
-    public static Birthday parseBirthday(String birthday) throws ParseException {
-        requireNonNull(birthday);
-        String trimmedBirthday = birthday.trim();
-        if (!Birthday.isValidBirthday(birthday)) {
+    public static Optional<Birthday> parseBirthday(Optional<String> birthday) throws ParseException {
+        if (birthday.isEmpty()) {
+            return Optional.empty();
+        }
+        String trimmedBirthday = birthday.get().trim();
+        if (!Birthday.isValidBirthday(trimmedBirthday)) {
             throw new ParseException(Birthday.MESSAGE_BIRTHDAY_CONSTRAINTS);
         }
-        return new Birthday(trimmedBirthday);
+        return Optional.of(new Birthday(trimmedBirthday));
     }
 
     /**

@@ -114,13 +114,14 @@ public class Person {
 
     @Override
     public String toString() {
-        return String.format("%s; Phone: %s; Email: %s; Address: %s; Birthday: %s; Tags: %s",
-                name,
-                phone,
-                email,
-                address,
-                birthday.map(Birthday::toString).orElse("No birthday"),
-                tags.isEmpty() ? "No tags" : tags);
+        return new ToStringBuilder(this)
+                .add("name", name)
+                .add("phone", phone)
+                .add("email", email)
+                .add("address", address)
+                .add("birthday", birthday)
+                .add("tags", tags)
+                .toString();
     }
 
 
