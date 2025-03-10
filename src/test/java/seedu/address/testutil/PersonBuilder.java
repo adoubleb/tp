@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Birthday;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
@@ -20,11 +21,13 @@ public class PersonBuilder {
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    private static final String DEFAULT_BIRTHDAY = "01-01-1990";
 
     private Name name;
     private Phone phone;
     private Email email;
     private Address address;
+    private Birthday birthday;
     private Set<Tag> tags;
 
     /**
@@ -74,6 +77,20 @@ public class PersonBuilder {
     }
 
     /**
+     * Sets the {@code Birthday} of the {@code Person} that is being built.
+     *
+     * @param birthday A string representing the birthday in the format DD-MM-YYYY.
+     *                 The birthday must be valid and should not be a future date.
+     * @return The updated {@code PersonBuilder} instance with the specified birthday set.
+     * @throws NullPointerException if {@code birthday} is null.
+     * @throws IllegalArgumentException if {@code birthday} is in an invalid format or is a future date.
+     */
+    public PersonBuilder withBirthday(String birthday) {
+        this.birthday = new Birthday(birthday);
+        return this;
+    }
+
+    /**
      * Sets the {@code Phone} of the {@code Person} that we are building.
      */
     public PersonBuilder withPhone(String phone) {
@@ -90,7 +107,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, phone, email, address, tags);
+        return new Person(name, phone, email, address, birthday, tags);
     }
 
 }
