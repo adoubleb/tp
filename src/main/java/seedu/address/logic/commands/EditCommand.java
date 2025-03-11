@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
@@ -28,6 +29,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Relationship;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -46,6 +48,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_BIRTHDAY + "BIRTHDAY]"
+            + "[" + PREFIX_RELATIONSHIP + "RELATIONSHIP]"
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
@@ -103,9 +106,11 @@ public class EditCommand extends Command {
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Optional<Birthday> updatedBirthday = editPersonDescriptor.getBirthday();
+        Optional<Relationship> updatedRelationship = editPersonDescriptor.getRelationship();
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedBirthday, updatedTags);
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
+                updatedBirthday, updatedRelationship, updatedTags);
     }
 
     @Override
@@ -142,6 +147,7 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private Optional<Birthday> birthday;
+        private Optional<Relationship> relationship;
         private Set<Tag> tags;
 
         public EditPersonDescriptor() {}
@@ -156,6 +162,7 @@ public class EditCommand extends Command {
             setEmail(toCopy.email);
             setAddress(toCopy.address);
             setBirthday(toCopy.birthday);
+            setRelationship(toCopy.relationship);
             setTags(toCopy.tags);
         }
 
@@ -193,17 +200,20 @@ public class EditCommand extends Command {
         public void setAddress(Address address) {
             this.address = address;
         }
-
-        public void setBirthday(Optional<Birthday> birthday) {
-            this.birthday = birthday;
-        }
-
         public Optional<Address> getAddress() {
             return Optional.ofNullable(address);
         }
-
+        public void setBirthday(Optional<Birthday> birthday) {
+            this.birthday = birthday;
+        }
         public Optional<Birthday> getBirthday() {
             return Optional.ofNullable(birthday).flatMap(b -> b);
+        }
+        public void setRelationship(Optional<Relationship> relationship) {
+            this.relationship = relationship;
+        }
+        public Optional<Relationship> getRelationship() {
+            return Optional.ofNullable(relationship).flatMap(b -> b);
         }
 
         /**
@@ -240,6 +250,7 @@ public class EditCommand extends Command {
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
                     && Objects.equals(birthday, otherEditPersonDescriptor.birthday)
+                    && Objects.equals(relationship, otherEditPersonDescriptor.relationship)
                     && Objects.equals(tags, otherEditPersonDescriptor.tags);
         }
 
@@ -251,6 +262,7 @@ public class EditCommand extends Command {
                     .add("email", email)
                     .add("address", address)
                     .add("birthday", birthday)
+                    .add("relationship", relationship)
                     .add("tags", tags)
                     .toString();
         }

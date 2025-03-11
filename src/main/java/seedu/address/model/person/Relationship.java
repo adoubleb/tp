@@ -8,7 +8,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents a Relationship between User and Family Member in the address book.
- * Guarantees: immutable, name is valid as declared in {@Link #isValidRelationship(String)}
+ * Guarantees: immutable, name is valid as declared in {@Link #isValidRelationship(String)}.
  */
 public class Relationship {
 
