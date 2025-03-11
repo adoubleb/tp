@@ -25,14 +25,22 @@ public class Relationship {
      */
     public Relationship(String relationship) {
         requireNonNull(relationship);
-        checkArgument(isValidTagName(relationship), MESSAGE_CONSTRAINTS);
+        checkArgument(isValidRelationship(relationship), MESSAGE_CONSTRAINTS);
         this.relationship = relationship;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getRelationshipString() {
+        return relationship;
     }
 
     /**
      * Returns true if a given string is a valid relationship.
      */
-    public static boolean isValidTagName(String test) {
+    public static boolean isValidRelationship(String test) {
         return test.matches(VALIDATION_REGEX);
     }
 

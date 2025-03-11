@@ -9,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Birthday;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Relationship;
 
 /**
  * An UI component that displays information of a {@code Person}.
@@ -42,6 +43,8 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label birthday;
     @FXML
+    private Label relationship;
+    @FXML
     private FlowPane tags;
 
     /**
@@ -56,6 +59,7 @@ public class PersonCard extends UiPart<Region> {
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
         birthday.setText(person.getBirthday().map(Birthday::getBirthdayStringFormatted).orElse(""));
+        relationship.setText(person.getRelationship().map(Relationship::getRelationshipString).orElse(""));
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
