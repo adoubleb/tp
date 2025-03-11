@@ -5,8 +5,6 @@ import static java.util.Objects.requireNonNull;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
-import seedu.address.logic.parser.exceptions.ParseException;
-
 
 /**
  * Represents a Person's birthday in the address book.
@@ -25,8 +23,10 @@ public class Birthday {
 
     public static final String VALIDATION_REGEX = "\\d{2}-\\d{2}-\\d{4}";
 
+    public final LocalDate localDate;
 
     public final String value;
+
 
     /**
      * Constructs a {@code Birthday}.
@@ -40,7 +40,26 @@ public class Birthday {
         birthday = birthday.trim();
         isValidBirthday(birthday);
         value = birthday;
+        localDate = setLocalDate(birthday);
     }
+
+    private LocalDate setLocalDate(String birthday) {
+        String[] parts = birthday.split("-");
+        int day = Integer.parseInt(parts[0]);
+        int month = Integer.parseInt(parts[1]);
+        int year = Integer.parseInt(parts[2]);
+
+        return LocalDate.of(year, month, day);
+    }
+
+    public LocalDate getLocalDate() {
+        return localDate;
+    }
+
+    public String getBirthdayStringFormatted() {
+        return localDate.format(java.time.format.DateTimeFormatter.ofPattern("dd-MMM-yyyy"));
+    }
+
 
     /**
      * Returns if a given string is a valid birthday
