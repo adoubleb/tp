@@ -25,19 +25,22 @@ public class Person {
     // Data fields
     private final Address address;
     private final Optional<Birthday> birthday;
+    private final Optional<Relationship> relationship;
 
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Optional<Birthday> birthday, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+    public Person(Name name, Phone phone, Email email, Address address, Optional<Birthday> birthday,
+                  Optional<Relationship> relationship, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, relationship, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.birthday = birthday != null ? birthday : Optional.empty();
+        this.relationship = relationship != null ? relationship : Optional.empty();
         this.tags.addAll(tags);
     }
 
@@ -60,6 +63,10 @@ public class Person {
     public Optional<Birthday> getBirthday() {
         return birthday;
     }
+    public Optional<Relationship> getRelationship() {
+        return relationship;
+    }
+
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
@@ -103,13 +110,15 @@ public class Person {
                 && email.equals(otherPerson.email)
                 && address.equals(otherPerson.address)
                 && birthday.equals(otherPerson.birthday)
+                && relationship.equals(otherPerson.relationship)
                 && tags.equals(otherPerson.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, birthday, tags);
+        return Objects.hash(name, phone, email, address, birthday,
+                relationship, tags);
     }
 
     @Override
@@ -120,9 +129,8 @@ public class Person {
                 .add("email", email)
                 .add("address", address)
                 .add("birthday", birthday)
+                .add("relationship", relationship)
                 .add("tags", tags)
                 .toString();
     }
-
-
 }
