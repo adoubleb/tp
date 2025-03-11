@@ -96,8 +96,10 @@ public class ParserUtil {
             return Optional.empty();
         }
         String trimmedBirthday = birthday.get().trim();
-        if (!Birthday.isValidBirthday(trimmedBirthday)) {
-            throw new ParseException(Birthday.MESSAGE_BIRTHDAY_CONSTRAINTS);
+        try {
+            Birthday.isValidBirthday(trimmedBirthday);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(e.getMessage());
         }
         return Optional.of(new Birthday(trimmedBirthday));
     }

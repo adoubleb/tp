@@ -116,7 +116,7 @@ class JsonAdaptedPerson {
             try {
                 modelBirthday = Optional.of(new Birthday(birthday));
             } catch (IllegalArgumentException e) {
-                throw new IllegalValueException(Birthday.MESSAGE_BIRTHDAY_CONSTRAINTS);
+                throw new IllegalValueException(e.getMessage());
             }
         }
 

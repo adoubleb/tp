@@ -1,10 +1,11 @@
 package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+
+import seedu.address.logic.parser.exceptions.ParseException;
 
 
 /**
@@ -15,6 +16,14 @@ public class Birthday {
 
     public static final String MESSAGE_BIRTHDAY_CONSTRAINTS =
             "Birthdays should be in the format DD-MM-YYYY and must be a valid date that is not in the future";
+
+    public static final String MESSAGE_BIRTHDAY_CONSTRAINTS_FORMAT = "Birthdays should be in the format DD-MM-YYYY";
+
+    public static final String MESSAGE_BIRTHDAY_CONSTRAINTS_INVALID = "Birthdays should be a real date";
+
+    public static final String MESSAGE_BIRTHDAY_CONSTRAINTS_FUTURE = "Birthdays can't be in the future!";
+
+    public static final String VALIDATION_REGEX = "\\d{2}-\\d{2}-\\d{4}";
 
 
     public final String value;
@@ -28,7 +37,8 @@ public class Birthday {
      */
     public Birthday(String birthday) {
         requireNonNull(birthday);
-        checkArgument(isValidBirthday(birthday), MESSAGE_BIRTHDAY_CONSTRAINTS);
+        birthday = birthday.trim();
+        isValidBirthday(birthday);
         value = birthday;
     }
 
@@ -36,13 +46,10 @@ public class Birthday {
      * Returns if a given string is a valid birthday
      */
     public static boolean isValidBirthday(String test) {
-        // Check format first
-        if (!test.matches("\\d{2}-\\d{2}-\\d{4}")) {
-            return false;
+        if (!test.matches(VALIDATION_REGEX)) {
+            throw new IllegalArgumentException(MESSAGE_BIRTHDAY_CONSTRAINTS_FORMAT);
         }
-
         try {
-            // Parse the date
             String[] parts = test.split("-");
             int day = Integer.parseInt(parts[0]);
             int month = Integer.parseInt(parts[1]);
@@ -53,12 +60,14 @@ public class Birthday {
             LocalDate today = LocalDate.now();
 
             // Check if date is not in the future
-            return !birthDate.isAfter(today);
+            if (birthDate.isAfter(today)) {
+                throw new IllegalArgumentException(MESSAGE_BIRTHDAY_CONSTRAINTS_FUTURE);
+            }
 
         } catch (DateTimeException e) {
-            // This will catch invalid dates like 31/02/2000
-            return false;
+            throw new IllegalArgumentException(MESSAGE_BIRTHDAY_CONSTRAINTS_INVALID);
         }
+        return true;
     }
 
 
