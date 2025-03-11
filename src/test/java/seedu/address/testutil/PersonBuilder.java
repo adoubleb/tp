@@ -8,6 +8,8 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthday;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Nickname;
+import seedu.address.model.person.Notes;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
@@ -23,12 +25,16 @@ public class PersonBuilder {
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     private static final String DEFAULT_BIRTHDAY = "01-01-1990";
+    private static final String DEFAULT_NICKNAME = "Nicholas";
+    private static final String DEFAULT_NOTES = "Allergic to peanuts";
 
     private Name name;
     private Phone phone;
     private Email email;
     private Address address;
     private Optional<Birthday> birthday;
+    private Optional<Nickname> nickname;
+    private Optional<Notes> notes;
     private Set<Tag> tags;
 
     /**
@@ -40,6 +46,8 @@ public class PersonBuilder {
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
         birthday = Optional.empty();
+        nickname = Optional.empty();
+        notes = Optional.empty();
         tags = new HashSet<>();
     }
 
@@ -52,6 +60,8 @@ public class PersonBuilder {
         email = personToCopy.getEmail();
         address = personToCopy.getAddress();
         birthday = personToCopy.getBirthday();
+        nickname = personToCopy.getNickname();
+        notes = personToCopy.getNotes();
         tags = new HashSet<>(personToCopy.getTags());
     }
 
@@ -94,6 +104,22 @@ public class PersonBuilder {
     }
 
     /**
+     * Sets the {@code Nickname} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withNickname(String nickname) {
+        this.nickname = Optional.of(new Nickname(nickname));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Notes} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withNotes(String notes) {
+        this.notes = Optional.of(new Notes(notes));
+        return this;
+    }
+
+    /**
      * Sets the {@code Phone} of the {@code Person} that we are building.
      */
     public PersonBuilder withPhone(String phone) {
@@ -110,7 +136,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, phone, email, address, birthday, tags);
+        return new Person(name, phone, email, address, birthday, nickname, notes, tags);
     }
 
 }

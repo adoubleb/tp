@@ -14,6 +14,8 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthday;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Nickname;
+import seedu.address.model.person.Notes;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
@@ -102,6 +104,48 @@ public class ParserUtil {
             throw new ParseException(e.getMessage());
         }
         return Optional.of(new Birthday(trimmedBirthday));
+    }
+
+    /**
+     * Parses a {@code String nickname} into a {@code Nickname}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @param nickname The input string representing the nickname.
+     * @return A {@code Nickname} object if the input string is valid.
+     * @throws ParseException If the given {@code nickname} is invalid.
+     */
+    public static Optional<Nickname> parseNickname(Optional<String> nickname) throws ParseException {
+        if (nickname.isEmpty()) {
+            return Optional.empty();
+        }
+        String trimmedNickname = nickname.get().trim();
+        try {
+            Nickname.isValidNickname(trimmedNickname);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(e.getMessage());
+        }
+        return Optional.of(new Nickname(trimmedNickname));
+    }
+
+    /**
+     * Parses a {@code String notes} into a {@code Notes}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @param notes The input string representing the notes.
+     * @return A {@code Notes} object if the input string is valid.
+     * @throws ParseException If the given {@code notes} is invalid.
+     */
+    public static Optional<Notes> parseNotes(Optional<String> notes) throws ParseException {
+        if (notes.isEmpty()) {
+            return Optional.empty();
+        }
+        String trimmedNotes = notes.get().trim();
+        try {
+            Notes.isValidNotes(trimmedNotes);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(e.getMessage());
+        }
+        return Optional.of(new Notes(trimmedNotes));
     }
 
     /**
