@@ -4,12 +4,14 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Birthday;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
@@ -78,6 +80,28 @@ public class ParserUtil {
             throw new ParseException(Address.MESSAGE_CONSTRAINTS);
         }
         return new Address(trimmedAddress);
+    }
+
+    /**
+     * Parses a {@code String birthday} into a {@code Birthday}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @param birthday The input string representing the birthday.
+     *                 It should be in the format DD/MM/YYYY and must be a valid date that is not in the future.
+     * @return A {@code Birthday} object if the input string is valid.
+     * @throws ParseException If the given {@code birthday} is invalid.
+     */
+    public static Optional<Birthday> parseBirthday(Optional<String> birthday) throws ParseException {
+        if (birthday.isEmpty()) {
+            return Optional.empty();
+        }
+        String trimmedBirthday = birthday.get().trim();
+        try {
+            Birthday.isValidBirthday(trimmedBirthday);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(e.getMessage());
+        }
+        return Optional.of(new Birthday(trimmedBirthday));
     }
 
     /**
