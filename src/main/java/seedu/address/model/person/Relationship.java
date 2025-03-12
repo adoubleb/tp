@@ -28,11 +28,6 @@ public class Relationship {
         checkArgument(isValidRelationship(relationship), MESSAGE_CONSTRAINTS);
         this.relationship = relationship;
     }
-
-    /**
-     *
-     * @return
-     */
     public String getRelationshipString() {
         return relationship;
     }

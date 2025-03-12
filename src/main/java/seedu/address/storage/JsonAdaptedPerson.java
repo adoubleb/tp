@@ -17,6 +17,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Relationship;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -31,6 +32,7 @@ class JsonAdaptedPerson {
     private final String email;
     private final String address;
     private final String birthday;
+    private final String relationship;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
@@ -39,12 +41,14 @@ class JsonAdaptedPerson {
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
-                @JsonProperty("birthday") String birthday, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+                @JsonProperty("birthday") String birthday, @JsonProperty("birthday") String relationship,
+                             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.birthday = birthday;
+        this.relationship = relationship;
         if (tags != null) {
             this.tags.addAll(tags);
         }
@@ -59,6 +63,7 @@ class JsonAdaptedPerson {
         email = source.getEmail().value;
         address = source.getAddress().value;
         birthday = source.getBirthday().map(b -> b.value).orElse("");
+        relationship = source.getRelationship().map(b->b.relationship).orElse("");
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -120,8 +125,19 @@ class JsonAdaptedPerson {
             }
         }
 
+        final Optional<Relationship> modelRelationship;
+        if (relationship == null) {
+            modelRelationship = Optional.empty();
+        } else {
+            try {
+                modelRelationship = Optional.of(new Relationship(relationship));
+            } catch (IllegalArgumentException e) {
+                throw new IllegalValueException(e.getMessage());
+            }
+        }
+
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelBirthday, modelTags);
+        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelBirthday, modelRelationship, modelTags);
     }
 
 }
