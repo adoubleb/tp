@@ -8,6 +8,8 @@ import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_NICKNAME_LENGTH_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_NOTES_LENGTH_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
@@ -41,6 +43,8 @@ import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Nickname;
+import seedu.address.model.person.Notes;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
@@ -101,6 +105,12 @@ public class EditCommandParserTest {
         // multiple invalid values, but only the first invalid value is captured
         assertParseFailure(parser, "1" + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_ADDRESS_AMY + VALID_PHONE_AMY,
                 Name.MESSAGE_CONSTRAINTS);
+
+        // Invalid nickname - too long
+        assertParseFailure(parser, "1" + INVALID_NICKNAME_LENGTH_DESC, Nickname.MESSAGE_CONSTRAINTS_LENGTH);
+
+        // Invalid notes - too long
+        assertParseFailure(parser, "1" + INVALID_NOTES_LENGTH_DESC, Notes.MESSAGE_CONSTRAINTS_LENGTH);
     }
 
     @Test

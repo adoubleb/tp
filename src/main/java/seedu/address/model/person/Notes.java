@@ -23,23 +23,8 @@ public class Notes {
      */
     public Notes(String notes) {
         requireNonNull(notes);
-        validateNotes(notes);
+        isValidNotes(notes);
         this.value = notes;
-    }
-
-    /**
-     * Validates notes and throws exceptions with specific messages if invalid.
-     */
-    private static void validateNotes(String test) {
-        if (test.isEmpty()) {
-            return;
-        }
-        if (test.length() > MAX_LENGTH) {
-            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_LENGTH);
-        }
-        if (!test.matches(VALIDATION_REGEX)) {
-            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_CHARACTERS);
-        }
     }
 
     /**
@@ -50,8 +35,13 @@ public class Notes {
         if (test.isEmpty()) {
             return true;
         }
-
-        return test.matches(VALIDATION_REGEX) && test.length() <= MAX_LENGTH;
+        if (test.length() > MAX_LENGTH) {
+            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_LENGTH);
+        }
+        if (!test.matches(VALIDATION_REGEX)) {
+            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_CHARACTERS);
+        }
+        return true;
     }
 
     @Override
