@@ -1,5 +1,6 @@
 package seedu.address.model.person;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -18,10 +19,10 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
     @Override
     public boolean test(Person person) {
         String fullName = person.getName().fullName.toLowerCase();
-
+        List<String> nameWords = Arrays.asList(fullName.split("\\s+"));
         return keywords.stream()
                 .map(keyword -> keyword.toLowerCase())
-                .anyMatch(keyword -> fullName.contains(keyword));
+                .anyMatch(keyword -> nameWords.stream().anyMatch(word -> word.startsWith(keyword)));
     }
 
     @Override
