@@ -5,6 +5,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NICKNAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
@@ -26,6 +28,8 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthday;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Nickname;
+import seedu.address.model.person.Notes;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
@@ -46,6 +50,8 @@ public class EditCommand extends Command {
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_BIRTHDAY + "BIRTHDAY]"
+            + "[" + PREFIX_NICKNAME + "NICKNAME]"
+            + "[" + PREFIX_NOTES + "NOTES]"
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
@@ -102,12 +108,17 @@ public class EditCommand extends Command {
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
-        Optional<Birthday> updatedBirthday = editPersonDescriptor.getBirthday();
+        Optional<Birthday> updatedBirthday = editPersonDescriptor.getBirthday().isPresent()
+                ? editPersonDescriptor.getBirthday() : personToEdit.getBirthday();
+        Optional<Nickname> updatedNickname = editPersonDescriptor.getNickname().isPresent()
+                ? editPersonDescriptor.getNickname() : personToEdit.getNickname();
+        Optional<Notes> updatedNotes = editPersonDescriptor.getNotes().isPresent()
+                ? editPersonDescriptor.getNotes() : personToEdit.getNotes();
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedBirthday, updatedTags);
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedBirthday,
+                updatedNickname, updatedNotes, updatedTags);
     }
-
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -142,6 +153,8 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private Optional<Birthday> birthday;
+        private Optional<Nickname> nickname;
+        private Optional<Notes> notes;
         private Set<Tag> tags;
 
         public EditPersonDescriptor() {}
@@ -156,6 +169,8 @@ public class EditCommand extends Command {
             setEmail(toCopy.email);
             setAddress(toCopy.address);
             setBirthday(toCopy.birthday);
+            setNickname(toCopy.nickname);
+            setNotes(toCopy.notes);
             setTags(toCopy.tags);
         }
 
@@ -163,7 +178,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, birthday, nickname, notes, tags);
         }
 
         public void setName(Name name) {
@@ -197,6 +212,12 @@ public class EditCommand extends Command {
         public void setBirthday(Optional<Birthday> birthday) {
             this.birthday = birthday;
         }
+        public void setNickname(Optional<Nickname> nickname) {
+            this.nickname = nickname;
+        }
+        public void setNotes(Optional<Notes> notes) {
+            this.notes = notes;
+        }
 
         public Optional<Address> getAddress() {
             return Optional.ofNullable(address);
@@ -204,6 +225,14 @@ public class EditCommand extends Command {
 
         public Optional<Birthday> getBirthday() {
             return Optional.ofNullable(birthday).flatMap(b -> b);
+        }
+
+        public Optional<Nickname> getNickname() {
+            return Optional.ofNullable(nickname).flatMap(b -> b);
+        }
+
+        public Optional<Notes> getNotes() {
+            return Optional.ofNullable(notes).flatMap(b -> b);
         }
 
         /**
@@ -240,6 +269,8 @@ public class EditCommand extends Command {
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
                     && Objects.equals(birthday, otherEditPersonDescriptor.birthday)
+                    && Objects.equals(nickname, otherEditPersonDescriptor.nickname)
+                    && Objects.equals(notes, otherEditPersonDescriptor.notes)
                     && Objects.equals(tags, otherEditPersonDescriptor.tags);
         }
 
@@ -251,6 +282,8 @@ public class EditCommand extends Command {
                     .add("email", email)
                     .add("address", address)
                     .add("birthday", birthday)
+                    .add("nickname", nickname)
+                    .add("notes", notes)
                     .add("tags", tags)
                     .toString();
         }
