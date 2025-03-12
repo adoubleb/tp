@@ -1,23 +1,16 @@
 package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents a Person's notes in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidNotes(String)}
  */
 public class Notes {
-
-    public static final String MESSAGE_CONSTRAINTS =
-            "Notes should only contain printable characters, not start with whitespace, and be at most"
-                    + " 100 characters long";
-
-    /*
-     * The first character of the notes must not be a whitespace,
-     * otherwise " " (a blank string) becomes a valid input.
-     * Since notes can contain various characters including punctuation, we use a more permissive regex.
-     */
+    public static final String MESSAGE_CONSTRAINTS_LENGTH =
+            "Notes can be at most 100 characters long";
+    public static final String MESSAGE_CONSTRAINTS_CHARACTERS =
+            "Notes should only contain printable characters";
     public static final String VALIDATION_REGEX = "[^\\s].*";
     public static final int MAX_LENGTH = 100;
 
@@ -30,8 +23,23 @@ public class Notes {
      */
     public Notes(String notes) {
         requireNonNull(notes);
-        checkArgument(isValidNotes(notes), MESSAGE_CONSTRAINTS);
+        validateNotes(notes);
         this.value = notes;
+    }
+
+    /**
+     * Validates notes and throws exceptions with specific messages if invalid.
+     */
+    private static void validateNotes(String test) {
+        if (test.isEmpty()) {
+            return;
+        }
+        if (test.length() > MAX_LENGTH) {
+            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_LENGTH);
+        }
+        if (!test.matches(VALIDATION_REGEX)) {
+            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_CHARACTERS);
+        }
     }
 
     /**
@@ -42,6 +50,7 @@ public class Notes {
         if (test.isEmpty()) {
             return true;
         }
+
         return test.matches(VALIDATION_REGEX) && test.length() <= MAX_LENGTH;
     }
 
