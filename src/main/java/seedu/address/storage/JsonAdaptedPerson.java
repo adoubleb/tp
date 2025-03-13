@@ -19,6 +19,7 @@ import seedu.address.model.person.Nickname;
 import seedu.address.model.person.Notes;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Relationship;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -33,6 +34,7 @@ class JsonAdaptedPerson {
     private final String email;
     private final String address;
     private final String birthday;
+    private final String relationship;
     private final String nickname;
     private final String notes;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
@@ -43,13 +45,15 @@ class JsonAdaptedPerson {
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
-                @JsonProperty("birthday") String birthday, @JsonProperty("nickname") String nickname,
-                             @JsonProperty("notes") String notes, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+                @JsonProperty("birthday") String birthday, @JsonProperty("relationship") String relationship,
+                @JsonProperty("nickname") String nickname, @JsonProperty("notes") String notes,
+                             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.birthday = birthday;
+        this.relationship = relationship;
         this.nickname = nickname;
         this.notes = notes;
         if (tags != null) {
@@ -66,6 +70,7 @@ class JsonAdaptedPerson {
         email = source.getEmail().value;
         address = source.getAddress().value;
         birthday = source.getBirthday().map(b -> b.value).orElse("");
+        relationship = source.getRelationship().map(b->b.relationship).orElse("");
         nickname = source.getNickname().map(Nickname::toString).orElse("");
         notes = source.getNotes().map(Notes::toString).orElse("");
         tags.addAll(source.getTags().stream()
@@ -128,6 +133,16 @@ class JsonAdaptedPerson {
             }
         }
 
+        final Optional<Relationship> modelRelationship;
+        if (relationship == null || relationship.isEmpty()) {
+            modelRelationship = Optional.empty();
+        } else {
+            try {
+                modelRelationship = Optional.of(new Relationship(relationship));
+            } catch (IllegalArgumentException e) {
+                throw new IllegalValueException(e.getMessage());
+            }
+        }
         final Optional<Nickname> modelNickname;
         if (nickname == null || nickname.isEmpty()) {
             modelNickname = Optional.empty();
@@ -151,8 +166,8 @@ class JsonAdaptedPerson {
         }
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelBirthday, modelNickname,
-                modelNotes, modelTags);
+        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelBirthday, modelRelationship,
+                modelNickname, modelNotes, modelTags);
     }
 
 }

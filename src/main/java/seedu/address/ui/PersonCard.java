@@ -11,6 +11,7 @@ import seedu.address.model.person.Birthday;
 import seedu.address.model.person.Nickname;
 import seedu.address.model.person.Notes;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Relationship;
 
 /**
  * An UI component that displays information of a {@code Person}.
@@ -44,6 +45,8 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label birthday;
     @FXML
+    private Label relationship;
+    @FXML
     private Label nickname;
     @FXML
     private Label notes;
@@ -62,6 +65,7 @@ public class PersonCard extends UiPart<Region> {
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
         birthday.setText(person.getBirthday().map(Birthday::getBirthdayStringFormatted).orElse(""));
+        relationship.setText(person.getRelationship().map(Relationship::getRelationshipString).orElse(""));
         nickname.setText(person.getNickname().map(Nickname::toString).orElse(""));
         notes.setText(person.getNotes().map(Notes::toString).orElse(""));
         person.getTags().stream()

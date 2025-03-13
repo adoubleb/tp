@@ -25,22 +25,24 @@ public class Person {
     // Data fields
     private final Address address;
     private final Optional<Birthday> birthday;
+    private final Optional<Relationship> relationship;
     private final Optional<Nickname> nickname;
     private final Optional<Notes> notes;
-
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Address address, Optional<Birthday> birthday,
-                  Optional<Nickname> nickname, Optional<Notes> notes, Set<Tag> tags) {
+                  Optional<Relationship> relationship, Optional<Nickname> nickname, Optional<Notes> notes,
+                  Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.birthday = birthday != null ? birthday : Optional.empty();
+        this.relationship = relationship != null ? relationship : Optional.empty();
         this.nickname = nickname;
         this.notes = notes;
         this.tags.addAll(tags);
@@ -65,6 +67,10 @@ public class Person {
     public Optional<Birthday> getBirthday() {
         return birthday;
     }
+    public Optional<Relationship> getRelationship() {
+        return relationship;
+    }
+
     public Optional<Nickname> getNickname() {
         return nickname;
     }
@@ -114,6 +120,7 @@ public class Person {
                 && email.equals(otherPerson.email)
                 && address.equals(otherPerson.address)
                 && birthday.equals(otherPerson.birthday)
+                && relationship.equals(otherPerson.relationship)
                 && nickname.equals(otherPerson.nickname)
                 && notes.equals(otherPerson.notes)
                 && tags.equals(otherPerson.tags);
@@ -122,7 +129,8 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, birthday, nickname, notes, tags);
+        return Objects.hash(name, phone, email, address, birthday, relationship,
+                            nickname, notes, tags);
     }
 
     @Override
@@ -133,11 +141,10 @@ public class Person {
                 .add("email", email)
                 .add("address", address)
                 .add("birthday", birthday)
+                .add("relationship", relationship)
                 .add("nickname", nickname)
                 .add("notes", notes)
                 .add("tags", tags)
                 .toString();
     }
-
-
 }
