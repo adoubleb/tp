@@ -27,7 +27,7 @@ public class JsonAdaptedPersonTest {
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_BIRTHDAY = "31-02-2000";
-    private static final String INVALID_RELATIONSHIP = "___";
+    private static final String INVALID_RELATIONSHIP = "*_/";
     private static final String INVALID_NICKNAME =
             "This is a very long nickname that exceeds 30 characters";
     private static final String INVALID_NOTES =
