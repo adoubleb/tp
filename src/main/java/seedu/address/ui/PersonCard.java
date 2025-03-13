@@ -8,6 +8,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Birthday;
+import seedu.address.model.person.Nickname;
+import seedu.address.model.person.Notes;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Relationship;
 
@@ -45,6 +47,10 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label relationship;
     @FXML
+    private Label nickname;
+    @FXML
+    private Label notes;
+    @FXML
     private FlowPane tags;
 
     /**
@@ -60,6 +66,8 @@ public class PersonCard extends UiPart<Region> {
         email.setText(person.getEmail().value);
         birthday.setText(person.getBirthday().map(Birthday::getBirthdayStringFormatted).orElse(""));
         relationship.setText(person.getRelationship().map(Relationship::getRelationshipString).orElse(""));
+        nickname.setText(person.getNickname().map(Nickname::toString).orElse(""));
+        notes.setText(person.getNotes().map(Notes::toString).orElse(""));
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
