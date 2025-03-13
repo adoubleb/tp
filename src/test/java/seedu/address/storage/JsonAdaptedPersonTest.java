@@ -27,6 +27,7 @@ public class JsonAdaptedPersonTest {
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_BIRTHDAY = "31-02-2000";
+    private static final String INVALID_RELATIONSHIP = "___";
     private static final String INVALID_NICKNAME =
             "This is a very long nickname that exceeds 30 characters";
     private static final String INVALID_NOTES =
@@ -138,7 +139,7 @@ public class JsonAdaptedPersonTest {
     public void toModelType_invalidRelationship_throwsIllegalValueException() {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
-                        INVALID_BIRTHDAY, "#$%", VALID_NICKNAME, VALID_NOTES, VALID_TAGS);
+                        VALID_BIRTHDAY, INVALID_RELATIONSHIP, VALID_NICKNAME, VALID_NOTES, VALID_TAGS);
         String expectedMessage = Relationship.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }

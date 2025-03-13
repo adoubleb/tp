@@ -12,6 +12,7 @@
     "email" : "johnd@example.com",
     "address" : "311, Clementi Ave 2, #02-25",
     "birthday" : "01-01-1990",
+    "relationship" : "Bestie",
     "nickname" : "BENNY",
     "notes" : "Allergic to peanuts",
     "tags" : [ "owesMoney", "friends" ]
