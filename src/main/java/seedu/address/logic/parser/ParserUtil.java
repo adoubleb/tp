@@ -47,11 +47,34 @@ public class ParserUtil {
      */
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
-        String trimmedName = name.trim();
+        String trimmedName = formatName(name.trim());
         if (!Name.isValidName(trimmedName)) {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
         return new Name(trimmedName);
+    }
+
+    /**
+     * Formats a name to have the first letter of each word in uppercase and the rest in lowercase.
+     * Removes any extra spaces between words.
+     *
+     * @param name The name to be formatted.
+     * @return The formatted name.
+     */
+    public static String formatName(String name) {
+        name = name.trim().replaceAll("\\s+", " ");
+        String[] words = name.split(" ");
+        StringBuilder formattedName = new StringBuilder();
+        for (String word : words) {
+            if (word.length() > 1) {
+                formattedName.append(Character.toUpperCase(word.charAt(0)))
+                        .append(word.substring(1).toLowerCase())
+                        .append(" ");
+            } else {
+                formattedName.append(word.toUpperCase()).append(" ");
+            }
+        }
+        return formattedName.toString().trim();
     }
 
     /**
