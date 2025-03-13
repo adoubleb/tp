@@ -28,7 +28,6 @@ public class Person {
     private final Optional<Relationship> relationship;
     private final Optional<Nickname> nickname;
     private final Optional<Notes> notes;
-
     private final Set<Tag> tags = new HashSet<>();
 
     /**
@@ -129,8 +128,8 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, birthday, relationship, nickname, notes, tags);
-
+        return Objects.hash(name, phone, email, address, birthday, relationship,
+                            nickname, notes, tags);
     }
 
     @Override

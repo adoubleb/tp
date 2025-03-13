@@ -122,7 +122,7 @@ public class EditCommand extends Command {
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedBirthday,
-                updatedNickname, updatedNotes, updatedTags);
+                updatedRelationship, updatedNickname, updatedNotes, updatedTags);
     }
     @Override
     public boolean equals(Object other) {
@@ -216,9 +216,6 @@ public class EditCommand extends Command {
             this.address = address;
         }
 
-        public void setBirthday(Optional<Birthday> birthday) {
-            this.birthday = birthday;
-        }
         public void setNickname(Optional<Nickname> nickname) {
             this.nickname = nickname;
         }
@@ -241,11 +238,12 @@ public class EditCommand extends Command {
         public Optional<Relationship> getRelationship() {
             return Optional.ofNullable(relationship).flatMap(b -> b);
         }
-
         public Optional<Nickname> getNickname() {
             return Optional.ofNullable(nickname).flatMap(b -> b);
         }
-
+        public void setNotes(Optional<Notes> notes) {
+            this.notes = notes;
+        }
         public Optional<Notes> getNotes() {
             return Optional.ofNullable(notes).flatMap(b -> b);
         }

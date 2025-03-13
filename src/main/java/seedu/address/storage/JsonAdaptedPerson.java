@@ -138,6 +138,7 @@ class JsonAdaptedPerson {
         } else {
             try {
                 modelRelationship = Optional.of(new Relationship(relationship));
+              
         final Optional<Nickname> modelNickname;
         if (nickname == null || nickname.isEmpty()) {
             modelNickname = Optional.empty();
