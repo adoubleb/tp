@@ -230,19 +230,15 @@ public class EditCommand extends Command {
         public Optional<Relationship> getRelationship() {
             return Optional.ofNullable(relationship).flatMap(b -> b);
         }
-        
         public void setNickname(Optional<Nickname> nickname) {
             this.nickname = nickname;
         }
-        
         public Optional<Nickname> getNickname() {
             return Optional.ofNullable(nickname).flatMap(b -> b);
         }
-      
         public void setNotes(Optional<Notes> notes) {
             this.notes = notes;
         }
-
         public Optional<Notes> getNotes() {
             return Optional.ofNullable(notes).flatMap(b -> b);
         }
