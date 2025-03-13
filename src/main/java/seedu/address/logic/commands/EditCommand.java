@@ -219,10 +219,6 @@ public class EditCommand extends Command {
         public void setNickname(Optional<Nickname> nickname) {
             this.nickname = nickname;
         }
-        public void setNotes(Optional<Notes> notes) {
-            this.notes = notes;
-        }
-
         public Optional<Address> getAddress() {
             return Optional.ofNullable(address);
         }

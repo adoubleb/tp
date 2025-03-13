@@ -45,8 +45,9 @@ class JsonAdaptedPerson {
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
-                @JsonProperty("birthday") String birthday, @JsonProperty("relationship") String relationship, 
-                @JsonProperty("nickname") String nickname, @JsonProperty("notes") String notes, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+                @JsonProperty("birthday") String birthday, @JsonProperty("relationship") String relationship,
+                @JsonProperty("nickname") String nickname, @JsonProperty("notes") String notes,
+                             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -138,7 +139,10 @@ class JsonAdaptedPerson {
         } else {
             try {
                 modelRelationship = Optional.of(new Relationship(relationship));
-              
+            } catch (IllegalArgumentException e) {
+                throw new IllegalValueException(e.getMessage());
+            }
+        }
         final Optional<Nickname> modelNickname;
         if (nickname == null || nickname.isEmpty()) {
             modelNickname = Optional.empty();
