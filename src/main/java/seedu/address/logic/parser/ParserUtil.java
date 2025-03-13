@@ -14,6 +14,8 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthday;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Nickname;
+import seedu.address.model.person.Notes;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Relationship;
 import seedu.address.model.tag.Tag;
@@ -46,11 +48,34 @@ public class ParserUtil {
      */
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
-        String trimmedName = name.trim();
+        String trimmedName = formatName(name.trim());
         if (!Name.isValidName(trimmedName)) {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
         return new Name(trimmedName);
+    }
+
+    /**
+     * Formats a name to have the first letter of each word in uppercase and the rest in lowercase.
+     * Removes any extra spaces between words.
+     *
+     * @param name The name to be formatted.
+     * @return The formatted name.
+     */
+    public static String formatName(String name) {
+        name = name.trim().replaceAll("\\s+", " ");
+        String[] words = name.split(" ");
+        StringBuilder formattedName = new StringBuilder();
+        for (String word : words) {
+            if (word.length() > 1) {
+                formattedName.append(Character.toUpperCase(word.charAt(0)))
+                        .append(word.substring(1).toLowerCase())
+                        .append(" ");
+            } else {
+                formattedName.append(word.toUpperCase()).append(" ");
+            }
+        }
+        return formattedName.toString().trim();
     }
 
     /**
@@ -103,6 +128,48 @@ public class ParserUtil {
             throw new ParseException(e.getMessage());
         }
         return Optional.of(new Birthday(trimmedBirthday));
+    }
+
+    /**
+     * Parses a {@code String nickname} into a {@code Nickname}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @param nickname The input string representing the nickname.
+     * @return A {@code Nickname} object if the input string is valid.
+     * @throws ParseException If the given {@code nickname} is invalid.
+     */
+    public static Optional<Nickname> parseNickname(Optional<String> nickname) throws ParseException {
+        if (nickname.isEmpty()) {
+            return Optional.empty();
+        }
+        String trimmedNickname = nickname.get().trim();
+        try {
+            Nickname.isValidNickname(trimmedNickname);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(e.getMessage());
+        }
+        return Optional.of(new Nickname(trimmedNickname));
+    }
+
+    /**
+     * Parses a {@code String notes} into a {@code Notes}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @param notes The input string representing the notes.
+     * @return A {@code Notes} object if the input string is valid.
+     * @throws ParseException If the given {@code notes} is invalid.
+     */
+    public static Optional<Notes> parseNotes(Optional<String> notes) throws ParseException {
+        if (notes.isEmpty()) {
+            return Optional.empty();
+        }
+        String trimmedNotes = notes.get().trim();
+        try {
+            Notes.isValidNotes(trimmedNotes);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(e.getMessage());
+        }
+        return Optional.of(new Notes(trimmedNotes));
     }
 
     /**
