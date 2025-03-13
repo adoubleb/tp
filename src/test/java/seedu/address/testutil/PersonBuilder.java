@@ -155,7 +155,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, phone, email, address, birthday, nickname, notes, tags);
+        return new Person(name, phone, email, address, birthday, relationship, nickname, notes, tags);
     }
 
 }
