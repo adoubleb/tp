@@ -122,8 +122,7 @@ public class PersonBuilder {
         this.relationship = Optional.of(new Relationship(relationship));
         return this;
     }
-    
-        /**
+    /**
      * Sets the {@code Nickname} of the {@code Person} that we are building.
      */
     public PersonBuilder withNickname(String nickname) {
