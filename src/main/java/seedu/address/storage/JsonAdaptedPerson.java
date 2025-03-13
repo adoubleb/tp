@@ -134,7 +134,7 @@ class JsonAdaptedPerson {
         }
 
         final Optional<Relationship> modelRelationship;
-        if (relationship == null) {
+        if (relationship == null || relationship.isEmpty()) {
             modelRelationship = Optional.empty();
         } else {
             try {
