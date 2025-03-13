@@ -113,8 +113,7 @@ public class EditCommand extends Command {
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Optional<Birthday> updatedBirthday = editPersonDescriptor.getBirthday();
         Optional<Relationship> updatedRelationship = editPersonDescriptor.getRelationship().isPresent()
-                ? editPersonDescriptior.getRelationship() : personToEdit.getRelationship()
-   
+                ? editPersonDescriptior.getRelationship() : personToEdit.getRelationship();
         Optional<Nickname> updatedNickname = editPersonDescriptor.getNickname().isPresent()
                 ? editPersonDescriptor.getNickname() : personToEdit.getNickname();
         Optional<Notes> updatedNotes = editPersonDescriptor.getNotes().isPresent()
