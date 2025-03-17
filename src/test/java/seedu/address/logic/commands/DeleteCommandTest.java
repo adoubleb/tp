@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
@@ -49,6 +50,27 @@ public class DeleteCommandTest {
         personsToDelete.forEach(expectedModel::deletePerson);
 
         assertEquals(expectedMessage, actualMessage);
+    }
+
+    @Test
+    public void executeConfirmed_validIndices_success() throws CommandException {
+        List<Index> indicesToDelete = List.of(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON);
+        List<Person> personsToDelete = indicesToDelete.stream()
+                .map(index -> model.getFilteredPersonList().get(index.getZeroBased()))
+                .toList();
+
+        DeleteCommand deleteCommand = new DeleteCommand(indicesToDelete);
+
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
+                personsToDelete.stream()
+                        .map(person -> person.getName().toString())
+                        .collect(Collectors.joining(",")));
+        System.out.println(expectedMessage);
+        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        personsToDelete.forEach(expectedModel::deletePerson);
+
+        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+
     }
 
     @Test
