@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.CommandTracker;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 
 /**
@@ -18,10 +20,10 @@ public class UndoCommand extends Command {
     public static final String MESSAGE_FAILURE = "Nothing to undo!";
 
     @Override
-    public CommandResult execute(Model model) {
+    public CommandResult execute(Model model) throws CommandException {
         CommandTracker commandTracker = CommandTracker.getInstance();
         if (!commandTracker.canUndo()) {
-            return new CommandResult(MESSAGE_FAILURE);
+            throw new CommandException(MESSAGE_FAILURE);
         }
         Command lastCommand = commandTracker.popUndo();
         lastCommand.undo(model);
@@ -31,5 +33,10 @@ public class UndoCommand extends Command {
     @Override
     public boolean equals(Object other) {
         return other instanceof UndoCommand;
+    }
+
+    @Override
+    public String toString() {
+        return UndoCommand.class.getCanonicalName();
     }
 }

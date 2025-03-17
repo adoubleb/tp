@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import seedu.address.logic.CommandTracker;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 
 /**
@@ -18,10 +19,10 @@ public class RedoCommand extends Command {
     public static final String MESSAGE_FAILURE = "Nothing to redo!";
 
     @Override
-    public CommandResult execute(Model model) {
+    public CommandResult execute(Model model) throws CommandException {
         CommandTracker commandTracker = CommandTracker.getInstance();
         if (!commandTracker.canRedo()) {
-            return new CommandResult(MESSAGE_FAILURE);
+            throw new CommandException(MESSAGE_FAILURE);
         }
         Command lastCommand = commandTracker.popRedo();
         lastCommand.redo(model);
@@ -31,5 +32,10 @@ public class RedoCommand extends Command {
     @Override
     public boolean equals(Object other) {
         return other instanceof RedoCommand;
+    }
+
+    @Override
+    public String toString() {
+        return RedoCommand.class.getCanonicalName();
     }
 }
