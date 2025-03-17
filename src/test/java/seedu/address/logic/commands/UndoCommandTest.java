@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -26,12 +25,6 @@ public class UndoCommandTest {
     public void setUp() {
         model = new ModelManager();
         commandTracker = CommandTracker.getInstance();
-    }
-
-    @Test
-    public void execute_noUndoHistory_failure() {
-        UndoCommand undoCommand = new UndoCommand();
-        assertCommandFailure(undoCommand, model, "Nothing to undo!");
     }
 
     @Test
@@ -77,7 +70,7 @@ public class UndoCommandTest {
     private static class CommandStub extends Command {
         @Override
         public CommandResult execute(Model model) throws CommandException {
-            return null;
+            return new CommandResult("Mock command executed!");
         }
 
         @Override

@@ -46,7 +46,7 @@ public class DeleteCommand extends Command {
             }
         }
 
-        personsToDelete = targetIndices.stream()
+        List<Person> personsToDelete = targetIndices.stream()
                 .map(targetIndex -> lastShownList.get(targetIndex.getZeroBased()))
                 .toList();
 
@@ -54,10 +54,11 @@ public class DeleteCommand extends Command {
             model.deletePerson(personToDelete);
         }
 
-        return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS,
-                personsToDelete.stream()
+        String deletedPersonsSummary = personsToDelete.stream()
                 .map(Messages::format)
-                .collect(Collectors.joining(","))));
+                .collect(Collectors.joining(","));
+
+        return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedPersonsSummary));
     }
 
     @Override

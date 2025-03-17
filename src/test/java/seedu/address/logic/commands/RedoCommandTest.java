@@ -78,7 +78,7 @@ public class RedoCommandTest {
     private static class CommandStub extends Command {
         @Override
         public CommandResult execute(Model model) throws CommandException {
-            return null;
+            return new CommandResult("Mock command executed!");
         }
 
         @Override
