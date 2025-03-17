@@ -27,4 +27,9 @@ public class RedoCommand extends Command {
         lastCommand.redo(model);
         return new CommandResult(MESSAGE_REDO_SUCCESS);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof RedoCommand;
+    }
 }

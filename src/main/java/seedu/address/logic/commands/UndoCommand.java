@@ -27,4 +27,9 @@ public class UndoCommand extends Command {
         lastCommand.undo(model);
         return new CommandResult(MESSAGE_UNDO_SUCCESS);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof UndoCommand;
+    }
 }
