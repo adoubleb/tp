@@ -72,6 +72,16 @@ public class AddCommand extends Command {
     }
 
     @Override
+    public void undo(Model model) {
+        model.deletePerson(toAdd);
+    }
+
+    @Override
+    public void redo(Model model) {
+        model.addPerson(toAdd);
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;

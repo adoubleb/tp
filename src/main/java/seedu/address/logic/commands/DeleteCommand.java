@@ -29,6 +29,8 @@ public class DeleteCommand extends Command {
 
     private final List<Index> targetIndices;
 
+    private List<Person> personsToDelete;
+
     public DeleteCommand(List<Index> targetIndices) {
         this.targetIndices = targetIndices;
     }
@@ -44,7 +46,7 @@ public class DeleteCommand extends Command {
             }
         }
 
-        List<Person> personsToDelete = targetIndices.stream()
+        personsToDelete = targetIndices.stream()
                 .map(targetIndex -> lastShownList.get(targetIndex.getZeroBased()))
                 .toList();
 
@@ -54,8 +56,28 @@ public class DeleteCommand extends Command {
 
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS,
                 personsToDelete.stream()
-                        .map(Messages::format)
-                        .collect(Collectors.joining(","))));
+                .map(Messages::format)
+                .collect(Collectors.joining(","))));
+    }
+
+    @Override
+    public void undo(Model model) {
+        requireNonNull(model);
+        if (personsToDelete != null) {
+            for (Person person : personsToDelete) {
+                model.addPerson(person);
+            }
+        }
+    }
+
+    @Override
+    public void redo(Model model) {
+        requireNonNull(model);
+        if (personsToDelete != null) {
+            for (Person person : personsToDelete) {
+                model.deletePerson(person);
+            }
+        }
     }
 
     @Override
