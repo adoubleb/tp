@@ -15,7 +15,7 @@ import seedu.address.model.person.Person;
 /**
  * Deletes a person identified using it's displayed index from the address book.
  */
-public class DeleteCommand extends Command {
+public class DeleteCommand extends Command implements ConfirmableCommand {
 
     public static final String COMMAND_WORD = "delete";
 
@@ -25,7 +25,13 @@ public class DeleteCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1\n"
             + "Example: " + COMMAND_WORD + " 1 2";
 
+    public static final String MESSAGE_CONFIRMATION = "Are you sure you want to delete the selected person(s)?";
+
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
+
+    public static final String MESSAGE_CONFIRM_DELETE = "Confirmed Deleting Person: %1$s";
+
+    public static final String MESSAGE_DELETE_PERSON_ABORTED = "Aborted Deleting Person: %1$s";
 
     private final List<Index> targetIndices;
 
@@ -35,6 +41,56 @@ public class DeleteCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
+        List<Person> lastShownList = model.getFilteredPersonList();
+
+        for (Index targetIndex : targetIndices) {
+            if (targetIndex.getZeroBased() >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            }
+        }
+
+        List<Person> personsToDelete = targetIndices.stream()
+                .map(targetIndex -> lastShownList.get(targetIndex.getZeroBased()))
+                .toList();
+
+        return new CommandResult(String.format(MESSAGE_CONFIRM_DELETE,
+                personsToDelete.stream()
+                        .map(Messages::format)
+                        .collect(Collectors.joining(","))), this);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof DeleteCommand)) {
+            return false;
+        }
+
+        DeleteCommand otherDeleteCommand = (DeleteCommand) other;
+        return targetIndices.equals(otherDeleteCommand.targetIndices);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("targetIndices", targetIndices)
+                .toString();
+    }
+
+    public String getConfirmationString() {
+        return MESSAGE_CONFIRMATION;
+    }
+
+    /**
+     * Executes the delete command after confirmation and removes the specified persons
+     * from the model.
+     */
+    public CommandResult executeConfirmed(Model model) throws CommandException {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
@@ -58,25 +114,7 @@ public class DeleteCommand extends Command {
                         .collect(Collectors.joining(","))));
     }
 
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        // instanceof handles nulls
-        if (!(other instanceof DeleteCommand)) {
-            return false;
-        }
-
-        DeleteCommand otherDeleteCommand = (DeleteCommand) other;
-        return targetIndices.equals(otherDeleteCommand.targetIndices);
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .add("targetIndices", targetIndices)
-                .toString();
+    public CommandResult executeAborted() {
+        return new CommandResult("Aborted deletion");
     }
 }
