@@ -52,10 +52,11 @@ public class DeleteCommand extends Command {
             model.deletePerson(personToDelete);
         }
 
-        return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS,
-                personsToDelete.stream()
-                        .map(Messages::format)
-                        .collect(Collectors.joining(","))));
+        String deletedPersonsSummary = personsToDelete.stream()
+                .map(Messages::format)
+                .collect(Collectors.joining(","));
+
+        return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedPersonsSummary));
     }
 
     @Override
