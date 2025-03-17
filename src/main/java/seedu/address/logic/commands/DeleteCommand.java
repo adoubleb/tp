@@ -29,7 +29,7 @@ public class DeleteCommand extends Command implements ConfirmableCommand {
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
 
-    public static final String MESSAGE_CONFIRM_DELETE = "Confirmed Deleting Person: %1$s";
+    public static final String MESSAGE_CONFIRM_DELETE = "Confirm Deleting Person: %1$s ? (y/n)";
 
     public static final String MESSAGE_DELETE_PERSON_ABORTED = "Aborted Deleting Person: %1$s";
 
@@ -56,8 +56,8 @@ public class DeleteCommand extends Command implements ConfirmableCommand {
 
         return new CommandResult(String.format(MESSAGE_CONFIRM_DELETE,
                 personsToDelete.stream()
-                        .map(Messages::format)
-                        .collect(Collectors.joining(","))), this);
+                        .map(person -> person.getName().toString())
+                        .collect(Collectors.joining(", "))), this);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class DeleteCommand extends Command implements ConfirmableCommand {
 
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS,
                 personsToDelete.stream()
-                        .map(Messages::format)
+                        .map(person -> person.getName().toString())
                         .collect(Collectors.joining(","))));
     }
 
