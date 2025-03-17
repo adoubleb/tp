@@ -17,6 +17,7 @@ import seedu.address.model.ReadOnlyCommandHistory;
 @JsonRootName(value = "commandhistory")
 public class JsonSerializableCommandHistory {
 
+    private static final String MESSAGE_INVALID_COMMAND = "Command history contains non-string value: %s";
     private final List<String> commandList;
 
     /**
@@ -43,6 +44,13 @@ public class JsonSerializableCommandHistory {
      */
     public CommandHistory toModelType() throws IllegalValueException {
         CommandHistory commandHistory = new CommandHistory();
+
+        for (Object item : commandList) {
+            if (!(item instanceof String)) {
+                throw new IllegalValueException(String.format(MESSAGE_INVALID_COMMAND, item));
+            }
+        }
+
         commandHistory.setCommands(commandList);
         return commandHistory;
     }

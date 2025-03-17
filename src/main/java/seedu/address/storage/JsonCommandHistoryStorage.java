@@ -48,7 +48,7 @@ public class JsonCommandHistoryStorage implements CommandHistoryStorage {
         requireNonNull(commandHistoryFilePath);
 
         Optional<JsonSerializableCommandHistory> jsonCommandHistory = JsonUtil.readJsonFile(
-                filePath, JsonSerializableCommandHistory.class);
+                commandHistoryFilePath, JsonSerializableCommandHistory.class);
         if (jsonCommandHistory.isEmpty()) {
             return Optional.empty();
         }
@@ -56,7 +56,7 @@ public class JsonCommandHistoryStorage implements CommandHistoryStorage {
         try {
             return Optional.of(jsonCommandHistory.get().toModelType());
         } catch (IllegalValueException ive) {
-            logger.info("Illegal values found in " + filePath + ": " + ive.getMessage());
+            logger.info("Illegal values found in " + commandHistoryFilePath + ": " + ive.getMessage());
             throw new DataLoadingException(ive);
         }
     }
