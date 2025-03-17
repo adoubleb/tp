@@ -52,7 +52,6 @@ public class LogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         if (isPendingConfirmation) {
-            System.out.println("some pending confirmation");
             boolean isConfirmed = addressBookParser.parseConfirmation(commandText);
             CommandResult result;
             if (isConfirmed) {
