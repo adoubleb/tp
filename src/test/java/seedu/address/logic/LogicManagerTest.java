@@ -65,9 +65,16 @@ public class LogicManagerTest {
     public void execute_confirmableCommand_success() throws Exception {
         String deleteCommand = "delete 1";
         Person expectedPerson = model.getFilteredPersonList().get(0);
-        System.out.println("hi" + String.format(DeleteCommand.MESSAGE_CONFIRM_DELETE, expectedPerson));
         assertCommandSuccess(deleteCommand, String.format(DeleteCommand.MESSAGE_CONFIRM_DELETE,
                 expectedPerson.getName()), model);
+    }
+
+    @Test
+    public void execute_isPendingConfirmationTrue_confirmed() throws Exception {
+        String deleteCommand = "delete 1";
+        Person expectedPerson = model.getFilteredPersonList().get(0);
+        CommandResult result = logic.execute(deleteCommand);
+        assertThrows(ParseException.class, () -> logic.execute("vvf"));
     }
 
     @Test
