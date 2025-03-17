@@ -48,7 +48,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                PREFIX_BIRTHDAY, PREFIX_NICKNAME, PREFIX_NOTES);
+                PREFIX_RELATIONSHIP, PREFIX_BIRTHDAY, PREFIX_NICKNAME, PREFIX_NOTES);
 
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
 
@@ -68,7 +68,8 @@ public class EditCommandParser implements Parser<EditCommand> {
             editPersonDescriptor.setBirthday(ParserUtil.parseBirthday(argMultimap.getValue(PREFIX_BIRTHDAY)));
         }
         if (argMultimap.getValue(PREFIX_RELATIONSHIP).isPresent()) {
-            editPersonDescriptor.setRelationship(ParserUtil.parseRelationship(argMultimap.getValue(PREFIX_RELATIONSHIP)));
+            editPersonDescriptor.setRelationship(ParserUtil
+                    .parseRelationship(argMultimap.getValue(PREFIX_RELATIONSHIP)));
         }
         if (argMultimap.getValue(PREFIX_NICKNAME).isPresent()) {
             editPersonDescriptor.setNickname(ParserUtil.parseNickname(argMultimap.getValue(PREFIX_NICKNAME)));
