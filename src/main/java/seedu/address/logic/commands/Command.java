@@ -16,10 +16,10 @@ public abstract class Command {
      * @throws CommandException If an error occurs during command execution.
      */
     public abstract CommandResult execute(Model model) throws CommandException;
-    public void undo(Model model) {
-        throw new UnsupportedOperationException("Undo not supported");
+    public void undo(Model model) throws CommandException {
+        throw new CommandException("Undo not supported");
     }
-    public void redo(Model model) {
-        throw new UnsupportedOperationException("Redo not supported");
+    public void redo(Model model) throws CommandException {
+        throw new CommandException("Redo not supported");
     }
 }
