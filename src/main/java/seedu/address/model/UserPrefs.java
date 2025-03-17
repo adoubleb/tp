@@ -12,10 +12,13 @@ import seedu.address.commons.core.GuiSettings;
  * Represents User's preferences.
  */
 public class UserPrefs implements ReadOnlyUserPrefs {
+    private static final String DEFAULT_DATA_PATH = "data";
+    private static final String DEFAULT_ADDRESS_BOOK_PATH = "addressbook.json";
+    private static final String DEFAULT_COMMAND_HISTORY_PATH = "commandhistory.json";
 
     private GuiSettings guiSettings = new GuiSettings();
-    private Path addressBookFilePath = Paths.get("data" , "addressbook.json");
-    private Path commandHistoryFilePath = Paths.get("data" , "commandhistory.json");
+    private Path addressBookFilePath = Paths.get(DEFAULT_DATA_PATH, DEFAULT_ADDRESS_BOOK_PATH);
+    private Path commandHistoryFilePath = Paths.get(DEFAULT_DATA_PATH, DEFAULT_COMMAND_HISTORY_PATH);
 
     /**
      * Creates a {@code UserPrefs} with default values.

@@ -12,6 +12,7 @@ import java.util.List;
 public class CommandHistory implements ReadOnlyCommandHistory {
     private static final int MAX_HISTORY_SIZE = 100;
     private final List<String> commandList;
+    private int currentIndex = 0;
 
     public CommandHistory() {
         commandList = new ArrayList<>();
@@ -62,6 +63,46 @@ public class CommandHistory implements ReadOnlyCommandHistory {
     @Override
     public List<String> getCommandHistory() {
         return new ArrayList<>(commandList);
+    }
+
+    @Override
+    public String getPreviousCommand() {
+        if (canNavigateBackward()) {
+            this.currentIndex++;
+            return commandList.get(commandList.size() - currentIndex);
+        }
+
+        return null;
+    }
+
+    @Override
+    public String getNextCommand() {
+        if (canNavigateForward()) {
+            this.currentIndex--;
+            // Special case: If we've returned to the beginning,
+            // return empty string to clear the command box
+            if (currentIndex == 0) {
+                return "";
+            }
+            return commandList.get(commandList.size() - currentIndex);
+        }
+
+        return null;
+    }
+
+    @Override
+    public void resetNavigation() {
+        this.currentIndex = 0;
+    }
+
+    @Override
+    public boolean canNavigateBackward() {
+        return this.currentIndex < commandList.size();
+    }
+
+    @Override
+    public boolean canNavigateForward() {
+        return this.currentIndex > 0;
     }
 
     @Override

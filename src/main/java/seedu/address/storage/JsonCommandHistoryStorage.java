@@ -49,7 +49,7 @@ public class JsonCommandHistoryStorage implements CommandHistoryStorage {
 
         Optional<JsonSerializableCommandHistory> jsonCommandHistory = JsonUtil.readJsonFile(
                 filePath, JsonSerializableCommandHistory.class);
-        if (!jsonCommandHistory.isPresent()) {
+        if (jsonCommandHistory.isEmpty()) {
             return Optional.empty();
         }
 
