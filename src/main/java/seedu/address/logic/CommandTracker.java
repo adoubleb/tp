@@ -3,15 +3,16 @@ package seedu.address.logic;
 import java.util.Stack;
 
 import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.UndoableCommand;
 
 /**
  * This class tracks the commands that can be redone and undone.
  */
 public class CommandTracker {
     private static final CommandTracker instance = new CommandTracker();
-    private final Stack<Command> undoStack = new Stack<>();
-    private final Stack<Command> redoStack = new Stack<>();
-    private boolean wasUndoCalled = false; // Track if last action was an undo
+    private final Stack<UndoableCommand> undoStack = new Stack<>();
+    private final Stack<UndoableCommand> redoStack = new Stack<>();
+    private boolean wasUndoCalled = false;
 
     private CommandTracker() {}
 
@@ -31,13 +32,15 @@ public class CommandTracker {
      * @param command The command being tracked.
      */
     public void push(Command command) {
-        undoStack.push(command);
+        if (command instanceof UndoableCommand) {
+            undoStack.push((UndoableCommand) command);
 
-        if (!wasUndoCalled) {
-            redoStack.clear();
+            if (!wasUndoCalled) {
+                redoStack.clear();
+            }
+
+            wasUndoCalled = false;
         }
-
-        wasUndoCalled = false;
     }
 
     /**
@@ -66,7 +69,10 @@ public class CommandTracker {
      */
     public Command popUndo() {
         if (canUndo()) {
-            Command cmd = undoStack.pop();
+            UndoableCommand cmd = undoStack.pop();
+            if (!redoStack.isEmpty() && redoStack.peek() == cmd) {
+                return null;
+            }
             redoStack.push(cmd);
             wasUndoCalled = true;
             return cmd;
@@ -82,7 +88,7 @@ public class CommandTracker {
      */
     public Command popRedo() {
         if (canRedo()) {
-            Command cmd = redoStack.pop();
+            UndoableCommand cmd = redoStack.pop();
             undoStack.push(cmd);
             wasUndoCalled = false;
             return cmd;

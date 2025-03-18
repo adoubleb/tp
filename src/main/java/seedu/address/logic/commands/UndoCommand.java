@@ -16,15 +16,22 @@ public class UndoCommand extends Command {
 
     public static final String MESSAGE_UNDO_SUCCESS = "Undo successful!";
 
-    public static final String MESSAGE_FAILURE = "Nothing to undo!";
+    public static final String MESSAGE_NO_UNDO_FAILURE = "Nothing to undo!";
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        CommandTracker commandTracker = CommandTracker.getInstance();
-        if (!commandTracker.canUndo()) {
-            throw new CommandException(MESSAGE_FAILURE);
+        CommandTracker tracker = CommandTracker.getInstance();
+
+        if (!tracker.canUndo()) {
+            throw new CommandException(MESSAGE_NO_UNDO_FAILURE);
         }
-        Command lastCommand = commandTracker.popUndo();
+
+        UndoableCommand lastCommand = (UndoableCommand) tracker.popUndo();
+
+        if (lastCommand == null) {
+            throw new CommandException(MESSAGE_NO_UNDO_FAILURE);
+        }
+
         lastCommand.undo(model);
         return new CommandResult(MESSAGE_UNDO_SUCCESS);
     }

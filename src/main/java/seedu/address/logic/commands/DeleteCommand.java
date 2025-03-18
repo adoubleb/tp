@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.CommandTracker;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -15,7 +16,7 @@ import seedu.address.model.person.Person;
 /**
  * Deletes a person identified using it's displayed index from the address book.
  */
-public class DeleteCommand extends Command {
+public class DeleteCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "delete";
 
@@ -46,7 +47,7 @@ public class DeleteCommand extends Command {
             }
         }
 
-        List<Person> personsToDelete = targetIndices.stream()
+        personsToDelete = targetIndices.stream()
                 .map(targetIndex -> lastShownList.get(targetIndex.getZeroBased()))
                 .toList();
 
@@ -58,6 +59,8 @@ public class DeleteCommand extends Command {
                 .map(Messages::format)
                 .collect(Collectors.joining(","));
 
+        CommandTracker.getInstance().push(this);
+
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedPersonsSummary));
     }
 
@@ -66,7 +69,9 @@ public class DeleteCommand extends Command {
         requireNonNull(model);
         if (personsToDelete != null) {
             for (Person person : personsToDelete) {
-                model.addPerson(person);
+                if (!model.hasPerson(person)) {
+                    model.addPerson(person);
+                }
             }
         }
     }

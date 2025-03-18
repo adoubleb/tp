@@ -20,11 +20,12 @@ public class RedoCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        CommandTracker commandTracker = CommandTracker.getInstance();
-        if (!commandTracker.canRedo()) {
+        UndoableCommand lastCommand = (UndoableCommand) CommandTracker.getInstance().popRedo();
+
+        if (lastCommand == null) {
             throw new CommandException(MESSAGE_FAILURE);
         }
-        Command lastCommand = commandTracker.popRedo();
+
         lastCommand.redo(model);
         return new CommandResult(MESSAGE_REDO_SUCCESS);
     }
