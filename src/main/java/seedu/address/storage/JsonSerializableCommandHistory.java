@@ -15,7 +15,7 @@ import seedu.address.model.ReadOnlyCommandHistory;
  * JSON-friendly version of {@link ReadOnlyCommandHistory}.
  */
 @JsonRootName(value = "commandhistory")
-public class JsonSerializableCommandHistory {
+public class JsonSerializableCommandHistory implements JsonSerializable<ReadOnlyCommandHistory> {
 
     private static final String MESSAGE_INVALID_COMMAND = "Command history contains non-string value: %s";
     private final List<String> commandList;
