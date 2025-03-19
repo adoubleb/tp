@@ -81,39 +81,42 @@ public class MainApp extends Application {
      * Similarly, if the command history file is not found or cannot be read, an empty command history will be used.
      */
     private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
-        logger.info("Using storage data file : " + storage.getAddressBookFilePath());
+        logger.info("Using address book data file : " + storage.getAddressBookFilePath());
         logger.info("Using command history data file : " + storage.getCommandHistoryFilePath());
 
-        Optional<ReadOnlyAddressBook> addressBookOptional;
-        ReadOnlyAddressBook initialStorageData;
+        ReadOnlyAddressBook addressBook = loadAddressBook(storage);
+        ReadOnlyCommandHistory commandHistory = loadCommandHistory(storage);
+
+        return new ModelManager(addressBook, userPrefs, commandHistory);
+    }
+
+    private ReadOnlyAddressBook loadAddressBook(Storage storage) {
         try {
-            addressBookOptional = storage.readAddressBook();
+            Optional<ReadOnlyAddressBook> addressBookOptional = storage.readAddressBook();
             if (addressBookOptional.isEmpty()) {
-                logger.info("Creating a new storage data file " + storage.getAddressBookFilePath()
+                logger.info("Creating a new address book data file " + storage.getAddressBookFilePath()
                         + " populated with a sample AddressBook.");
             }
-            initialStorageData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
+            return addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
         } catch (DataLoadingException e) {
-            logger.warning("Data file at " + storage.getAddressBookFilePath() + " could not be loaded."
-                    + " Will be starting with an empty AddressBook.");
-            initialStorageData = new AddressBook();
+            logger.warning("Address book data file at " + storage.getAddressBookFilePath()
+                    + " could not be loaded. Will be starting with an empty AddressBook.");
+            return new AddressBook();
         }
+    }
 
-        Optional<ReadOnlyCommandHistory> commandHistoryOptional;
-        ReadOnlyCommandHistory initialCommandHistoryData;
+    private ReadOnlyCommandHistory loadCommandHistory(Storage storage) {
         try {
-            commandHistoryOptional = storage.readCommandHistory();
+            Optional<ReadOnlyCommandHistory> commandHistoryOptional = storage.readCommandHistory();
             if (commandHistoryOptional.isEmpty()) {
                 logger.info("Creating a new command history data file " + storage.getCommandHistoryFilePath());
             }
-            initialCommandHistoryData = commandHistoryOptional.orElse(new CommandHistory());
+            return commandHistoryOptional.orElse(new CommandHistory());
         } catch (DataLoadingException e) {
-            logger.warning("Data file at " + storage.getCommandHistoryFilePath() + " could not be loaded."
-                    + " Will be starting with an empty CommandHistory.");
-            initialCommandHistoryData = new CommandHistory();
+            logger.warning("Command history data file at " + storage.getCommandHistoryFilePath()
+                    + " could not be loaded. Will be starting with an empty CommandHistory.");
+            return new CommandHistory();
         }
-
-        return new ModelManager(initialStorageData, userPrefs, initialCommandHistoryData);
     }
 
     private void initLogging(Config config) {
