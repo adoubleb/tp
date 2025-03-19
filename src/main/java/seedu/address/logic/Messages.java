@@ -18,7 +18,7 @@ public class Messages {
     public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid";
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
-                "Multiple values specified for the following single-valued field(s): ";
+            "Multiple values specified for the following single-valued field(s): ";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
@@ -45,29 +45,10 @@ public class Messages {
                 .append("; Address: ")
                 .append(person.getAddress());
 
-        String birthdayValue = person.getBirthdayValue();
-        if (!birthdayValue.isEmpty()) {
-            builder.append("; Birthday: ")
-                    .append(birthdayValue);
-        }
-
-        String relationshipValue = person.getRelationshipValue();
-        if (!relationshipValue.isEmpty()) {
-            builder.append("; Relationship: ")
-                    .append(relationshipValue);
-        }
-
-        String nicknameValue = person.getNicknameValue();
-        if (!nicknameValue.isEmpty()) {
-            builder.append("; Nickname: ")
-                    .append(nicknameValue);
-        }
-
-        String notesValue = person.getNotesValue();
-        if (!notesValue.isEmpty()) {
-            builder.append("; Notes: ")
-                    .append(notesValue);
-        }
+        appendIfNotEmpty(builder, "Birthday", person.getBirthdayValue());
+        appendIfNotEmpty(builder, "Relationship", person.getRelationshipValue());
+        appendIfNotEmpty(builder, "Nickname", person.getNicknameValue());
+        appendIfNotEmpty(builder, "Notes", person.getNotesValue());
 
         Set<Tag> tags = person.getTags();
         if (!tags.isEmpty()) {
@@ -76,5 +57,14 @@ public class Messages {
         }
 
         return builder.toString();
+    }
+
+    private static void appendIfNotEmpty(StringBuilder builder, String fieldName, String value) {
+        if (!value.isEmpty()) {
+            builder.append("; ")
+                    .append(fieldName)
+                    .append(": ")
+                    .append(value);
+        }
     }
 }
