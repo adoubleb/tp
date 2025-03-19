@@ -475,8 +475,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 7. All commands should execute and display results within 2 seconds on a standard computer system.
 8. All family data should be stored locally.
 
-
-```
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
