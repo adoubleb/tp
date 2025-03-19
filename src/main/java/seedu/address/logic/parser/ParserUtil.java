@@ -67,12 +67,14 @@ public class ParserUtil {
         String[] words = name.split(" ");
         StringBuilder formattedName = new StringBuilder();
         for (String word : words) {
-            if (word.length() > 1) {
-                formattedName.append(Character.toUpperCase(word.charAt(0)))
-                        .append(word.substring(1).toLowerCase())
-                        .append(" ");
+            if (!word.isEmpty() && Character.isLetter(word.charAt(0))) {
+                formattedName.append(Character.toUpperCase(word.charAt(0)));
+                if (word.length() > 1) {
+                    formattedName.append(word.substring(1));
+                }
+                formattedName.append(" ");
             } else {
-                formattedName.append(word.toUpperCase()).append(" ");
+                formattedName.append(word).append(" ");
             }
         }
         return formattedName.toString().trim();
