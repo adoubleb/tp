@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.model.CommandHistory;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -32,7 +33,29 @@ public class DeleteCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new CommandHistory());
 
     @Test
-    public void execute_validIndexUnfilteredList_success() {
+    public void execute_validIndexUnfilteredList_success() throws CommandException {
+        List<Index> indicesToDelete = List.of(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON);
+        List<Person> personsToDelete = indicesToDelete.stream()
+                .map(index -> model.getFilteredPersonList().get(index.getZeroBased()))
+                .toList();
+
+        DeleteCommand deleteCommand = new DeleteCommand(indicesToDelete);
+        String actualMessage = deleteCommand.execute(model).getFeedbackToUser();
+
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_CONFIRM_DELETE,
+                personsToDelete.stream()
+                        .map(person -> person.getName().toString())
+                        .collect(Collectors.joining(", ")));
+
+        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(),
+                model.getCommandHistory());
+        personsToDelete.forEach(expectedModel::deletePerson);
+
+        assertEquals(expectedMessage, actualMessage);
+    }
+
+    @Test
+    public void executeConfirmed_validIndices_success() throws CommandException {
         List<Index> indicesToDelete = List.of(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON);
         List<Person> personsToDelete = indicesToDelete.stream()
                 .map(index -> model.getFilteredPersonList().get(index.getZeroBased()))
@@ -42,7 +65,7 @@ public class DeleteCommandTest {
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
                 personsToDelete.stream()
-                        .map(Messages::format)
+                        .map(person -> person.getName().toString())
                         .collect(Collectors.joining(",")));
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(),
@@ -61,7 +84,7 @@ public class DeleteCommandTest {
     }
 
     @Test
-    public void execute_validIndexFilteredList_success() {
+    public void execute_validIndexFilteredList_requestConfirmation() throws CommandException {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
 
         List<Index> indicesToDelete = List.of(INDEX_FIRST_PERSON);
@@ -70,18 +93,19 @@ public class DeleteCommandTest {
                 .toList();
 
         DeleteCommand deleteCommand = new DeleteCommand(indicesToDelete);
+        String actualMessage = deleteCommand.execute(model).getFeedbackToUser();
 
-        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_CONFIRM_DELETE,
                 personsToDelete.stream()
-                        .map(Messages::format)
+                        .map(person -> person.getName().toString())
                         .collect(Collectors.joining(",")));
+        System.out.println(expectedMessage);
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(),
                 new CommandHistory(model.getCommandHistory()));
         personsToDelete.forEach(expectedModel::deletePerson);
         showNoPerson(expectedModel);
-
-        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+        assertEquals(expectedMessage, actualMessage);
     }
 
     @Test

@@ -10,6 +10,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.ConfirmableCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -18,6 +19,8 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyCommandHistory;
 import seedu.address.model.person.Person;
 import seedu.address.storage.Storage;
+
+
 
 /**
  * The main LogicManager of the app.
@@ -33,6 +36,8 @@ public class LogicManager implements Logic {
     private final Model model;
     private final Storage storage;
     private final AddressBookParser addressBookParser;
+    private ConfirmableCommand pendingConfirmation;
+    private boolean isPendingConfirmation = false;
 
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
@@ -47,9 +52,26 @@ public class LogicManager implements Logic {
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
+        if (isPendingConfirmation) {
+            boolean isConfirmed = addressBookParser.parseConfirmation(commandText);
+            CommandResult result;
+            if (isConfirmed) {
+                result = pendingConfirmation.executeConfirmed(model);
+            } else {
+                result = pendingConfirmation.executeAborted();
+            }
+            pendingConfirmation = null;
+            isPendingConfirmation = false;
+            return result;
+        }
+
         CommandResult commandResult;
         Command command = addressBookParser.parseCommand(commandText);
         commandResult = command.execute(model);
+        if (commandResult.isToBeConfirmed()) {
+            pendingConfirmation = commandResult.getToBeConfirmed();
+            isPendingConfirmation = true;
+        }
 
         try {
             storage.saveAddressBook(model.getAddressBook());

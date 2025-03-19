@@ -87,6 +87,10 @@ public class CommandTestUtil {
             Model expectedModel) {
         try {
             CommandResult result = command.execute(actualModel);
+            if (result.isToBeConfirmed()) {
+                ConfirmableCommand realCommand = result.getToBeConfirmed();
+                result = realCommand.executeConfirmed(actualModel);
+            }
             assertEquals(expectedCommandResult, result);
             assertEquals(expectedModel, actualModel);
         } catch (CommandException ce) {

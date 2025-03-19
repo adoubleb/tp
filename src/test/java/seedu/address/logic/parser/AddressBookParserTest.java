@@ -98,4 +98,19 @@ public class AddressBookParserTest {
     public void parseCommand_unknownCommand_throwsParseException() {
         assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("unknownCommand"));
     }
+
+    @Test
+    public void parseConfirmation_validYesCommand_returnsTrue() throws Exception {
+        assertTrue(parser.parseConfirmation("y") & parser.parseConfirmation("yes"));
+    }
+
+    @Test
+    public void parseConfirmation_validNoCommand_returnsFalse() throws Exception {
+        assertTrue(!parser.parseConfirmation("n") & !parser.parseConfirmation("no"));
+    }
+
+    @Test
+    public void parseConfirmation_invalidCommand_throwsParseException() {
+        assertThrows(ParseException.class, () -> parser.parseConfirmation("abc"));
+    }
 }
