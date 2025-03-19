@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.CommandTracker;
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -67,13 +66,16 @@ public class UndoCommandTest {
     /**
      * A stub class for a mock command that supports undo.
      */
-    private static class CommandStub extends Command {
+    private static class CommandStub extends UndoableCommand {
         @Override
-        public CommandResult execute(Model model) throws CommandException {
+        public CommandResult execute(Model model) {
             return new CommandResult("Mock command executed!");
         }
 
         @Override
-        public void undo(Model model) {}
+        public void undo(Model model) { }
+
+        @Override
+        public void redo(Model model) { }
     }
 }

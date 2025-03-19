@@ -75,13 +75,16 @@ public class RedoCommandTest {
     /**
      * A stub class for a mock command that supports redo.
      */
-    private static class CommandStub extends Command {
+    private static class CommandStub extends UndoableCommand {
         @Override
         public CommandResult execute(Model model) throws CommandException {
             return new CommandResult("Mock command executed!");
         }
 
         @Override
-        public void redo(Model model) {}
+        public void undo(Model model) { }
+
+        @Override
+        public void redo(Model model) { }
     }
 }
