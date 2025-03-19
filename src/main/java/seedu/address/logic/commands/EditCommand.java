@@ -185,7 +185,8 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, birthday, nickname, notes, tags);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, birthday, relationship,
+                    nickname, notes, tags);
         }
 
         public void setName(Name name) {
@@ -211,13 +212,8 @@ public class EditCommand extends Command {
         public Optional<Email> getEmail() {
             return Optional.ofNullable(email);
         }
-
         public void setAddress(Address address) {
             this.address = address;
-        }
-
-        public void setNickname(Optional<Nickname> nickname) {
-            this.nickname = nickname;
         }
         public Optional<Address> getAddress() {
             return Optional.ofNullable(address);
@@ -233,6 +229,9 @@ public class EditCommand extends Command {
         }
         public Optional<Relationship> getRelationship() {
             return Optional.ofNullable(relationship).flatMap(b -> b);
+        }
+        public void setNickname(Optional<Nickname> nickname) {
+            this.nickname = nickname;
         }
         public Optional<Nickname> getNickname() {
             return Optional.ofNullable(nickname).flatMap(b -> b);

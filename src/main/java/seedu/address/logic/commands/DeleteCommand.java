@@ -31,8 +31,6 @@ public class DeleteCommand extends Command implements ConfirmableCommand {
 
     public static final String MESSAGE_CONFIRM_DELETE = "Confirm Deleting Person: %1$s ? (y/n)";
 
-    public static final String MESSAGE_DELETE_PERSON_ABORTED = "Aborted Deleting Person: %1$s";
-
     private final List<Index> targetIndices;
 
     public DeleteCommand(List<Index> targetIndices) {

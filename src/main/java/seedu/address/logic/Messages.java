@@ -19,6 +19,7 @@ public class Messages {
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
     public static final String MESSAGE_CONFIRMATION_REQUIRED = "Invalid command: y to confirm, n to cancel";
+    public static final String MESSAGE_DUPLICATE_INDEX = "Duplicate indices are not allowed for this command. %s";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
