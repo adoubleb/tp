@@ -1,6 +1,8 @@
 package seedu.address.ui;
 
 import java.util.Comparator;
+import java.util.Optional;
+import java.util.function.Function;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -69,28 +71,26 @@ public class PersonCard extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
-
-        String birthdayText = person.getBirthday().map(Birthday::getBirthdayStringFormatted).orElse("");
-        if (birthdayText.isEmpty()) {
-            birthday.setVisible(false);
-            birthday.setManaged(false);
-        } else {
-            birthday.setText(birthdayText);
-        }
-
         relationship.setText(person.getRelationship()
                 .map(Relationship::getRelationshipString).orElse("No relationship specified"));
 
-        String notesText = person.getNotes().map(Notes::toString).orElse("");
-        if (notesText.isEmpty()) {
-            notes.setVisible(false);
-            notes.setManaged(false);
-        } else {
-            notes.setText(notesText);
-        }
+        setTextOrHide(birthday, person.getBirthday(), b -> ((Birthday) b).getBirthdayStringFormatted());
+        setTextOrHide(notes, person.getNotes(), Object::toString);
 
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+    }
+    /**
+     * Creates a {@code PersonCode} with the given {@code Person} and index to display.
+     */
+    private void setTextOrHide(Label label, Optional<?> optionalValue, Function<Object, String> mapper) {
+        String text = optionalValue.map(mapper).orElse("");
+        if (text.isEmpty()) {
+            label.setVisible(false);
+            label.setManaged(false);
+        } else {
+            label.setText(text);
+        }
     }
 }
