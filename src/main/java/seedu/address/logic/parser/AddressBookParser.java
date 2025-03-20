@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_CONFIRMATION_REQUIRED;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 
@@ -88,6 +89,21 @@ public class AddressBookParser {
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
+        }
+    }
+
+    /**
+     * Parses the user's input to determine a confirmation response.
+     * The method recognizes "y", "yes", "n", and "no" as valid inputs (case-insensitive),
+     */
+    public boolean parseConfirmation(String userInput) throws ParseException {
+        String trimmedInput = userInput.trim().toLowerCase();
+        if (trimmedInput.equals("y") || trimmedInput.equals("yes")) {
+            return true;
+        } else if (trimmedInput.equals("n") || trimmedInput.equals("no")) {
+            return false;
+        } else {
+            throw new ParseException(MESSAGE_CONFIRMATION_REQUIRED);
         }
     }
 

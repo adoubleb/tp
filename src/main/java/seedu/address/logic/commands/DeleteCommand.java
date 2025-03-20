@@ -16,7 +16,8 @@ import seedu.address.model.person.Person;
 /**
  * Deletes a person identified using it's displayed index from the address book.
  */
-public class DeleteCommand extends UndoableCommand {
+
+public class DeleteCommand extends UndoableCommand implements ConfirmableCommand {
 
     public static final String COMMAND_WORD = "delete";
 
@@ -26,7 +27,11 @@ public class DeleteCommand extends UndoableCommand {
             + "Example: " + COMMAND_WORD + " 1\n"
             + "Example: " + COMMAND_WORD + " 1 2";
 
+    public static final String MESSAGE_CONFIRMATION = "Are you sure you want to delete the selected person(s)?";
+
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
+
+    public static final String MESSAGE_CONFIRM_DELETE = "Confirm Deleting Person: %1$s ? (y/n)";
 
     private final List<Index> targetIndices;
 
@@ -106,5 +111,41 @@ public class DeleteCommand extends UndoableCommand {
         return new ToStringBuilder(this)
                 .add("targetIndices", targetIndices)
                 .toString();
+    }
+
+    public String getConfirmationString() {
+        return MESSAGE_CONFIRMATION;
+    }
+
+    /**
+     * Executes the delete command after confirmation and removes the specified persons
+     * from the model.
+     */
+    public CommandResult executeConfirmed(Model model) throws CommandException {
+        requireNonNull(model);
+        List<Person> lastShownList = model.getFilteredPersonList();
+
+        for (Index targetIndex : targetIndices) {
+            if (targetIndex.getZeroBased() >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            }
+        }
+
+        List<Person> personsToDelete = targetIndices.stream()
+                .map(targetIndex -> lastShownList.get(targetIndex.getZeroBased()))
+                .toList();
+
+        for (Person personToDelete : personsToDelete) {
+            model.deletePerson(personToDelete);
+        }
+
+        return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS,
+                personsToDelete.stream()
+                        .map(person -> person.getName().toString())
+                        .collect(Collectors.joining(","))));
+    }
+
+    public CommandResult executeAborted() {
+        return new CommandResult("Aborted deletion");
     }
 }

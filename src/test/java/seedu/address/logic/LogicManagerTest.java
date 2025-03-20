@@ -9,6 +9,7 @@ import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.AMY;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
@@ -20,6 +21,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -40,7 +42,8 @@ public class LogicManagerTest {
     @TempDir
     public Path temporaryFolder;
 
-    private Model model = new ModelManager();
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
     private Logic logic;
 
     @BeforeEach
@@ -59,8 +62,24 @@ public class LogicManagerTest {
     }
 
     @Test
+    public void execute_confirmableCommand_success() throws Exception {
+        String deleteCommand = "delete 1";
+        Person expectedPerson = model.getFilteredPersonList().get(0);
+        assertCommandSuccess(deleteCommand, String.format(DeleteCommand.MESSAGE_CONFIRM_DELETE,
+                expectedPerson.getName()), model);
+    }
+
+    @Test
+    public void execute_isPendingConfirmationTrue_confirmed() throws Exception {
+        String deleteCommand = "delete 1";
+        Person expectedPerson = model.getFilteredPersonList().get(0);
+        CommandResult result = logic.execute(deleteCommand);
+        assertThrows(ParseException.class, () -> logic.execute("vvf"));
+    }
+
+    @Test
     public void execute_commandExecutionError_throwsCommandException() {
-        String deleteCommand = "delete 9";
+        String deleteCommand = "delete 10";
         assertCommandException(deleteCommand, MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
@@ -72,12 +91,14 @@ public class LogicManagerTest {
 
     @Test
     public void execute_storageThrowsIoException_throwsCommandException() {
+        model = new ModelManager();
         assertCommandFailureForExceptionFromStorage(DUMMY_IO_EXCEPTION, String.format(
                 LogicManager.FILE_OPS_ERROR_FORMAT, DUMMY_IO_EXCEPTION.getMessage()));
     }
 
     @Test
     public void execute_storageThrowsAdException_throwsCommandException() {
+        model = new ModelManager();
         assertCommandFailureForExceptionFromStorage(DUMMY_AD_EXCEPTION, String.format(
                 LogicManager.FILE_OPS_PERMISSION_ERROR_FORMAT, DUMMY_AD_EXCEPTION.getMessage()));
     }
