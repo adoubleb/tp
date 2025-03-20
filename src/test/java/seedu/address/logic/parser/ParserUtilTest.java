@@ -80,6 +80,20 @@ public class ParserUtilTest {
     }
 
     @Test
+    public void parseName_validValueWithBackslash_returnsFormattedName() throws Exception {
+        String nameWithBackslash = "rachel\\walker";
+        Name expectedName = new Name("Rachel\\walker");
+        assertEquals(expectedName, ParserUtil.parseName(nameWithBackslash));
+    }
+
+    @Test
+    public void parseName_validNamePreservesSpecialCharacters() throws Exception {
+        String nameWithSpecialCharacters = "Rachel O'Walker";
+        Name expectedName = new Name("Rachel O'Walker");
+        assertEquals(expectedName, ParserUtil.parseName(nameWithSpecialCharacters));
+    }
+
+    @Test
     public void parsePhone_null_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> ParserUtil.parsePhone((String) null));
     }
