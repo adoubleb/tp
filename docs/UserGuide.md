@@ -82,6 +82,15 @@ Adds a person to the address book.
 
 Format: `addn/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [t/TAG]…​`
 
+### Name Requirements
+✔ **Must start with a letter** (A-Z, a-z)  
+✔ **Cannot end with a special character** (@, ., -, etc.)  
+✔ **No consecutive special characters** (e.g., `--`, `@@`, `..`)
+
+💡 **All `/` must be escaped with `\` to be recognized correctly**
+
+E.g. **To include "s/o" in a name, type it as** `"s\/o"`
+
 [//]: # (<box type="tip" seamless>)
 
 [//]: # ()
