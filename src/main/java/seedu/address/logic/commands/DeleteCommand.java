@@ -33,6 +33,8 @@ public class DeleteCommand extends UndoableCommand implements ConfirmableCommand
 
     public static final String MESSAGE_CONFIRM_DELETE = "Confirm Deleting Person: %1$s ? (y/n)";
 
+    public static final String MESSAGE_ABORTED = "Aborted deletion!";
+
     private final List<Index> targetIndices;
 
     private List<Person> personsToDelete;
@@ -56,17 +58,10 @@ public class DeleteCommand extends UndoableCommand implements ConfirmableCommand
                 .map(targetIndex -> lastShownList.get(targetIndex.getZeroBased()))
                 .toList();
 
-        for (Person personToDelete : personsToDelete) {
-            model.deletePerson(personToDelete);
-        }
-
-        String deletedPersonsSummary = personsToDelete.stream()
-                .map(Messages::format)
-                .collect(Collectors.joining(","));
-
-        CommandTracker.getInstance().push(this);
-
-        return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedPersonsSummary));
+        return new CommandResult(String.format(MESSAGE_CONFIRM_DELETE,
+                personsToDelete.stream()
+                        .map(person -> person.getName().toString())
+                        .collect(Collectors.joining(", "))), this);
     }
 
     @Override
@@ -146,6 +141,6 @@ public class DeleteCommand extends UndoableCommand implements ConfirmableCommand
     }
 
     public CommandResult executeAborted() {
-        return new CommandResult("Aborted deletion");
+        return new CommandResult(MESSAGE_ABORTED);
     }
 }

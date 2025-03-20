@@ -11,6 +11,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.ConfirmableCommand;
+import seedu.address.logic.commands.UndoableCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -56,6 +57,9 @@ public class LogicManager implements Logic {
             CommandResult result;
             if (isConfirmed) {
                 result = pendingConfirmation.executeConfirmed(model);
+                if (pendingConfirmation instanceof UndoableCommand) {
+                    CommandTracker.getInstance().push((UndoableCommand) pendingConfirmation);
+                }
             } else {
                 result = pendingConfirmation.executeAborted();
             }
@@ -67,7 +71,6 @@ public class LogicManager implements Logic {
         CommandResult commandResult;
         Command command = addressBookParser.parseCommand(commandText);
         commandResult = command.execute(model);
-        CommandTracker.getInstance().push(command);
 
         if (commandResult.isToBeConfirmed()) {
             pendingConfirmation = commandResult.getToBeConfirmed();
