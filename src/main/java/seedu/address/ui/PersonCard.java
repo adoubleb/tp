@@ -61,12 +61,8 @@ public class PersonCard extends UiPart<Region> {
         this.person = person;
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
-        if (person.getNickname().isPresent()) {
-            nickname.setText(" (" + person.getNickname().get() + ")");
-        } else {
-            nickname.setVisible(false);
-            nickname.setManaged(false);
-        }
+        setTextOrHide(nickname, person.getNickname(), nick -> " (" + nick + ")");
+
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
