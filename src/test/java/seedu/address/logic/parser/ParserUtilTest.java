@@ -67,6 +67,13 @@ public class ParserUtilTest {
     }
 
     @Test
+    public void parseName_invalidNameWithNonLetterStart_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseName("123 Main Street"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseName("@John"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseName("#Doe"));
+    }
+
+    @Test
     public void parseName_validValueWithoutWhitespace_returnsName() throws Exception {
         Name expectedName = new Name(VALID_NAME);
         assertEquals(expectedName, ParserUtil.parseName(VALID_NAME));
@@ -91,6 +98,20 @@ public class ParserUtilTest {
         String nameWithSpecialCharacters = "Rachel O'Walker";
         Name expectedName = new Name("Rachel O'Walker");
         assertEquals(expectedName, ParserUtil.parseName(nameWithSpecialCharacters));
+    }
+
+    @Test
+    public void parseName_validNameHandleWordsStartingWithNonLetters() throws Exception {
+        String nameWithNonLetter = "John @Walker";
+        Name expectedName = new Name("John @Walker");
+        assertEquals(expectedName, ParserUtil.parseName(nameWithNonLetter));
+    }
+
+    @Test
+    public void formatName_handlesWordsStartingWithNonLetters() {
+        assertEquals("123 Main Street", ParserUtil.formatName("123 main street"));
+        assertEquals("@John", ParserUtil.formatName("@John"));
+        assertEquals("#Doe", ParserUtil.formatName("#Doe"));
     }
 
     @Test
