@@ -1,6 +1,8 @@
 package seedu.address.ui;
 
 import java.util.Comparator;
+import java.util.Optional;
+import java.util.function.Function;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -8,8 +10,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Birthday;
-import seedu.address.model.person.Nickname;
-import seedu.address.model.person.Notes;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Relationship;
 
@@ -61,15 +61,31 @@ public class PersonCard extends UiPart<Region> {
         this.person = person;
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
+        setTextOrHide(nickname, person.getNickname(), nick -> " (" + nick + ")");
+
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
-        birthday.setText(person.getBirthday().map(Birthday::getBirthdayStringFormatted).orElse(""));
-        relationship.setText(person.getRelationship().map(Relationship::getRelationshipString).orElse(""));
-        nickname.setText(person.getNickname().map(Nickname::toString).orElse(""));
-        notes.setText(person.getNotes().map(Notes::toString).orElse(""));
+        relationship.setText(person.getRelationship()
+                .map(Relationship::getRelationshipString).orElse("No relationship specified"));
+
+        setTextOrHide(birthday, person.getBirthday(), b -> ((Birthday) b).getBirthdayStringFormatted());
+        setTextOrHide(notes, person.getNotes(), Object::toString);
+
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+    }
+    /**
+     * Creates a {@code PersonCode} with the given {@code Person} and index to display.
+     */
+    private void setTextOrHide(Label label, Optional<?> optionalValue, Function<Object, String> mapper) {
+        String text = optionalValue.map(mapper).orElse("");
+        if (text.isEmpty()) {
+            label.setVisible(false);
+            label.setManaged(false);
+        } else {
+            label.setText(text);
+        }
     }
 }
