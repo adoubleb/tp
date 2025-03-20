@@ -46,5 +46,17 @@
     "email" : "anna@example.com",
     "address" : "4th street",
     "tags" : [ ]
+  }, {
+    "name" : "John Guul",
+    "phone" : "9482555",
+    "email" : "john@example.com",
+    "address" : "kazakhstan",
+    "tags" : [ ]
+  }, {
+    "name" : "Jon Buul",
+    "phone" : "9482666",
+    "email" : "jon@example.com",
+    "address" : "yugoslavia",
+    "tags" : [ ]
   } ]
 }
