@@ -88,8 +88,8 @@ public class ParserUtilTest {
 
     @Test
     public void parseName_validValueWithBackslash_returnsFormattedName() throws Exception {
-        String nameWithBackslash = "rachel\\walker";
-        Name expectedName = new Name("Rachel\\walker");
+        String nameWithBackslash = "rachel\\/walker";
+        Name expectedName = new Name("Rachel/walker");
         assertEquals(expectedName, ParserUtil.parseName(nameWithBackslash));
     }
 

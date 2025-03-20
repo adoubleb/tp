@@ -87,9 +87,9 @@ Format: `add n/NAME p/PHONE_NUMBER r/RELATIONSHIP [e/EMAIL] [a/ADDRESS] [nn/NICK
 ✔ **Cannot end with a special character** (@, ., -, etc.)  
 ✔ **No consecutive special characters** (e.g., `--`, `@@`, `..`)
 
-💡 **All `/` must be escaped as `\` to be recognized correctly**
+💡 **All `/` must be escaped with `\` to be recognized correctly**
 
-E.g. **To include "s/o" in a name, type it as** `"s\o"`
+E.g. **To include "s/o" in a name, type it as** `"s\/o"`
 
 [//]: # (<box type="tip" seamless>)
 
