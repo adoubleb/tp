@@ -8,7 +8,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Birthday;
-import seedu.address.model.person.Nickname;
 import seedu.address.model.person.Notes;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Relationship;
@@ -61,13 +60,35 @@ public class PersonCard extends UiPart<Region> {
         this.person = person;
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
+        if (person.getNickname().isPresent()) {
+            nickname.setText(" (" + person.getNickname().get() + ")");
+        } else {
+            nickname.setVisible(false);
+            nickname.setManaged(false);
+        }
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
-        birthday.setText(person.getBirthday().map(Birthday::getBirthdayStringFormatted).orElse(""));
-        relationship.setText(person.getRelationship().map(Relationship::getRelationshipString).orElse(""));
-        nickname.setText(person.getNickname().map(Nickname::toString).orElse(""));
-        notes.setText(person.getNotes().map(Notes::toString).orElse(""));
+
+        String birthdayText = person.getBirthday().map(Birthday::getBirthdayStringFormatted).orElse("");
+        if (birthdayText.isEmpty()) {
+            birthday.setVisible(false);
+            birthday.setManaged(false);
+        } else {
+            birthday.setText(birthdayText);
+        }
+
+        relationship.setText(person.getRelationship()
+                .map(Relationship::getRelationshipString).orElse("No relationship specified"));
+
+        String notesText = person.getNotes().map(Notes::toString).orElse("");
+        if (notesText.isEmpty()) {
+            notes.setVisible(false);
+            notes.setManaged(false);
+        } else {
+            notes.setText(notesText);
+        }
+
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
