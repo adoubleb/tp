@@ -199,7 +199,7 @@ public class ParserUtil {
         }
         requireNonNull(relationship);
         String trimmedRelationship = relationship.get().trim();
-        if (!Tag.isValidTagName(trimmedRelationship)) {
+        if (!Relationship.isValidRelationship(trimmedRelationship)) {
             throw new ParseException(Relationship.MESSAGE_CONSTRAINTS);
         }
         return Optional.of(new Relationship(trimmedRelationship));
