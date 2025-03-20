@@ -13,8 +13,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Relationship {
 
     public static final String MESSAGE_CONSTRAINTS = "Relationships should have alphanumeric characters.";
-    public static final String VALIDATION_REGEX = "\\p{Alnum}+";
-
+    public static final String VALIDATION_REGEX = "[\\p{Alnum}\\s-]+";
     public final String relationship;
 
     /**
