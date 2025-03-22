@@ -31,7 +31,8 @@ public class ModelManager implements Model {
                         ReadOnlyCommandHistory commandHistory) {
         requireAllNonNull(addressBook, userPrefs, commandHistory);
 
-        logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
+        logger.fine("Initializing with address book: " + addressBook + "and command history "
+                + commandHistory + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);

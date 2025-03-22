@@ -4,12 +4,16 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 
 /**
  * Represents the command history in the address book.
  * Guarantees: details are present and not null.
  */
 public class CommandHistory implements ReadOnlyCommandHistory {
+    private static final Logger logger = LogsCenter.getLogger(CommandHistory.class);
     private static final int MAX_HISTORY_SIZE = 100;
     private final List<String> commandList;
     private int currentIndex = 0;
@@ -30,6 +34,7 @@ public class CommandHistory implements ReadOnlyCommandHistory {
      * Replaces the contents of the command list with {@code commands}.
      */
     public void setCommands(List<String> commands) {
+        logger.fine("Setting commands: " + commands.size() + " commands.");
         this.commandList.clear();
         this.commandList.addAll(commands);
         trimToSize();
@@ -47,6 +52,7 @@ public class CommandHistory implements ReadOnlyCommandHistory {
      * Adds a command to the command history.
      */
     public void addCommand(String command) {
+        logger.fine("Adding command to history: " + command + ".");
         commandList.add(command);
         trimToSize();
     }
@@ -56,6 +62,7 @@ public class CommandHistory implements ReadOnlyCommandHistory {
      */
     private void trimToSize() {
         if (commandList.size() > MAX_HISTORY_SIZE) {
+            logger.info("Trimming command history.");
             commandList.subList(0, commandList.size() - MAX_HISTORY_SIZE).clear();
         }
     }
@@ -69,9 +76,12 @@ public class CommandHistory implements ReadOnlyCommandHistory {
     public String getPreviousCommand() {
         if (canNavigateBackward()) {
             this.currentIndex++;
-            return commandList.get(commandList.size() - currentIndex);
+            String command = commandList.get(commandList.size() - currentIndex);
+            logger.fine("Navigating to previous command: " + command + ".");
+            return command;
         }
 
+        logger.info("Attempted to get previous command but none available.");
         return null;
     }
 
@@ -82,11 +92,15 @@ public class CommandHistory implements ReadOnlyCommandHistory {
             // Special case: If we've returned to the beginning,
             // return empty string to clear the command box
             if (currentIndex == 0) {
+                logger.fine("Navigated to beginning of command history.");
                 return "";
             }
-            return commandList.get(commandList.size() - currentIndex);
+            String command = commandList.get(commandList.size() - currentIndex);
+            logger.fine("Navigating to next command: " + command + ".");
+            return command;
         }
 
+        logger.info("Attempted to get next command but none available.");
         return null;
     }
 
@@ -123,4 +137,5 @@ public class CommandHistory implements ReadOnlyCommandHistory {
     public int hashCode() {
         return commandList.hashCode();
     }
+
 }
