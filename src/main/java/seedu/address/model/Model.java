@@ -53,6 +53,16 @@ public interface Model {
     ReadOnlyAddressBook getAddressBook();
 
     /**
+     * Adds to command history data.
+     */
+    void addToCommandHistory(String command);
+
+    /**
+     * Returns the CommandHistory.
+     */
+    ReadOnlyCommandHistory getCommandHistory();
+
+    /**
      * Returns true if a person with the same identity as {@code person} exists in the address book.
      */
     boolean hasPerson(Person person);

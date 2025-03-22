@@ -12,9 +12,13 @@ import seedu.address.commons.core.GuiSettings;
  * Represents User's preferences.
  */
 public class UserPrefs implements ReadOnlyUserPrefs {
+    private static final String DEFAULT_DATA_PATH = "data";
+    private static final String DEFAULT_ADDRESS_BOOK_PATH = "addressbook.json";
+    private static final String DEFAULT_COMMAND_HISTORY_PATH = "commandhistory.json";
 
     private GuiSettings guiSettings = new GuiSettings();
-    private Path addressBookFilePath = Paths.get("data" , "addressbook.json");
+    private Path addressBookFilePath = Paths.get(DEFAULT_DATA_PATH, DEFAULT_ADDRESS_BOOK_PATH);
+    private Path commandHistoryFilePath = Paths.get(DEFAULT_DATA_PATH, DEFAULT_COMMAND_HISTORY_PATH);
 
     /**
      * Creates a {@code UserPrefs} with default values.
@@ -36,8 +40,10 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         requireNonNull(newUserPrefs);
         setGuiSettings(newUserPrefs.getGuiSettings());
         setAddressBookFilePath(newUserPrefs.getAddressBookFilePath());
+        setCommandHistoryFilePath(newUserPrefs.getCommandHistoryFilePath());
     }
 
+    @Override
     public GuiSettings getGuiSettings() {
         return guiSettings;
     }
@@ -47,6 +53,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         this.guiSettings = guiSettings;
     }
 
+    @Override
     public Path getAddressBookFilePath() {
         return addressBookFilePath;
     }
@@ -54,6 +61,16 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     public void setAddressBookFilePath(Path addressBookFilePath) {
         requireNonNull(addressBookFilePath);
         this.addressBookFilePath = addressBookFilePath;
+    }
+
+    @Override
+    public Path getCommandHistoryFilePath() {
+        return commandHistoryFilePath;
+    }
+
+    public void setCommandHistoryFilePath(Path commandHistoryFilePath) {
+        requireNonNull(commandHistoryFilePath);
+        this.commandHistoryFilePath = commandHistoryFilePath;
     }
 
     @Override
@@ -69,12 +86,13 @@ public class UserPrefs implements ReadOnlyUserPrefs {
 
         UserPrefs otherUserPrefs = (UserPrefs) other;
         return guiSettings.equals(otherUserPrefs.guiSettings)
-                && addressBookFilePath.equals(otherUserPrefs.addressBookFilePath);
+                && addressBookFilePath.equals(otherUserPrefs.addressBookFilePath)
+                && commandHistoryFilePath.equals(otherUserPrefs.commandHistoryFilePath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(guiSettings, addressBookFilePath);
+        return Objects.hash(guiSettings, addressBookFilePath, commandHistoryFilePath);
     }
 
     @Override
@@ -82,6 +100,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         StringBuilder sb = new StringBuilder();
         sb.append("Gui Settings : " + guiSettings);
         sb.append("\nLocal data file location : " + addressBookFilePath);
+        sb.append("\nCommand History file location : " + commandHistoryFilePath);
         return sb.toString();
     }
 
