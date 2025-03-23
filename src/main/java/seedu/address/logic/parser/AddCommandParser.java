@@ -43,7 +43,6 @@ public class AddCommandParser implements Parser<AddCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
                         PREFIX_BIRTHDAY, PREFIX_RELATIONSHIP, PREFIX_NICKNAME, PREFIX_NOTES, PREFIX_TAG);
 
-        System.out.println(argMultimap);
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_ADDRESS, PREFIX_PHONE, PREFIX_EMAIL)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
@@ -61,6 +60,17 @@ public class AddCommandParser implements Parser<AddCommand> {
         Optional<Nickname> nickname = ParserUtil.parseNickname(argMultimap.getValue(PREFIX_NICKNAME));
         Optional<Notes> notes = ParserUtil.parseNotes(argMultimap.getValue(PREFIX_NOTES));
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+        System.out.println(Optional.empty());
+        System.out.println("birthday:");
+        System.out.println(birthday);
+        System.out.println("relationship");
+        System.out.println(relationship);
+        System.out.println("nn/");
+        System.out.println(nickname);
+        System.out.println("notes:");
+        System.out.println(notes);
+        System.out.println("tags:");
+        System.out.println(tagList);
         Person person = new Person(name, phone, email, address, birthday, relationship, nickname, notes, tagList);
         return new AddCommand(person);
     }

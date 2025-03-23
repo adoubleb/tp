@@ -12,6 +12,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -66,17 +67,19 @@ public class EditCommand extends Command {
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
+    private ArrayList<String> toRemoveFields;
 
     /**
      * @param index of the person in the filtered person list to edit
      * @param editPersonDescriptor details to edit the person with
      */
-    public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
+    public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor, ArrayList<String> toRemoveFields) {
         requireNonNull(index);
         requireNonNull(editPersonDescriptor);
 
         this.index = index;
         this.editPersonDescriptor = new EditPersonDescriptor(editPersonDescriptor);
+        this.toRemoveFields = toRemoveFields;
     }
 
     @Override
@@ -89,7 +92,7 @@ public class EditCommand extends Command {
         }
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
-        Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
+        Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor, toRemoveFields);
 
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
@@ -104,7 +107,8 @@ public class EditCommand extends Command {
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.
      */
-    private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+    private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor,
+                                             ArrayList<String> toRemoveFields) {
         assert personToEdit != null;
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
@@ -113,13 +117,27 @@ public class EditCommand extends Command {
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Optional<Birthday> updatedBirthday = editPersonDescriptor.getBirthday().isPresent()
                 ? editPersonDescriptor.getBirthday() : personToEdit.getBirthday();
+        if (toRemoveFields.contains("b/")) {
+            updatedBirthday = Optional.empty();
+        }
         Optional<Relationship> updatedRelationship = editPersonDescriptor.getRelationship().isPresent()
                 ? editPersonDescriptor.getRelationship() : personToEdit.getRelationship();
+        if (toRemoveFields.contains("r/")) {
+            updatedRelationship = Optional.empty();
+        }
         Optional<Nickname> updatedNickname = editPersonDescriptor.getNickname().isPresent()
                 ? editPersonDescriptor.getNickname() : personToEdit.getNickname();
+        if (toRemoveFields.contains("n/")) {
+            updatedNickname = Optional.empty();
+        }
         Optional<Notes> updatedNotes = editPersonDescriptor.getNotes().isPresent()
                 ? editPersonDescriptor.getNotes() : personToEdit.getNotes();
+        if (toRemoveFields.contains("no/")) {
+            updatedNotes = Optional.empty();
+        }
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+
+
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedBirthday,
                 updatedRelationship, updatedNickname, updatedNotes, updatedTags);
