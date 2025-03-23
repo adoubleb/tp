@@ -1,25 +1,25 @@
 package seedu.address.model;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
-public class CommandHistoryTest {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-    private CommandHistory commandHistory;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+public class CommandHistoryTest {
     private static final String VALID_COMMAND_1 = "list";
-    private static final String VALID_COMMAND_2 = "add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague";
+    private static final String VALID_COMMAND_2 = "add n/James Ho p/22224444 e/jamesho@example.com a/123,"
+            + " Clementi Rd, 1234665 t/friend t/colleague";
     private static final String VALID_COMMAND_3 = "edit 1 n/James Lee e/jameslee@example.com";
+    private CommandHistory commandHistory;
 
     @BeforeEach
     public void setUp() {

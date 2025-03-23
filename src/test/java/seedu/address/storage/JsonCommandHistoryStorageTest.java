@@ -66,7 +66,8 @@ public class JsonCommandHistoryStorageTest {
         assertEquals(original, new CommandHistory(readBack));
 
         // Modify data, overwrite existing file, and read back
-        original.addCommand("add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague");
+        original.addCommand("add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd,"
+                + " 1234665 t/friend t/colleague");
         jsonCommandHistoryStorage.saveCommandHistory(original, filePath);
         readBack = jsonCommandHistoryStorage.readCommandHistory(filePath).get();
         assertEquals(original, new CommandHistory(readBack));
