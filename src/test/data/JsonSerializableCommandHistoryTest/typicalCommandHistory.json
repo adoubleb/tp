@@ -1,0 +1,9 @@
+{
+  "commandList": [
+    "find Alice",
+    "add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25",
+    "list",
+    "help",
+    "exit"
+  ]
+}

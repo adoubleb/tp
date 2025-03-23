@@ -56,8 +56,8 @@ public class JsonCommandHistoryStorageTest {
     public void readAndSaveCommandHistory_allInOrder_success() throws Exception {
         Path filePath = testFolder.resolve("TempCommandHistory.json");
         CommandHistory original = new CommandHistory();
-        original.addCommand("command1");
-        original.addCommand("command2");
+        original.addCommand("list");
+        original.addCommand("help");
         JsonCommandHistoryStorage jsonCommandHistoryStorage = new JsonCommandHistoryStorage(filePath);
 
         // Save in new file and read back
@@ -66,13 +66,13 @@ public class JsonCommandHistoryStorageTest {
         assertEquals(original, new CommandHistory(readBack));
 
         // Modify data, overwrite existing file, and read back
-        original.addCommand("command3");
+        original.addCommand("add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague");
         jsonCommandHistoryStorage.saveCommandHistory(original, filePath);
         readBack = jsonCommandHistoryStorage.readCommandHistory(filePath).get();
         assertEquals(original, new CommandHistory(readBack));
 
         // Save and read without specifying file path
-        original.addCommand("command4");
+        original.addCommand("edit 1 n/James Lee e/jameslee@example.com");
         jsonCommandHistoryStorage.saveCommandHistory(original); // file path not specified
         readBack = jsonCommandHistoryStorage.readCommandHistory().get(); // file path not specified
         assertEquals(original, new CommandHistory(readBack));

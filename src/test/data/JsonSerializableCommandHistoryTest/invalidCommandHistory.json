@@ -1,0 +1,10 @@
+{
+  "commandList": [
+    "find Alice",
+    null,
+    true,
+    "list",
+    "help",
+    "exit"
+  ]
+}
