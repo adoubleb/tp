@@ -65,7 +65,7 @@ public class MainWindow extends UiPart<Stage> {
         setAccelerators();
 
         // Pass `this` (MainWindow) to HelpWindow
-        helpWindow = new HelpWindow();
+        helpWindow = new HelpWindow(logic.getGuiSettings());
     }
 
     public Stage getPrimaryStage() {

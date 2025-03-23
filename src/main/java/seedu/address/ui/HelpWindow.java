@@ -12,6 +12,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 
 /**
@@ -41,17 +42,34 @@ public class HelpWindow extends UiPart<Stage> {
      * Creates a new HelpWindow.
      *
      * @param root Stage to use as the root of the HelpWindow.
+     * @param guiSettings The GUI settings to set the window size and position.
      */
-    public HelpWindow(Stage root) {
+    public HelpWindow(Stage root, GuiSettings guiSettings) {
         super(FXML, root);
         initializeHelpContent();
+        setWindowDefaultSize(guiSettings);
     }
 
     /**
      * Creates a new HelpWindow.
+     *
+     * @param guiSettings The GUI settings to set the window size and position.
      */
-    public HelpWindow() {
-        this(new Stage());
+    public HelpWindow(GuiSettings guiSettings) {
+        this(new Stage(), guiSettings);
+    }
+
+    /**
+     * Sets the default size and position of the window based on {@code guiSettings}.
+     */
+    private void setWindowDefaultSize(GuiSettings guiSettings) {
+        Stage root = getRoot();
+        root.setHeight(guiSettings.getWindowHeight());
+        root.setWidth(guiSettings.getWindowWidth());
+        if (guiSettings.getWindowCoordinates() != null) {
+            root.setX(guiSettings.getWindowCoordinates().getX());
+            root.setY(guiSettings.getWindowCoordinates().getY());
+        }
     }
 
     /**
