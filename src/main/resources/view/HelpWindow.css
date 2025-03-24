@@ -40,7 +40,7 @@
 }
 
 .big-header {
-    -fx-font-size: 40px;
+    -fx-font-size: 35px;
     -fx-fill: white;
     -fx-font-family: "Space Mono";
 }
@@ -116,6 +116,17 @@
 .hyperlink:hover {
     -fx-fill: #79b8ff;
 }
+
+.note-box {
+    -fx-background-color: #57657c;
+    -fx-padding: 10px;
+    -fx-background-radius: 5px;
+}
+
+.note-box Text {
+    -fx-font-size: 12px;
+}
+
 
 .scroll-bar {
     -fx-background-color: #0d1117;

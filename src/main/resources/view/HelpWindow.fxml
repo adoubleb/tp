@@ -6,6 +6,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.Scene?>
 
+<?import javafx.scene.image.ImageView?>
 <fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
          title="who-are-you-again? docs" resizable="true" minWidth="500" minHeight="600">
   <icons>
@@ -59,35 +60,77 @@
             </VBox>
 
             <VBox styleClass="section">
-              <Label text="Features" styleClass="section-header"/>
+              <Label text="Commands" styleClass="section-header"/>
               <VBox styleClass="paragraph-container">
-                <TextFlow styleClass="paragraph">
-                  <Text text="Add" style="-fx-fill: white; -fx-font-weight: bold;"/>
+                <TextFlow style="-fx-background-color: #293648; -fx-background-radius: 10px; -fx-padding: 5px;">
+                  <Text text="Add" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 20px"/>
                 </TextFlow>
+
                 <TextFlow styleClass="paragraph">
-                  <Text text="Format: " style="-fx-fill: white;"/>
+                  <Text text="Syntax: " style="-fx-fill: white; -fx-font-weight: bold;"/>
                   <Text text="add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [t/TAG]…​" styleClass="code-block"/>
                 </TextFlow>
-                <TextFlow styleClass="paragraph">
-                  <Text text="List" style="-fx-fill: white; -fx-font-weight: bold;"/>
-                </TextFlow>
-                <TextFlow styleClass="paragraph">
-                  <Text text="Format: " style="-fx-fill: white;"/>
-                  <Text text="list" styleClass="code-block"/>
-                </TextFlow>
-                <!-- Add other features in the same pattern -->
-              </VBox>
-            </VBox>
+                <VBox spacing="20" alignment="CENTER_LEFT">
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Description: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text="The add command is really simple! It adds a contact to the address book. When using add, ensure that all fields are indicated with their respective flag (for example: add n/John Doe...)" style="-fx-fill: white;"/>
+                  </TextFlow>
+                  <HBox spacing="10" alignment="TOP_LEFT" styleClass="note-box">
+                    <!-- Lightbulb Icon -->
+                    <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
+                      <Image url="@/images/icons8-lightbulb.png"/>
+                    </ImageView>
 
-            <VBox styleClass="section">
-              <Label text="Examples" styleClass="section-header"/>
+                    <!-- Note Content -->
+                    <VBox alignment="TOP_LEFT" spacing="5">
+                      <Text text="Note:" style="-fx-font-weight: bold; -fx-fill: white; -fx-font-size:18px"/>
+                      <TextFlow>
+                        <Text text="Fields indicated in brackets are optional, like [r/RELATIONSHIP]. This means that you can add someone without indicating a relationship. " style="-fx-fill: white; -fx-font-size:14px"/>
+                        <Text text="You can also add multiple tags to a contact. " style="-fx-fill: white; -fx-font-size:14px"/>
+                      </TextFlow>
+                    </VBox>
+                  </HBox>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Example: " style="-fx-fill: white; -fx-font-weight: bold;"  wrappingWidth="200"/>
+                    <Text text="add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son" styleClass="code-block"/>
+                  </TextFlow>
+                </VBox>
+              </VBox>
+
               <VBox styleClass="paragraph-container">
-                <TextFlow styleClass="code-inline">
-                  <Text text=" > add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son" style="-fx-fill: white;"/>
+                <TextFlow style="-fx-background-color: #293648; -fx-background-radius: 10px; -fx-padding: 5px;">
+                  <Text text="Edit" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 20px"/>
                 </TextFlow>
-                <TextFlow styleClass="code-inline">
-                  <Text text=" > edit 1 p/91234567 e/johndoe@example.com" style="-fx-fill: white;"/>
+
+                <TextFlow styleClass="paragraph">
+                  <Text text="Syntax: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                  <Text text="add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [t/TAG]…​" styleClass="code-block"/>
                 </TextFlow>
+                <VBox spacing="20" alignment="CENTER_LEFT">
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Description: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text="The add command is really simple! It adds a contact to the address book." style="-fx-fill: white;"/>
+                  </TextFlow>
+                  <HBox spacing="10" alignment="TOP_LEFT" styleClass="note-box">
+                    <!-- Lightbulb Icon -->
+                    <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
+                      <Image url="@/images/icons8-lightbulb.png"/>
+                    </ImageView>
+
+                    <!-- Note Content -->
+                    <VBox alignment="TOP_LEFT" spacing="5">
+                      <Text text="Note:" style="-fx-font-weight: bold; -fx-fill: white; -fx-font-size:18px"/>
+                      <TextFlow>
+                        <Text text="Fields indicated in brackets are optional, like [r/RELATIONSHIP]. This means that you can add someone without indicating a relationship. " style="-fx-fill: white; -fx-font-size:14px"/>
+                        <Text text="You can also add multiple tags to a contact. " style="-fx-fill: white; -fx-font-size:14px"/>
+                      </TextFlow>
+                    </VBox>
+                  </HBox>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Example: " style="-fx-fill: white; -fx-font-weight: bold;"  wrappingWidth="200"/>
+                    <Text text="add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son" styleClass="code-block"/>
+                  </TextFlow>
+                </VBox>
               </VBox>
             </VBox>
           </VBox>
