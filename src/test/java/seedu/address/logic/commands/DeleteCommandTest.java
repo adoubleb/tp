@@ -126,6 +126,33 @@ public class DeleteCommandTest {
     }
 
     @Test
+    public void undoRedo_validDeleteCommand_success() throws CommandException {
+        List<Index> indicesToDelete = List.of(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON);
+        List<Person> personsToDelete = indicesToDelete.stream()
+                .map(index -> model.getFilteredPersonList().get(index.getZeroBased()))
+                .toList();
+
+        DeleteCommand deleteCommand = new DeleteCommand(indicesToDelete);
+
+        deleteCommand.execute(model);
+        deleteCommand.executeConfirmed(model);
+
+        Model modelAfterDelete = new ModelManager(model.getAddressBook(), new UserPrefs());
+
+        deleteCommand.undo(model);
+        for (Person person : personsToDelete) {
+            assertTrue(model.getFilteredPersonList().contains(person));
+        }
+
+        deleteCommand.redo(model);
+        for (Person person : personsToDelete) {
+            assertTrue(!model.getFilteredPersonList().contains(person));
+        }
+
+        assertEquals(modelAfterDelete, model);
+    }
+
+    @Test
     public void equals() {
         DeleteCommand deleteFirstCommand = new DeleteCommand(List.of(INDEX_FIRST_PERSON));
         DeleteCommand deleteSecondCommand = new DeleteCommand(List.of(INDEX_SECOND_PERSON));
