@@ -127,6 +127,7 @@ public class DeleteCommandTest {
 
     @Test
     public void undoRedo_validDeleteCommand_success() throws CommandException {
+        // Initiate lists
         List<Index> indicesToDelete = List.of(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON);
         List<Person> personsToDelete = indicesToDelete.stream()
                 .map(index -> model.getFilteredPersonList().get(index.getZeroBased()))
