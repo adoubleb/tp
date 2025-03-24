@@ -21,7 +21,7 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
 public class ParserUtilTest {
-    private static final String INVALID_NAME = "R@chel";
+    private static final String INVALID_NAME = "Rachel@";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
@@ -67,6 +67,13 @@ public class ParserUtilTest {
     }
 
     @Test
+    public void parseName_invalidNameWithNonLetterStart_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseName("123 Main Street"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseName("@John"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseName("#Doe"));
+    }
+
+    @Test
     public void parseName_validValueWithoutWhitespace_returnsName() throws Exception {
         Name expectedName = new Name(VALID_NAME);
         assertEquals(expectedName, ParserUtil.parseName(VALID_NAME));
@@ -77,6 +84,34 @@ public class ParserUtilTest {
         String nameWithWhitespace = WHITESPACE + VALID_NAME + WHITESPACE;
         Name expectedName = new Name(VALID_NAME);
         assertEquals(expectedName, ParserUtil.parseName(nameWithWhitespace));
+    }
+
+    @Test
+    public void parseName_validValueWithBackslash_returnsFormattedName() throws Exception {
+        String nameWithBackslash = "rachel\\/walker";
+        Name expectedName = new Name("Rachel/walker");
+        assertEquals(expectedName, ParserUtil.parseName(nameWithBackslash));
+    }
+
+    @Test
+    public void parseName_validNamePreservesSpecialCharacters() throws Exception {
+        String nameWithSpecialCharacters = "Rachel O'Walker";
+        Name expectedName = new Name("Rachel O'Walker");
+        assertEquals(expectedName, ParserUtil.parseName(nameWithSpecialCharacters));
+    }
+
+    @Test
+    public void parseName_validNameHandleWordsStartingWithNonLetters() throws Exception {
+        String nameWithNonLetter = "John @Walker";
+        Name expectedName = new Name("John @Walker");
+        assertEquals(expectedName, ParserUtil.parseName(nameWithNonLetter));
+    }
+
+    @Test
+    public void formatName_handlesWordsStartingWithNonLetters() {
+        assertEquals("123 Main Street", ParserUtil.formatName("123 main street"));
+        assertEquals("@John", ParserUtil.formatName("@John"));
+        assertEquals("#Doe", ParserUtil.formatName("#Doe"));
     }
 
     @Test

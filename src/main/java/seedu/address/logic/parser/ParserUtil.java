@@ -26,7 +26,8 @@ import seedu.address.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
-
+    public static final String INPUT_VALIDATION_REGEX =
+            "^[\\p{L}][\\p{L}0-9 ]*(?:[@.,'\\-][\\p{L}0-9 ]+|\\\\/[\\p{L}0-9 ]*)*$";
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
@@ -48,11 +49,16 @@ public class ParserUtil {
      */
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
-        String trimmedName = formatName(name.trim());
-        if (!Name.isValidName(trimmedName)) {
+        String input = name.trim();
+        if (!input.matches(INPUT_VALIDATION_REGEX)) {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
-        return new Name(trimmedName);
+        String formattedName = formatName(input);
+        formattedName = escapeRemover(formattedName);
+        if (!Name.isValidName(formattedName)) {
+            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
+        }
+        return new Name(formattedName);
     }
 
     /**
@@ -67,15 +73,26 @@ public class ParserUtil {
         String[] words = name.split(" ");
         StringBuilder formattedName = new StringBuilder();
         for (String word : words) {
-            if (word.length() > 1) {
-                formattedName.append(Character.toUpperCase(word.charAt(0)))
-                        .append(word.substring(1).toLowerCase())
-                        .append(" ");
+            if (!word.isEmpty() && Character.isLetter(word.charAt(0))) {
+                formattedName.append(Character.toUpperCase(word.charAt(0)));
+                if (word.length() > 1) {
+                    formattedName.append(word.substring(1));
+                }
+                formattedName.append(" ");
             } else {
-                formattedName.append(word.toUpperCase()).append(" ");
+                formattedName.append(word).append(" ");
             }
         }
         return formattedName.toString().trim();
+    }
+    /**
+     * Removes escape characters from the input string.
+     *
+     * @param input The input string.
+     * @return The input string with escape characters removed.
+     */
+    public static String escapeRemover(String input) {
+        return input.replace("\\", "");
     }
 
     /**

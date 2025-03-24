@@ -12,7 +12,9 @@ import org.junit.jupiter.api.io.TempDir;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.AddressBook;
+import seedu.address.model.CommandHistory;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyCommandHistory;
 import seedu.address.model.UserPrefs;
 
 public class StorageManagerTest {
@@ -26,7 +28,8 @@ public class StorageManagerTest {
     public void setUp() {
         JsonAddressBookStorage addressBookStorage = new JsonAddressBookStorage(getTempFilePath("ab"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getTempFilePath("prefs"));
-        storageManager = new StorageManager(addressBookStorage, userPrefsStorage);
+        JsonCommandHistoryStorage commandHistoryStorage = new JsonCommandHistoryStorage(getTempFilePath("command"));
+        storageManager = new StorageManager(addressBookStorage, userPrefsStorage, commandHistoryStorage);
     }
 
     private Path getTempFilePath(String fileName) {
@@ -63,6 +66,24 @@ public class StorageManagerTest {
     @Test
     public void getAddressBookFilePath() {
         assertNotNull(storageManager.getAddressBookFilePath());
+    }
+
+    @Test
+    public void commandHistoryReadSave() throws Exception {
+        /*
+         * Note: This is an integration test that verifies the StorageManager is properly wired to the
+         * {@link JsonCommandHistoryStorage} class.
+         * More extensive testing of UserPref saving/reading is done in {@link JsonCommandHistoryStorageTest} class.
+         */
+        CommandHistory original = new CommandHistory();
+        storageManager.saveCommandHistory(original);
+        ReadOnlyCommandHistory retrieved = storageManager.readCommandHistory().get();
+        assertEquals(original, new CommandHistory(retrieved));
+    }
+
+    @Test
+    public void getCommandHistoryFilePath() {
+        assertNotNull(storageManager.getCommandHistoryFilePath());
     }
 
 }
