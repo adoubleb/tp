@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.Label?>
 <fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
          title="WhoAreYouAgain?" minWidth="500" minHeight="600" >
   <icons>
@@ -27,11 +28,20 @@
       <SplitPane dividerPositions="0.2" styleClass="split-pane">
         <!-- Sidebar -->
         <VBox fx:id="sidebar" styleClass="sidebar" minWidth="200" maxWidth="250">
-
-        </VBox>
-
-        <!-- Main Content -->
-        <VBox fx:id="mainContent" minWidth="300">
+          <VBox alignment="CENTER_LEFT" styleClass="title-container">
+            <Label text="who-are-you-again?" styleClass="title-label">
+              <style>
+                -fx-font-family: 'Space Mono';
+                -fx-font-size: 16px;
+              </style>
+            </Label>
+            <Label text="v1.3" styleClass="title-label">
+              <style>
+                -fx-font-family: 'Space Mono';
+                -fx-font-size: 10px;
+              </style>
+            </Label>
+          </VBox>
           <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
             <Menu mnemonicParsing="false" text="File">
               <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
@@ -40,7 +50,10 @@
               <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
             </Menu>
           </MenuBar>
+        </VBox>
 
+        <!-- Main Content -->
+        <VBox fx:id="mainContent" minWidth="300">
           <StackPane VBox.vgrow="NEVER" fx:id="commandBoxPlaceholder" styleClass="pane-with-border">
             <padding>
               <Insets top="5" right="10" bottom="5" left="10" />
