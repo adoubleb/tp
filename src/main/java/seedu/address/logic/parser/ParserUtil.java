@@ -136,7 +136,6 @@ public class ParserUtil {
      */
     public static Optional<Birthday> parseBirthday(Optional<String> birthday) throws ParseException {
         if (birthday.isEmpty()) {
-            System.out.println("here");
             return Optional.empty();
         }
         String trimmedBirthday = birthday.get().trim();

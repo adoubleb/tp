@@ -99,7 +99,6 @@ public class DeleteCommandTest {
                 personsToDelete.stream()
                         .map(person -> person.getName().toString())
                         .collect(Collectors.joining(",")));
-        System.out.println(expectedMessage);
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(),
                 new CommandHistory(model.getCommandHistory()));

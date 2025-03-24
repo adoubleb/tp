@@ -60,17 +60,6 @@ public class AddCommandParser implements Parser<AddCommand> {
         Optional<Nickname> nickname = ParserUtil.parseNickname(argMultimap.getValue(PREFIX_NICKNAME));
         Optional<Notes> notes = ParserUtil.parseNotes(argMultimap.getValue(PREFIX_NOTES));
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-        System.out.println(Optional.empty());
-        System.out.println("birthday:");
-        System.out.println(birthday);
-        System.out.println("relationship");
-        System.out.println(relationship);
-        System.out.println("nn/");
-        System.out.println(nickname);
-        System.out.println("notes:");
-        System.out.println(notes);
-        System.out.println("tags:");
-        System.out.println(tagList);
         Person person = new Person(name, phone, email, address, birthday, relationship, nickname, notes, tagList);
         return new AddCommand(person);
     }
