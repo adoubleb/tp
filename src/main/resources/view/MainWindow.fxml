@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
          title="WhoAreYouAgain?" minWidth="500" minHeight="600" >
   <icons>
@@ -28,6 +29,7 @@
       <SplitPane dividerPositions="0.2" styleClass="split-pane">
         <!-- Sidebar -->
         <VBox fx:id="sidebar" styleClass="sidebar" minWidth="200" maxWidth="250">
+          <!--Title Masthead-->
           <VBox alignment="CENTER_LEFT" styleClass="title-container">
             <Label text="who-are-you-again?" styleClass="title-label">
               <style>
@@ -35,21 +37,54 @@
                 -fx-font-size: 16px;
               </style>
             </Label>
-            <Label text="v1.3" styleClass="title-label">
+            <Label text="v1.4" styleClass="title-label">
               <style>
                 -fx-font-family: 'Space Mono';
                 -fx-font-size: 10px;
               </style>
             </Label>
           </VBox>
+
+          <!-- Menu Items-->
           <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
-            <Menu mnemonicParsing="false" text="File">
-              <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
+            <Menu mnemonicParsing="false" text="">
+              <graphic>
+                <ImageView fx:id="closeIcon" fitWidth="24" fitHeight="24" styleClass="menu-icon">
+                  <image>
+                    <Image url="@/images/icons8-close-24.png" />
+                  </image>
+                </ImageView>
+              </graphic>
+              <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit">
+                <graphic>
+                  <ImageView fx:id="closeItemIcon" fitWidth="24" fitHeight="24" styleClass="menu-icon">
+                    <image>
+                      <Image url="@/images/icons8-close-24.png" />
+                    </image>
+                  </ImageView>
+                </graphic>
+              </MenuItem>
             </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-              <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
+            <Menu mnemonicParsing="false" text="">
+              <graphic>
+                <ImageView fx:id="helpIcon" fitWidth="24" fitHeight="24" styleClass="menu-icon">
+                  <image>
+                    <Image url="@/images/icons8-info-24.png" />
+                  </image>
+                </ImageView>
+              </graphic>
+              <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Get Help">
+                <graphic>
+                  <ImageView fx:id="helpItemIcon" fitWidth="24" fitHeight="24" styleClass="menu-icon">
+                    <image>
+                      <Image url="@/images/icons8-info-24.png" />
+                    </image>
+                  </ImageView>
+                </graphic>
+              </MenuItem>
             </Menu>
           </MenuBar>
+
         </VBox>
 
         <!-- Main Content -->

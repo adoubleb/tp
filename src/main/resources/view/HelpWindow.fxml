@@ -1,60 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Scene?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.Image?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.TextFlow?>
-<?import javafx.stage.Stage?>
+<?import javafx.scene.Scene?>
 
-<fx:root resizable="true" title="Help" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+         title="who-are-you-again? docs" resizable="true" minWidth="500" minHeight="600">
   <icons>
     <Image url="@/images/help_icon.png" />
   </icons>
   <scene>
-    <Scene>
-      <stylesheets>
-        <URL value="@HelpWindow.css" />
-      </stylesheets>
+    <Scene stylesheets="@HelpWindow.css">
+      <VBox styleClass="root-container">
+        <VBox styleClass="header-container">
+          <HBox styleClass="title-container">
+            <Label text="who-are-you-again?" styleClass="app-title"/>
+            <Label text="v1.4" styleClass="version-label"/>
+          </HBox>
+          <Label text="docs" styleClass="docs-label"/>
+        </VBox>
 
-      <VBox alignment="TOP_CENTER" spacing="10" style="-fx-background-color: derive(#1d1d1d, 20%);">
-        <!-- Search Bar -->
-        <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
-          <TextField fx:id="searchBar" promptText="Search commands..." style="-fx-background-color: #2d2d2d; -fx-text-fill: white; -fx-prompt-text-fill: gray;" />
-          <Button fx:id="copyButton" mnemonicParsing="false" onAction="#copyUrl" text="Copy URL" />
-        </HBox>
+        <ScrollPane fx:id="scrollPane" styleClass="scroll-pane">
 
-        <!-- Scrollable Help Content -->
-        <ScrollPane fx:id="scrollPane" fitToWidth="true" style="-fx-background-color: derive(#1d1d1d, 20%);">
-          <VBox fx:id="helpContent" spacing="10" style="-fx-padding: 10;">
-            <!-- Title -->
-            <TextFlow>
-              <Label text="WhoAreYouAgain? User Guide" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;" />
-            </TextFlow>
+          <VBox fx:id="helpContent" styleClass="help-content">
+            <VBox alignment="TOP_CENTER" style="-fx-padding: 80px 0px;">
+              <Text text="Hey! How can we help?" styleClass="big-header"/>
+              <Text text="If you're new, let's help you get set up!" styleClass="sub-header"/>
+            </VBox>
+            <VBox styleClass="section">
+              <Label text="Quick Start" styleClass="section-header"/>
+              <VBox styleClass="paragraph-container">
+                <TextFlow styleClass="paragraph">
+                  <Text text="1. Ensure you have Java 17 or above installed on your computer." style="-fx-fill: white;"/>
+                </TextFlow>
+                <TextFlow styleClass="paragraph">
+                  <Text text="2. Download the latest .jar file from " style="-fx-fill: white;"/>
+                  <Hyperlink text="here" styleClass="hyperlink"/>
+                  <Text text="." style="-fx-fill: white;"/>
+                </TextFlow>
+                <TextFlow styleClass="paragraph">
+                  <Text text="3. Copy the file to the folder you want to use as the home folder for who-are-you-again?." style="-fx-fill: white;"/>
+                </TextFlow>
+                <TextFlow styleClass="paragraph">
+                  <Text text="4. Open a command terminal, " style="-fx-fill: white;"/>
+                  <Text text="cd" styleClass="code-inline"/>
+                  <Text text= " into the folder you put the jar file in, and use the " style="-fx-fill: white;"/>
+                  <Text text="java -jar whoareyouagain.jar" styleClass="code-inline"/>
+                  <Text text=" command to run the application." style="-fx-fill: white;"/>
+                </TextFlow>
+                <TextFlow styleClass="paragraph">
+                  <Text text="5. Type the command in the command box and press Enter to execute it. e.g. typing " style="-fx-fill: white;"/>
+                  <Text text="help" styleClass="code-inline"/>
+                  <Text text=" and pressing Enter will open the help window." style="-fx-fill: white;"/>
+                </TextFlow>
+              </VBox>
+            </VBox>
 
-            <!-- Quick Start Section -->
-            <TextFlow>
-              <Label text="Quick Start" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;" />
-              <Label text="\\n1. Ensure you have Java `17` or above installed in your Computer.\\n2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).\\n3. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.\\n4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar whoareyouagain.jar` command to run the application.\\n5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.\\n\\n" style="-fx-text-fill: white;" />
-            </TextFlow>
+            <VBox styleClass="section">
+              <Label text="Features" styleClass="section-header"/>
+              <VBox styleClass="paragraph-container">
+                <TextFlow styleClass="paragraph">
+                  <Text text="Add" style="-fx-fill: white; -fx-font-weight: bold;"/>
+                </TextFlow>
+                <TextFlow styleClass="paragraph">
+                  <Text text="Format: " style="-fx-fill: white;"/>
+                  <Text text="add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [t/TAG]…​" styleClass="code-block"/>
+                </TextFlow>
+                <TextFlow styleClass="paragraph">
+                  <Text text="List" style="-fx-fill: white; -fx-font-weight: bold;"/>
+                </TextFlow>
+                <TextFlow styleClass="paragraph">
+                  <Text text="Format: " style="-fx-fill: white;"/>
+                  <Text text="list" styleClass="code-block"/>
+                </TextFlow>
+                <!-- Add other features in the same pattern -->
+              </VBox>
+            </VBox>
 
-            <!-- Features Section -->
-            <TextFlow>
-              <Label text="Features" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;" />
-              <Label text="\\n**Add**\\nFormat: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [t/TAG]…​`\\n\\n**List**\\nFormat: `list`\\n\\n**Edit**\\nFormat: `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [t/TAG]…​`\\n\\n**Find**\\nFormat: `find KEYWORD [MORE_KEYWORDS]`\\n\\n**Delete**\\nFormat: `delete INDEX…​`\\n\\n**Clear**\\nFormat: `clear`\\n\\n**Exit**\\nFormat: `exit`\\n\\n" style="-fx-text-fill: white;" />
-            </TextFlow>
-
-            <!-- Code Blocks -->
-            <TextFlow>
-              <Label text="Example: `add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son`" style="-fx-font-family: monospace; -fx-background-color: #2d2d2d; -fx-padding: 5px; -fx-text-fill: white;" />
-              <Label text="\\nExample: `edit 1 p/91234567 e/johndoe@example.com`" style="-fx-font-family: monospace; -fx-background-color: #2d2d2d; -fx-padding: 5px; -fx-text-fill: white;" />
-            </TextFlow>
+            <VBox styleClass="section">
+              <Label text="Examples" styleClass="section-header"/>
+              <VBox styleClass="paragraph-container">
+                <TextFlow styleClass="code-inline">
+                  <Text text=" > add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son" style="-fx-fill: white;"/>
+                </TextFlow>
+                <TextFlow styleClass="code-inline">
+                  <Text text=" > edit 1 p/91234567 e/johndoe@example.com" style="-fx-fill: white;"/>
+                </TextFlow>
+              </VBox>
+            </VBox>
           </VBox>
         </ScrollPane>
       </VBox>

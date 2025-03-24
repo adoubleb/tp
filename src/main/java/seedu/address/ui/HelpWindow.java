@@ -22,6 +22,7 @@ public class HelpWindow extends UiPart<Stage> {
 
     public static final String USERGUIDE_URL = "https://ay2425s2-cs2103t-t14-1.github.io/tp/UserGuide.html";
     public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL;
+    public static final String DOWNLOAD_URL = "https://github.com/se-edu/addressbook-level3/releases";
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
@@ -38,6 +39,15 @@ public class HelpWindow extends UiPart<Stage> {
     @FXML
     private VBox helpContent;
 
+    @FXML
+    private VBox quickStartSection;
+
+    @FXML
+    private VBox featuresSection;
+
+    @FXML
+    private VBox examplesSection;
+
     /**
      * Creates a new HelpWindow.
      *
@@ -46,7 +56,6 @@ public class HelpWindow extends UiPart<Stage> {
      */
     public HelpWindow(Stage root, GuiSettings guiSettings) {
         super(FXML, root);
-        initializeHelpContent();
         setWindowDefaultSize(guiSettings);
     }
 
@@ -72,60 +81,25 @@ public class HelpWindow extends UiPart<Stage> {
         }
     }
 
-    /**
-     * Initializes the help content with formatted text and code blocks.
-     */
-    private void initializeHelpContent() {
-        // Clear existing content
-        helpContent.getChildren().clear();
+    @FXML
+    private void scrollToQuickStart() {
+        scrollToSection(quickStartSection);
+    }
 
-        // Add title
-        TextFlow titleFlow = new TextFlow();
-        Label titleLabel = new Label("WhoAreYouAgain? User Guide");
-        titleLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;");
-        titleFlow.getChildren().add(titleLabel);
-        helpContent.getChildren().add(titleFlow);
+    @FXML
+    private void scrollToFeatures() {
+        scrollToSection(featuresSection);
+    }
 
-        // Add quick start section
-        TextFlow quickStartFlow = new TextFlow();
-        Label quickStartTitle = new Label("Quick Start");
-        quickStartTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;");
-        Label quickStartContent = new Label(
-                "\n1. Ensure you have Java `17` or above installed in your Computer.\n" +
-                        "2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).\n" +
-                        "3. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.\n" +
-                        "4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar whoareyouagain.jar` command to run the application.\n" +
-                        "5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.\n\n"
-        );
-        quickStartContent.setStyle("-fx-text-fill: white;");
-        quickStartFlow.getChildren().addAll(quickStartTitle, quickStartContent);
-        helpContent.getChildren().add(quickStartFlow);
+    @FXML
+    private void scrollToExamples() {
+        scrollToSection(examplesSection);
+    }
 
-        // Add features section
-        TextFlow featuresFlow = new TextFlow();
-        Label featuresTitle = new Label("Features");
-        featuresTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;");
-        Label featuresContent = new Label(
-                "\n**Add**\nFormat: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [t/TAG]…​`\n\n" +
-                        "**List**\nFormat: `list`\n\n" +
-                        "**Edit**\nFormat: `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [t/TAG]…​`\n\n" +
-                        "**Find**\nFormat: `find KEYWORD [MORE_KEYWORDS]`\n\n" +
-                        "**Delete**\nFormat: `delete INDEX…​`\n\n" +
-                        "**Clear**\nFormat: `clear`\n\n" +
-                        "**Exit**\nFormat: `exit`\n\n"
-        );
-        featuresContent.setStyle("-fx-text-fill: white;");
-        featuresFlow.getChildren().addAll(featuresTitle, featuresContent);
-        helpContent.getChildren().add(featuresFlow);
-
-        // Add code blocks
-        TextFlow codeBlockFlow = new TextFlow();
-        Label codeBlockAdd = new Label("Example: `add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son`");
-        codeBlockAdd.setStyle("-fx-font-family: monospace; -fx-background-color: #2d2d2d; -fx-padding: 5px; -fx-text-fill: white;");
-        Label codeBlockEdit = new Label("\nExample: `edit 1 p/91234567 e/johndoe@example.com`");
-        codeBlockEdit.setStyle("-fx-font-family: monospace; -fx-background-color: #2d2d2d; -fx-padding: 5px; -fx-text-fill: white;");
-        codeBlockFlow.getChildren().addAll(codeBlockAdd, codeBlockEdit);
-        helpContent.getChildren().add(codeBlockFlow);
+    private void scrollToSection(VBox section) {
+        double targetY = section.getBoundsInParent().getMinY() / helpContent.getHeight();
+        scrollPane.setVvalue(targetY);
+        section.requestFocus();
     }
 
     /**
@@ -167,15 +141,5 @@ public class HelpWindow extends UiPart<Stage> {
         final ClipboardContent url = new ClipboardContent();
         url.putString(USERGUIDE_URL);
         clipboard.setContent(url);
-    }
-
-    /**
-     * Handles the search action.
-     */
-    @FXML
-    private void handleSearch() {
-        String searchText = searchBar.getText().toLowerCase();
-        // Implement search logic here
-        // For example, highlight or filter content based on the search text
     }
 }

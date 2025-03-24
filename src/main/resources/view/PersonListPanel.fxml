@@ -4,10 +4,20 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <ListView fx:id="personListView" VBox.vgrow="ALWAYS">
     <placeholder>
-      <Label text="Address Book is empty" styleClass="empty-list-placeholder" />
+      <VBox alignment="CENTER" spacing="10">
+        <ImageView fitWidth="50" fitHeight="50">
+          <image>
+            <Image url="@/images/icons8-sad-ghost-100.png" />
+          </image>
+        </ImageView>
+        <Label text="It's a ghost town here..." styleClass="empty-list-placeholder" />
+      </VBox>
     </placeholder>
+
   </ListView>
 </VBox>
