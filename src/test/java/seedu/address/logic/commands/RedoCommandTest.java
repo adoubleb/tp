@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.CommandTracker;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.CommandHistory;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -43,7 +44,7 @@ public class RedoCommandTest {
         RedoCommand redoCommand = new RedoCommand();
         String expectedMessage = "Redo successful!";
 
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new CommandHistory());
         assertCommandSuccess(redoCommand, model, expectedMessage, expectedModel);
     }
 

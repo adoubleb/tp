@@ -142,7 +142,7 @@ public class DeleteCommandTest {
         deleteCommand.execute(model);
         deleteCommand.executeConfirmed(model);
 
-        Model modelAfterDelete = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Model modelAfterDelete = new ModelManager(model.getAddressBook(), new UserPrefs(), new CommandHistory());
 
         deleteCommand.undo(model);
         for (Person person : personsToDelete) {

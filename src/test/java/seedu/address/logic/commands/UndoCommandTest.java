@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.CommandTracker;
+import seedu.address.model.CommandHistory;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -34,7 +35,7 @@ public class UndoCommandTest {
         UndoCommand undoCommand = new UndoCommand();
         String expectedMessage = "Undo successful!";
 
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new CommandHistory());
         assertCommandSuccess(undoCommand, model, expectedMessage, expectedModel);
     }
 
