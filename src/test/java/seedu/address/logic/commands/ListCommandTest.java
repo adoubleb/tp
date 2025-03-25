@@ -5,6 +5,10 @@ import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,10 +18,6 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for ListCommand.
@@ -76,7 +76,7 @@ public class ListCommandTest {
     }
 
     @Test
-    public void execute_sortAsc_withMissingBirthdays_success() {
+    public void execute_sortAscWithMissingBirthdays_success() {
         Person noBirthday = new PersonBuilder().withName("NoBday").build();
         model.addPerson(noBirthday);
         expectedModel.addPerson(noBirthday);
@@ -90,7 +90,7 @@ public class ListCommandTest {
     }
 
     @Test
-    public void execute_sortAsc_withBirthdayToday_success() {
+    public void execute_sortAscWithBirthdayToday_success() {
         Person todayBday = new PersonBuilder().withName("TodayBday")
                 .withBirthday(LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
                 .build();
@@ -107,7 +107,7 @@ public class ListCommandTest {
     }
 
     @Test
-    public void execute_sortDesc_withMissingBirthdays_success() {
+    public void execute_sortDescWithMissingBirthdays_success() {
         Person noBirthday = new PersonBuilder().withName("NoBday").build();
         model.addPerson(noBirthday);
         expectedModel.addPerson(noBirthday);
@@ -121,7 +121,7 @@ public class ListCommandTest {
     }
 
     @Test
-    public void execute_sortDesc_withBirthdayToday_success() {
+    public void execute_sortDescWithBirthdayToday_success() {
         Person todayBday = new PersonBuilder().withName("TodayBday")
                 .withBirthday(LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
                 .build();
