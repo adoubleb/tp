@@ -55,6 +55,23 @@ public class AddCommandTest {
     }
 
     @Test
+    public void undoRedo_validAddCommand_success() throws CommandException {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person validPerson = new PersonBuilder().build();
+        AddCommand addCommand = new AddCommand(validPerson);
+
+        addCommand.execute(modelStub);
+        assertTrue(modelStub.personsAdded.contains(validPerson)); // Person added
+
+        addCommand.undo(modelStub);
+        assertFalse(modelStub.personsAdded.contains(validPerson));
+
+        addCommand.redo(modelStub);
+        assertTrue(modelStub.personsAdded.contains(validPerson));
+    }
+
+
+    @Test
     public void equals() {
         Person alice = new PersonBuilder().withName("Alice").build();
         Person bob = new PersonBuilder().withName("Bob").build();
@@ -207,9 +224,16 @@ public class AddCommandTest {
         }
 
         @Override
+        public void deletePerson(Person person) {
+            requireNonNull(person);
+            personsAdded.remove(person);
+        }
+
+        @Override
         public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
         }
     }
+
 
 }
