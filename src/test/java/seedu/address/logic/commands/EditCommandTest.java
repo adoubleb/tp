@@ -57,11 +57,14 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_emptyBirthday_success() {
-        Person editedPerson = new PersonBuilder().withBirthday(PersonBuilder.DEFAULT_BIRTHDAY).build();
+    public void execute_allOptionalFieldsEmpty_success() {
+        Person editedPerson = new PersonBuilder(true).build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
         ArrayList<String> toRemoveFields = new ArrayList<>();
-        toRemoveFields.add("birthday");
+        toRemoveFields.add("/b");
+        toRemoveFields.add("/nn");
+        toRemoveFields.add("/r");
+        toRemoveFields.add("/no");
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor, toRemoveFields);
         editedPerson = new PersonBuilder().build();
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
