@@ -38,9 +38,7 @@
                   <Text text="1. Ensure you have Java 17 or above installed on your computer." style="-fx-fill: white;"/>
                 </TextFlow>
                 <TextFlow styleClass="paragraph">
-                  <Text text="2. Download the latest .jar file from " style="-fx-fill: white;"/>
-                  <Hyperlink text="here" styleClass="hyperlink"/>
-                  <Text text="." style="-fx-fill: white;"/>
+                  <Text text="2. Download the latest .jar file." style="-fx-fill: white;"/>
                 </TextFlow>
                 <TextFlow styleClass="paragraph">
                   <Text text="3. Copy the file to the folder you want to use as the home folder for who-are-you-again?." style="-fx-fill: white;"/>
