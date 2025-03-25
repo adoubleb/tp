@@ -35,6 +35,9 @@ public class ListCommand extends Command {
     public ListCommand(SortOrder sortOrder) {
         this.sortOrder = sortOrder;
     }
+    public SortOrder getSortOrder() {
+        return this.sortOrder;
+    }
 
     @Override
     public CommandResult execute(Model model) {
