@@ -82,6 +82,10 @@ public class EditCommand extends Command {
         this.toRemoveFields = toRemoveFields;
     }
 
+    public ArrayList<String> getToRemoveFields() {
+        return toRemoveFields;
+    }
+
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

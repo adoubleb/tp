@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
@@ -25,8 +26,12 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NICKNAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -220,5 +225,18 @@ public class EditCommandParserTest {
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor, toRemoveFields);
 
         assertParseSuccess(parser, userInput, expectedCommand);
+    }
+    
+    @Test
+    public void parse_emptyOptionalFields_success() throws Exception {
+        String optionalFields = PREFIX_BIRTHDAY + " " + PREFIX_RELATIONSHIP + " " + PREFIX_NICKNAME + " " 
+                + PREFIX_NOTES;
+        String userInput = "1 " + optionalFields;
+        EditCommandParser res = new EditCommandParser();
+        EditCommand editCommand = res.parse(userInput);
+        ArrayList<String> toRemoveFields = editCommand.getToRemoveFields();
+        String joinedFields = String.join(", ", toRemoveFields);
+
+        assertEquals("b/, r/, nn/, no/", joinedFields);
     }
 }

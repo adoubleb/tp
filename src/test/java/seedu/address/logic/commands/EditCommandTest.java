@@ -66,7 +66,6 @@ public class EditCommandTest {
         toRemoveFields.add("/r");
         toRemoveFields.add("/no");
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor, toRemoveFields);
-        editedPerson = new PersonBuilder().build();
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs(),
                 new CommandHistory(model.getCommandHistory()));
@@ -250,5 +249,6 @@ public class EditCommandTest {
                 + editPersonDescriptor + "}";
         assertEquals(expected, editCommand.toString());
     }
+
 
 }
