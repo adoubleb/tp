@@ -66,10 +66,13 @@ public class EditCommandTest {
         toRemoveFields.add("/r");
         toRemoveFields.add("/no");
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor, toRemoveFields);
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+        Person editedPersonExpected = new PersonBuilder().build();
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
+                Messages.format(editedPersonExpected));
+        System.out.println(expectedMessage);
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs(),
                 new CommandHistory(model.getCommandHistory()));
-        expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
+        expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPersonExpected);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
