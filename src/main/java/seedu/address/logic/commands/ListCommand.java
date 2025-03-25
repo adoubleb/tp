@@ -29,9 +29,17 @@ public class ListCommand extends Command {
     public static final String MESSAGE_DESC_SUCCESS = "Listed all persons by upcoming birthdays (latest first)";
     private final SortOrder sortOrder;
 
+    /**
+     * Creates a ListCommand with the default sort order.
+     */
     public ListCommand() {
         this.sortOrder = SortOrder.NONE;
     }
+    /**
+     * Creates a ListCommand with the specified sort order.
+     * Extended Constructor for testing purposes
+     * @param sortOrder
+     */
     public ListCommand(SortOrder sortOrder) {
         this.sortOrder = sortOrder;
     }
@@ -39,45 +47,64 @@ public class ListCommand extends Command {
         return this.sortOrder;
     }
 
+    /**
+     * Returns a comparator that compares persons by their upcoming birthday with todays date.
+     * @param today
+     * @param descending
+     * @return
+     */
+    public static Comparator<Person> getBirthdayComparator(LocalDate today, boolean descending) {
+        Comparator<Person> comparator = Comparator.comparing(
+                person -> person.getBirthday()
+                        .map(b -> {
+                            LocalDate birthDate = b.getLocalDate();
+                            if (birthDate == null) {
+                                return Long.MAX_VALUE;
+                            }
+
+                            MonthDay birthdayMonthDay = MonthDay.from(birthDate);
+                            MonthDay currentMonthDay = MonthDay.from(today);
+                            LocalDate nextBirthday = birthdayMonthDay.atYear(today.getYear());
+                            if (birthdayMonthDay.isBefore(currentMonthDay)) {
+                                nextBirthday = nextBirthday.plusYears(1);
+                            }
+
+                            return ChronoUnit.DAYS.between(today, nextBirthday);
+                        })
+                        .orElse(Long.MAX_VALUE),
+                Comparator.naturalOrder()
+        );
+
+        return descending ? comparator.reversed() : comparator;
+    }
+
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+
         if (this.sortOrder == SortOrder.NONE) {
-            model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
             model.sortFilteredPersonList(null);
             return new CommandResult(MESSAGE_SUCCESS);
-        } else {
-            String successMessage = this.sortOrder == SortOrder.ASCENDING ? MESSAGE_ASC_SUCCESS : MESSAGE_DESC_SUCCESS;
-            model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-            LocalDate today = LocalDate.now();
-
-            Comparator<Person> birthdayComparator = Comparator.comparing(
-                    person -> person.getBirthday()
-                            .map(b -> {
-                                LocalDate birthDate = b.getLocalDate();
-                                if (birthDate == null) {
-                                    return Long.MAX_VALUE;
-                                }
-
-                                MonthDay birthdayMonthDay = MonthDay.from(birthDate);
-                                MonthDay currentMonthDay = MonthDay.from(today);
-                                LocalDate nextBirthday = birthdayMonthDay.atYear(today.getYear());
-                                if (birthdayMonthDay.isBefore(currentMonthDay)) {
-                                    nextBirthday = nextBirthday.plusYears(1);
-                                }
-
-                                return ChronoUnit.DAYS.between(today, nextBirthday);
-                            })
-                            .orElse(Long.MAX_VALUE),
-                    Comparator.naturalOrder()
-            );
-
-            if (sortOrder == SortOrder.DESCENDING) {
-                birthdayComparator = birthdayComparator.reversed();
-            }
-            model.sortFilteredPersonList(birthdayComparator);
-
-            return new CommandResult(successMessage);
         }
+
+        boolean isDescending = this.sortOrder == SortOrder.DESCENDING;
+        Comparator<Person> birthdayComparator = getBirthdayComparator(LocalDate.now(), isDescending);
+        model.sortFilteredPersonList(birthdayComparator);
+
+        String successMessage = isDescending ? MESSAGE_DESC_SUCCESS : MESSAGE_ASC_SUCCESS;
+        return new CommandResult(successMessage);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this
+                || (other instanceof ListCommand
+                && this.sortOrder == ((ListCommand) other).sortOrder);
+    }
+
+    @Override
+    public int hashCode() {
+        return sortOrder.hashCode();
     }
 }
