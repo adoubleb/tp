@@ -238,4 +238,18 @@ public class EditCommandParserTest {
 
         assertEquals("b/, r/, nn/, no/", joinedFields);
     }
+    @Test
+    public void parse_filledOptionalFields_success() throws Exception {
+        String birthdayField = PREFIX_BIRTHDAY + " 12-12-2020";
+        String relationshipField = PREFIX_RELATIONSHIP + " Father";
+        String nicknameField = PREFIX_NICKNAME + " John";
+        String notesField = PREFIX_NOTES + " My notes";
+        String optionalFields = birthdayField + " " + relationshipField + " " + nicknameField + " " + notesField;
+        String userInput = "1 " + optionalFields;
+        EditCommandParser res = new EditCommandParser();
+        EditCommand editCommand = res.parse(userInput);
+        ArrayList<String> toRemoveFields = editCommand.getToRemoveFields();
+        String joinedFields = String.join(", ", toRemoveFields);
+        assertEquals("", joinedFields);
+    }
 }
