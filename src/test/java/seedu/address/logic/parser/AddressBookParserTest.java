@@ -84,8 +84,13 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_list() throws Exception {
-        assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD) instanceof ListCommand);
-        assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD + " 3") instanceof ListCommand);
+        ListCommand listDefault = (ListCommand) parser.parseCommand("list");
+        ListCommand listAsc = (ListCommand) parser.parseCommand("list s/asc");
+        ListCommand listDesc = (ListCommand) parser.parseCommand("list s/desc");
+
+        assertEquals(ListCommand.SortOrder.NONE, listDefault.getSortOrder());
+        assertEquals(ListCommand.SortOrder.ASCENDING, listAsc.getSortOrder());
+        assertEquals(ListCommand.SortOrder.DESCENDING, listDesc.getSortOrder());
     }
 
     @Test
