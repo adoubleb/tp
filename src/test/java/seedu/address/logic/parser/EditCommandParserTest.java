@@ -226,10 +226,9 @@ public class EditCommandParserTest {
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
-    
     @Test
     public void parse_emptyOptionalFields_success() throws Exception {
-        String optionalFields = PREFIX_BIRTHDAY + " " + PREFIX_RELATIONSHIP + " " + PREFIX_NICKNAME + " " 
+        String optionalFields = PREFIX_BIRTHDAY + " " + PREFIX_RELATIONSHIP + " " + PREFIX_NICKNAME + " "
                 + PREFIX_NOTES;
         String userInput = "1 " + optionalFields;
         EditCommandParser res = new EditCommandParser();
