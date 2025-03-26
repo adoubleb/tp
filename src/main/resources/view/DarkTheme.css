@@ -192,6 +192,7 @@
     -fx-background-color: #0d1117;
     -fx-border-color: #161b22;
     -fx-border-top-width: 1px;
+    /*-fx-min-height: 100;*/
 }
 
 .status-bar {
