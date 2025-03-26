@@ -4,19 +4,23 @@ import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 
 /**
- * Controller for a help page
+ * Controller for a help page.
  */
 public class HelpWindow extends UiPart<Stage> {
 
     public static final String USERGUIDE_URL = "https://ay2425s2-cs2103t-t14-1.github.io/tp/UserGuide.html";
     public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL;
+    public static final String DOWNLOAD_URL = "https://github.com/se-edu/addressbook-level3/releases";
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
@@ -25,42 +29,79 @@ public class HelpWindow extends UiPart<Stage> {
     private Button copyButton;
 
     @FXML
-    private Label helpMessage;
+    private TextField searchBar;
+
+    @FXML
+    private ScrollPane scrollPane;
+
+    @FXML
+    private VBox helpContent;
+
+    @FXML
+    private VBox quickStartSection;
+
+    @FXML
+    private VBox featuresSection;
+
+    @FXML
+    private VBox examplesSection;
 
     /**
      * Creates a new HelpWindow.
      *
      * @param root Stage to use as the root of the HelpWindow.
+     * @param guiSettings The GUI settings to set the window size and position.
      */
-    public HelpWindow(Stage root) {
+    public HelpWindow(Stage root, GuiSettings guiSettings) {
         super(FXML, root);
-        helpMessage.setText(HELP_MESSAGE);
+        setWindowDefaultSize(guiSettings);
     }
 
     /**
      * Creates a new HelpWindow.
+     *
+     * @param guiSettings The GUI settings to set the window size and position.
      */
-    public HelpWindow() {
-        this(new Stage());
+    public HelpWindow(GuiSettings guiSettings) {
+        this(new Stage(), guiSettings);
+    }
+
+    /**
+     * Sets the default size and position of the window based on {@code guiSettings}.
+     */
+    private void setWindowDefaultSize(GuiSettings guiSettings) {
+        Stage root = getRoot();
+        root.setHeight(guiSettings.getWindowHeight());
+        root.setWidth(guiSettings.getWindowWidth());
+        if (guiSettings.getWindowCoordinates() != null) {
+            root.setX(guiSettings.getWindowCoordinates().getX());
+            root.setY(guiSettings.getWindowCoordinates().getY());
+        }
+    }
+
+    @FXML
+    private void scrollToQuickStart() {
+        scrollToSection(quickStartSection);
+    }
+
+    @FXML
+    private void scrollToFeatures() {
+        scrollToSection(featuresSection);
+    }
+
+    @FXML
+    private void scrollToExamples() {
+        scrollToSection(examplesSection);
+    }
+
+    private void scrollToSection(VBox section) {
+        double targetY = section.getBoundsInParent().getMinY() / helpContent.getHeight();
+        scrollPane.setVvalue(targetY);
+        section.requestFocus();
     }
 
     /**
      * Shows the help window.
-     * @throws IllegalStateException
-     *     <ul>
-     *         <li>
-     *             if this method is called on a thread other than the JavaFX Application Thread.
-     *         </li>
-     *         <li>
-     *             if this method is called during animation or layout processing.
-     *         </li>
-     *         <li>
-     *             if this method is called on the primary stage.
-     *         </li>
-     *         <li>
-     *             if {@code dialogStage} is already showing.
-     *         </li>
-     *     </ul>
      */
     public void show() {
         logger.fine("Showing help page about the application.");

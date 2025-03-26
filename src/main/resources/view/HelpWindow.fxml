@@ -1,44 +1,590 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Scene?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.Image?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.stage.Stage?>
+<?import javafx.scene.Scene?>
+<?import javafx.scene.image.ImageView?>
 
-<fx:root resizable="false" title="Help" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.effect.DropShadow?>
+<fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+         title="who-are-you-again? docs" minWidth="500" minHeight="600">
   <icons>
     <Image url="@/images/help_icon.png" />
   </icons>
   <scene>
-    <Scene>
-      <stylesheets>
-        <URL value="@HelpWindow.css" />
-      </stylesheets>
+    <Scene stylesheets="@HelpWindow.css">
+      <VBox styleClass="root-container">
+        <VBox styleClass="header-container">
+          <HBox styleClass="title-container">
+            <Label text="who-are-you-again?" styleClass="app-title"/>
+            <Label text="v1.4" styleClass="version-label"/>
+          </HBox>
+          <Label text="docs" styleClass="docs-label"/>
+        </VBox>
 
-      <HBox alignment="CENTER" fx:id="helpMessageContainer">
-        <children>
-          <Label fx:id="helpMessage" text="Label">
-            <HBox.margin>
-              <Insets right="5.0" />
-            </HBox.margin>
-          </Label>
-          <Button fx:id="copyButton" mnemonicParsing="false" onAction="#copyUrl" text="Copy URL">
-            <HBox.margin>
-              <Insets left="5.0" />
-            </HBox.margin>
-          </Button>
-        </children>
-        <opaqueInsets>
-          <Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />
-        </opaqueInsets>
-        <padding>
-          <Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />
-        </padding>
-      </HBox>
+        <ScrollPane fx:id="scrollPane" styleClass="scroll-pane">
+
+          <VBox fx:id="helpContent" styleClass="help-content">
+            <VBox alignment="TOP_CENTER" style="-fx-padding: 80px 0px;">
+              <Text text="Hey! How can we help?" styleClass="big-header"/>
+              <Text text="If you're new, let's help you get set up!" styleClass="sub-header"/>
+            </VBox>
+            <VBox styleClass="section">
+              <Label text="Quick Start" styleClass="section-header"/>
+              <VBox styleClass="paragraph-container">
+                <TextFlow styleClass="paragraph">
+                  <Text text="1. Ensure you have Java 17 or above installed on your computer." style="-fx-fill: white;"/>
+                </TextFlow>
+                <TextFlow styleClass="paragraph">
+                  <Text text="2. Download the latest .jar file." style="-fx-fill: white;"/>
+                </TextFlow>
+                <TextFlow styleClass="paragraph">
+                  <Text text="3. Copy the file to the folder you want to use as the home folder for who-are-you-again?." style="-fx-fill: white;"/>
+                </TextFlow>
+                <TextFlow styleClass="paragraph">
+                  <Text text="4. Open a command terminal, " style="-fx-fill: white;"/>
+                  <Text text="cd" styleClass="code-inline"/>
+                  <Text text= " into the folder you put the jar file in, and use the " style="-fx-fill: white;"/>
+                  <Text text="java -jar whoareyouagain.jar" styleClass="code-inline"/>
+                  <Text text=" command to run the application." style="-fx-fill: white;"/>
+                </TextFlow>
+                <TextFlow styleClass="paragraph">
+                  <Text text="5. Type the command in the command box and press Enter to execute it. e.g. typing " style="-fx-fill: white;"/>
+                  <Text text="help" styleClass="code-inline"/>
+                  <Text text=" and pressing Enter will open the help window." style="-fx-fill: white;"/>
+                </TextFlow>
+              </VBox>
+            </VBox>
+
+            <VBox styleClass="section" spacing="5">
+              <Label text="Commands" styleClass="section-header"/>
+
+              <!-- Command Format Notes Box -->
+              <HBox spacing="10" alignment="TOP_LEFT" styleClass="paragraph-container" style="-fx-padding: 15px;">
+                <!-- Info Icon -->
+                <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
+                  <Image url="@/images/icons8-info-24.png"/>
+                </ImageView>
+                <!-- Note Content -->
+                <VBox alignment="TOP_LEFT" spacing="8">
+                  <Text text="Notes about command format: " style="-fx-font-weight: bold; -fx-fill: white; -fx-font-size:18px"/>
+                  <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
+                    <Text text="You don't have to memorise these, we'll remind you where they're relevant but we recommend that you read these before diving into our commands!" style=" -fx-fill: white; -fx-font-size:14px"/>
+                  </TextFlow>
+                  <TextFlow>
+                    <Text text="• " style="-fx-fill: white; -fx-font-size:14px"/>
+                    <Text text="Words in " style="-fx-fill: white; -fx-font-size:14px"/>
+                    <Text text="UPPER_CASE" style="-fx-fill: #FFD700; -fx-font-family: 'DejaVu Sans'; -fx-font-size:14px"/>
+                    <Text text=" are parameters to be supplied" style="-fx-fill: white; -fx-font-size:14px"/>
+                  </TextFlow>
+                  <TextFlow style="-fx-padding: 0 0 0 15px;">
+                    <Text text="e.g. in " style="-fx-fill: white; -fx-font-size:14px"/>
+                    <Text text="add n/NAME" style="-fx-fill: #FFD700; -fx-font-family: 'DejaVu Sans'; -fx-font-size:14px"/>
+                    <Text text=", use " style="-fx-fill: white; -fx-font-size:14px"/>
+                    <Text text="add n/John Doe" style="-fx-fill: #FFD700; -fx-font-family: 'DejaVu Sans'; -fx-font-size:14px"/>
+                  </TextFlow>
+
+                  <TextFlow>
+                    <Text text="• " style="-fx-fill: white; -fx-font-size:14px"/>
+                    <Text text="Items in " style="-fx-fill: white; -fx-font-size:14px"/>
+                    <Text text="[square brackets]" style="-fx-fill: #FFD700; -fx-font-family: 'DejaVu Sans'; -fx-font-size:14px"/>
+                    <Text text=" are optional" style="-fx-fill: white; -fx-font-size:14px"/>
+                  </TextFlow>
+                  <TextFlow style="-fx-padding: 0 0 0 15px;">
+                    <Text text="e.g. " style="-fx-fill: white; -fx-font-size:14px"/>
+                    <Text text="n/NAME [e/EMAIL]" style="-fx-fill: #FFD700; -fx-font-family: 'DejaVu Sans'; -fx-font-size:14px"/>
+                    <Text text=" can be used with or without email" style="-fx-fill: white; -fx-font-size:14px"/>
+                  </TextFlow>
+
+                  <TextFlow>
+                    <Text text="• " style="-fx-fill: white; -fx-font-size:14px"/>
+                    <Text text="Items with " style="-fx-fill: white; -fx-font-size:14px"/>
+                    <Text text="…" style="-fx-fill: #FFD700; -fx-font-family: 'DejaVu Sans'; -fx-font-size:14px"/>
+                    <Text text=" can accept multiple values" style="-fx-fill: white; -fx-font-size:14px"/>
+                  </TextFlow>
+                  <TextFlow style="-fx-padding: 0 0 0 15px;">
+                    <Text text="e.g. " style="-fx-fill: white; -fx-font-size:14px"/>
+                    <Text text="delete…" style="-fx-fill: #FFD700; -fx-font-family: 'DejaVu Sans'; -fx-font-size:14px"/>
+                    <Text text=" can delete one or multiple contacts" style="-fx-fill: white; -fx-font-size:14px"/>
+                  </TextFlow>
+
+                  <TextFlow>
+                    <Text text="• " style="-fx-fill: white; -fx-font-size:14px"/>
+                    <Text text="Parameters can be in any order" style="-fx-fill: white; -fx-font-size:14px"/>
+                  </TextFlow>
+
+                  <TextFlow>
+                    <Text text="• " style="-fx-fill: white; -fx-font-size:14px"/>
+                    <Text text="Extraneous parameters for simple commands (" style="-fx-fill: white; -fx-font-size:14px"/>
+                    <Text text="help" style="-fx-fill: #FFD700; -fx-font-family: 'DejaVu Sans'; -fx-font-size:14px"/>
+                    <Text text=", " style="-fx-fill: white; -fx-font-size:14px"/>
+                    <Text text="list" style="-fx-fill: #FFD700; -fx-font-family: 'DejaVu Sans'; -fx-font-size:14px"/>
+                    <Text text=", etc.) are ignored." style="-fx-fill: white; -fx-font-size:14px"/>
+                  </TextFlow>
+                  <TextFlow style="-fx-padding: 0 0 0 15px;">
+                    <Text text="e.g. " style="-fx-fill: white; -fx-font-size:14px"/>
+                    <Text text="help 12345" style="-fx-fill: #FFD700; -fx-font-family: 'DejaVu Sans'; -fx-font-size:14px"/>
+                    <Text text=" is interpreted as " style="-fx-fill: white; -fx-font-size:14px"/>
+                    <Text text="help" style="-fx-fill: #FFD700; -fx-font-family: 'DejaVu Sans'; -fx-font-size:14px"/>
+                  </TextFlow>
+
+                </VBox>
+              </HBox>
+
+              <VBox styleClass="paragraph-container">
+                <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
+                  <Text text="add" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 30px"/>
+                </TextFlow>
+
+                <TextFlow styleClass="paragraph">
+                  <Text text="Syntax: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                  <Text text="add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [t/TAG]…​" styleClass="code-block"/>
+                </TextFlow>
+                <VBox spacing="20" alignment="CENTER_LEFT">
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Description: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text="The add command is really simple! It adds a contact to the address book. When using add, ensure that all fields are indicated with their respective flag (for example: add n/John Doe... adds a contact with the name John Doe)." style="-fx-fill: white;"/>
+                  </TextFlow>
+
+                  <!-- Requirements Section -->
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Name Requirements:" style="-fx-fill: white; -fx-font-weight: bold;"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="Must start with a letter (A-Z, a-z)" style="-fx-fill: white;"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="Cannot end with a special character (@, ., -, etc.)" style="-fx-fill: white;"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="No consecutive special characters (e.g., --, @@, ..)" style="-fx-fill: white;"/>
+                  </TextFlow>
+
+                  <!-- Combined Note/Lightbulb Section -->
+                  <HBox spacing="10" alignment="TOP_LEFT" styleClass="note-box">
+                    <!-- Lightbulb Icon -->
+                    <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
+                      <Image url="@/images/icons8-lightbulb.png"/>
+                    </ImageView>
+                    <!-- Note Content -->
+                    <VBox alignment="TOP_LEFT" spacing="5">
+                      <Text text="Note:" style="-fx-font-weight: bold; -fx-fill: white; -fx-font-size:18px"/>
+                      <TextFlow>
+                        <Text text="• Fields indicated in brackets are optional, like [r/RELATIONSHIP]. This means that you can add a contact without indicating a relationship." style="-fx-fill: white; -fx-font-size:14px"/>
+                      </TextFlow>
+                      <TextFlow>
+                        <Text text="• You can add multiple tags to a contact." style="-fx-fill: white; -fx-font-size:14px"/>
+                      </TextFlow>
+                      <TextFlow>
+                        <Text text="• All " style="-fx-fill: white; -fx-font-size:14px"/>
+                        <Text text="/" style="-fx-fill: white; -fx-font-size:14px; -fx-font-family: 'DejaVu Sans';"/>
+                        <Text text=" characters must be escaped with " style="-fx-fill: white; -fx-font-size:14px"/>
+                        <Text text="\\" style="-fx-fill: white; -fx-font-size:14px; -fx-font-family: 'DejaVu Sans';"/>
+                        <Text text=" to be recognized correctly." style="-fx-fill: white; -fx-font-size:14px"/>
+                      </TextFlow>
+                      <TextFlow>
+                        <Text text="  E.g. To include " style="-fx-fill: white; -fx-font-size:14px"/>
+                        <Text text="s/o" style="-fx-fill: white; -fx-font-size:14px; -fx-font-family: 'DejaVu Sans';"/>
+                        <Text text=" in a name, type it as " style="-fx-fill: white; -fx-font-size:14px"/>
+                        <Text text="s\\/o" style="-fx-fill: white; -fx-font-size:14px; -fx-font-family: 'DejaVu Sans';"/>
+                      </TextFlow>
+                    </VBox>
+                  </HBox>
+
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Example: " style="-fx-fill: white; -fx-font-weight: bold;"  wrappingWidth="200"/>
+                    <Text text="add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son" styleClass="code-block"/>
+                  </TextFlow>
+                </VBox>
+              </VBox>
+
+              <VBox styleClass="paragraph-container">
+                <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
+                  <Text text="list" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 30px"/>
+                </TextFlow>
+
+                <TextFlow styleClass="paragraph">
+                  <Text text="Syntax: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                  <Text text="list" styleClass="code-block"/>
+                </TextFlow>
+
+                <VBox spacing="20" alignment="CENTER_LEFT">
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Description: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text="Shows a list of all persons in the address book." style="-fx-fill: white;"/>
+                  </TextFlow>
+
+                  <!-- Combined Note/Lightbulb Section -->
+                  <HBox spacing="10" alignment="TOP_LEFT" styleClass="note-box">
+                    <!-- Lightbulb Icon -->
+                    <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
+                      <Image url="@/images/icons8-lightbulb.png"/>
+                    </ImageView>
+                    <!-- Note Content -->
+                    <VBox alignment="TOP_LEFT" spacing="5">
+                      <Text text="Note:" style="-fx-font-weight: bold; -fx-fill: white; -fx-font-size:18px"/>
+                      <TextFlow>
+                        <Text text="• The list command displays all contacts in the order they were added to the address book." style="-fx-fill: white; -fx-font-size:14px"/>
+                      </TextFlow>
+                      <TextFlow>
+                        <Text text="• This command doesn't require any additional parameters." style="-fx-fill: white; -fx-font-size:14px"/>
+                      </TextFlow>
+                    </VBox>
+                  </HBox>
+
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Example: " style="-fx-fill: white; -fx-font-weight: bold;" wrappingWidth="200"/>
+                    <Text text="list" styleClass="code-block"/>
+                  </TextFlow>
+                </VBox>
+              </VBox>
+
+              <VBox styleClass="paragraph-container">
+                <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
+                  <Text text="edit" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 30px"/>
+                </TextFlow>
+
+                <TextFlow styleClass="paragraph">
+                  <Text text="Syntax: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                  <Text text="edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [t/TAG]…​" styleClass="code-block"/>
+                </TextFlow>
+
+                <VBox spacing="20" alignment="CENTER_LEFT">
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Description: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text="Edits an existing person in the address book." style="-fx-fill: white;"/>
+                  </TextFlow>
+
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="Edits the person at the specified " style="-fx-fill: white;"/>
+                    <Text text="INDEX" style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text=". The index refers to the index number shown in the displayed person list. The index " style="-fx-fill: white;"/>
+                    <Text text="must be a positive integer" style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text=" 1, 2, 3, …​" style="-fx-fill: white;"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="At least one of the optional fields must be provided." style="-fx-fill: white;"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="Existing values will be updated to the input values." style="-fx-fill: white;"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative." style="-fx-fill: white;"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="You can remove all the person's tags by typing " style="-fx-fill: white;"/>
+                    <Text text="t/" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
+                    <Text text=" without specifying any tags after it." style="-fx-fill: white;"/>
+                  </TextFlow>
+
+                  <!-- Combined Note/Lightbulb Section -->
+                  <HBox spacing="10" alignment="TOP_LEFT" styleClass="note-box">
+                    <!-- Lightbulb Icon -->
+                    <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
+                      <Image url="@/images/icons8-lightbulb.png"/>
+                    </ImageView>
+                    <!-- Note Content -->
+                    <VBox alignment="TOP_LEFT" spacing="5">
+                      <Text text="Note:" style="-fx-font-weight: bold; -fx-fill: white; -fx-font-size:18px"/>
+                      <TextFlow>
+                        <Text text="• The edit command only changes the fields you specify - other fields remain unchanged." style="-fx-fill: white; -fx-font-size:14px"/>
+                      </TextFlow>
+                    </VBox>
+                  </HBox>
+
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Examples: " style="-fx-fill: white; -fx-font-weight: bold;" wrappingWidth="200"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="edit 1 p/91234567 e/johndoe@example.com" styleClass="code-block"/>
+                    <Text text=" - Edits the phone number and email address of the 1st person." style="-fx-fill: white;"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="edit 2 n/Betsy Crower t/" styleClass="code-block"/>
+                    <Text text=" - Edits the name of the 2nd person and clears all tags." style="-fx-fill: white;"/>
+                  </TextFlow>
+                </VBox>
+              </VBox>
+
+              <VBox styleClass="paragraph-container">
+                <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
+                  <Text text="find" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 30px"/>
+                </TextFlow>
+
+                <TextFlow styleClass="paragraph">
+                  <Text text="Syntax: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                  <Text text="find KEYWORD [MORE_KEYWORDS]" styleClass="code-block"/>
+                </TextFlow>
+
+                <VBox spacing="20" alignment="CENTER_LEFT">
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Description: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text="Finds persons whose names contain any of the given keywords." style="-fx-fill: white;"/>
+                  </TextFlow>
+
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="The search is " style="-fx-fill: white;"/>
+                    <Text text="case-insensitive" style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text=". e.g " style="-fx-fill: white;"/>
+                    <Text text="hans" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
+                    <Text text=" will match " style="-fx-fill: white;"/>
+                    <Text text="Hans" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="The order of the keywords does not matter. e.g. " style="-fx-fill: white;"/>
+                    <Text text="Hans Bo" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
+                    <Text text=" will match " style="-fx-fill: white;"/>
+                    <Text text="Bo Hans" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="Only the name is searched." style="-fx-fill: white;"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="Only full words will be matched e.g. " style="-fx-fill: white;"/>
+                    <Text text="Han" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
+                    <Text text=" will not match " style="-fx-fill: white;"/>
+                    <Text text="Hans" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="Persons matching at least one keyword will be returned (" style="-fx-fill: white;"/>
+                    <Text text="i.e. OR search" style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text="). e.g. " style="-fx-fill: white;"/>
+                    <Text text="Hans Bo" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
+                    <Text text=" will return " style="-fx-fill: white;"/>
+                    <Text text="Hans Gruber" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
+                    <Text text=", " style="-fx-fill: white;"/>
+                    <Text text="Bo Yang" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
+                  </TextFlow>
+
+                  <!-- Combined Note/Lightbulb Section -->
+                  <HBox spacing="10" alignment="TOP_LEFT" styleClass="note-box">
+                    <!-- Lightbulb Icon -->
+                    <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
+                      <Image url="@/images/icons8-lightbulb.png"/>
+                    </ImageView>
+                    <!-- Note Content -->
+                    <VBox alignment="TOP_LEFT" spacing="5">
+                      <Text text="Note:" style="-fx-font-weight: bold; -fx-fill: white; -fx-font-size:18px"/>
+                      <TextFlow>
+                        <Text text="• Use multiple keywords to broaden your search." style="-fx-fill: white; -fx-font-size:14px"/>
+                      </TextFlow>
+                      <TextFlow>
+                        <Text text="• The search looks for complete word matches only, not partial words." style="-fx-fill: white; -fx-font-size:14px"/>
+                      </TextFlow>
+                    </VBox>
+                  </HBox>
+
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Examples: " style="-fx-fill: white; -fx-font-weight: bold;" wrappingWidth="200"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="find John" styleClass="code-block"/>
+                    <Text text=" returns " style="-fx-fill: white;"/>
+                    <Text text="john" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
+                    <Text text=" and " style="-fx-fill: white;"/>
+                    <Text text="John Doe" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="find alex david" styleClass="code-block"/>
+                    <Text text=" returns " style="-fx-fill: white;"/>
+                    <Text text="Alex Yeoh" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
+                    <Text text=", " style="-fx-fill: white;"/>
+                    <Text text="David Li" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
+                  </TextFlow>
+                </VBox>
+              </VBox>
+
+              <VBox styleClass="paragraph-container">
+                <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
+                  <Text text="delete" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 30px"/>
+                </TextFlow>
+
+                <TextFlow styleClass="paragraph">
+                  <Text text="Syntax: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                  <Text text="delete INDEX…​" styleClass="code-block"/>
+                </TextFlow>
+
+                <VBox spacing="20" alignment="CENTER_LEFT">
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Description: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text="Deletes the specified person(s) from the address book." style="-fx-fill: white;"/>
+                  </TextFlow>
+
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="Deletes the person(s) at the specified " style="-fx-fill: white;"/>
+                    <Text text="INDEX" style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text=" values." style="-fx-fill: white;"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="The index refers to the index number shown in the displayed person list." style="-fx-fill: white;"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="The index " style="-fx-fill: white;"/>
+                    <Text text="must be a positive integer" style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text=" (e.g., 1, 2, 3, …)." style="-fx-fill: white;"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="Supports deleting multiple people at once (e.g., " style="-fx-fill: white;"/>
+                    <Text text="delete 1 2 4" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
+                    <Text text=")." style="-fx-fill: white;"/>
+                  </TextFlow>
+
+                  <!-- Combined Note/Lightbulb Section -->
+                  <HBox spacing="10" alignment="TOP_LEFT" styleClass="note-box">
+                    <!-- Lightbulb Icon -->
+                    <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
+                      <Image url="@/images/icons8-lightbulb.png"/>
+                    </ImageView>
+                    <!-- Note Content -->
+                    <VBox alignment="TOP_LEFT" spacing="5">
+                      <Text text="Note:" style="-fx-font-weight: bold; -fx-fill: white; -fx-font-size:18px"/>
+                      <TextFlow>
+                        <Text text="• Use " style="-fx-fill: white; -fx-font-size:14px"/>
+                        <Text text="list" style="-fx-fill: white; -fx-font-size:14px; -fx-font-family: 'DejaVu Sans';"/>
+                        <Text text=" or " style="-fx-fill: white; -fx-font-size:14px"/>
+                        <Text text="find" style="-fx-fill: white; -fx-font-size:14px; -fx-font-family: 'DejaVu Sans';"/>
+                        <Text text=" commands first to verify the indexes before deleting." style="-fx-fill: white; -fx-font-size:14px"/>
+                      </TextFlow>
+                      <TextFlow>
+                        <Text text="• Deleted contacts can be recovered using undo." style="-fx-fill: white; -fx-font-size:14px"/>
+                      </TextFlow>
+                    </VBox>
+                  </HBox>
+
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Examples: " style="-fx-fill: white; -fx-font-weight: bold;" wrappingWidth="200"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="list" styleClass="code-block"/>
+                    <Text text=" followed by " style="-fx-fill: white;"/>
+                    <Text text="delete 2" styleClass="code-block"/>
+                    <Text text=" deletes the 2nd person in the address book." style="-fx-fill: white;"/>
+                  </TextFlow>
+                  <TextFlow styleClass="paragraph">
+                    <Text text="• " style="-fx-fill: white;"/>
+                    <Text text="find Betsy" styleClass="code-block"/>
+                    <Text text=" followed by " style="-fx-fill: white;"/>
+                    <Text text="delete 1 3" styleClass="code-block"/>
+                    <Text text=" deletes the 1st and 3rd persons in the results of the " style="-fx-fill: white;"/>
+                    <Text text="find" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
+                    <Text text=" command." style="-fx-fill: white;"/>
+                  </TextFlow>
+                </VBox>
+              </VBox>
+
+              <VBox styleClass="paragraph-container" spacing="20">
+                <!-- Clear Command -->
+                <VBox spacing="10">
+                  <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
+                    <Text text="clear" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 30px"/>
+                  </TextFlow>
+
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Syntax: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text="clear" styleClass="code-block"/>
+                  </TextFlow>
+
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Description: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text="Clears all entries from the address book." style="-fx-fill: white;"/>
+                  </TextFlow>
+
+                  <!-- Warning Note for Clear -->
+                  <HBox spacing="10" alignment="TOP_LEFT" styleClass="note-box" style="-fx-background-color: #5a2e2e;">
+                    <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
+                      <Image url="@/images/icons8-warning.png"/>
+                    </ImageView>
+                    <VBox alignment="TOP_LEFT" spacing="5">
+                      <Text text="Warning:" style="-fx-font-weight: bold; -fx-fill: white; -fx-font-size:18px"/>
+                      <TextFlow>
+                        <Text text="• This action cannot be undone. All contacts will be permanently deleted." style="-fx-fill: white; -fx-font-size:14px"/>
+                      </TextFlow>
+                    </VBox>
+                  </HBox>
+                </VBox>
+              </VBox>
+
+              <VBox styleClass="paragraph-container" spacing="20">
+              <!-- Exit Command -->
+                <VBox spacing="10">
+                  <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
+                    <Text text="exit" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 30px"/>
+                  </TextFlow>
+
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Syntax: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text="exit" styleClass="code-block"/>
+                  </TextFlow>
+
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Description: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text="Exits the program." style="-fx-fill: white;"/>
+                  </TextFlow>
+                </VBox>
+              </VBox>
+
+              <VBox styleClass="paragraph-container" spacing="20">
+              <!-- Help Command -->
+                <VBox spacing="10">
+                  <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
+                    <Text text="help" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 30px"/>
+                  </TextFlow>
+
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Syntax: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text="help" styleClass="code-block"/>
+                  </TextFlow>
+
+                  <TextFlow styleClass="paragraph">
+                    <Text text="Description: " style="-fx-fill: white; -fx-font-weight: bold;"/>
+                    <Text text="Opens the help page, which is where you are now." style="-fx-fill: white;"/>
+                  </TextFlow>
+
+                  <!-- Help Shortcut Note -->
+                  <HBox spacing="10" alignment="TOP_LEFT" styleClass="note-box">
+                    <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
+                      <Image url="@/images/icons8-lightbulb.png"/>
+                    </ImageView>
+                    <VBox alignment="TOP_LEFT" spacing="5">
+                      <Text text="Shortcut:" style="-fx-font-weight: bold; -fx-fill: white; -fx-font-size:18px"/>
+                      <TextFlow>
+                        <Text text="• Press " style="-fx-fill: white; -fx-font-size:14px"/>
+                        <Text text="F1" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size:14px; -fx-font-family: 'DejaVu Sans';"/>
+                        <Text text=" to quickly access help documents within the application." style="-fx-fill: white; -fx-font-size:14px"/>
+                      </TextFlow>
+                    </VBox>
+                  </HBox>
+                </VBox>
+              </VBox>
+            </VBox>
+
+          </VBox>
+        </ScrollPane>
+      </VBox>
     </Scene>
   </scene>
 </fx:root>
