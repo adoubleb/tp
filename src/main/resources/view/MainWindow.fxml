@@ -44,22 +44,8 @@
             </Label>
           </VBox>
 
-          <!-- Menu Items-->
+          <!-- help Button -->
           <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
-            <Menu mnemonicParsing="false">
-              <graphic>
-                <ImageView fx:id="closeIcon" fitWidth="24" fitHeight="24" styleClass="menu-icon">
-                  <Image url="@/images/icons8-close-24.png"/>
-                </ImageView>
-              </graphic>
-              <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit">
-                <graphic>
-                  <ImageView fx:id="closeItemIcon" fitWidth="24" fitHeight="24" styleClass="menu-icon">
-                    <Image url="@/images/icons8-close-24.png"/>
-                  </ImageView>
-                </graphic>
-              </MenuItem>
-            </Menu>
             <Menu mnemonicParsing="false">
               <graphic>
                 <ImageView fx:id="helpIcon" fitWidth="24" fitHeight="24" styleClass="menu-icon">
