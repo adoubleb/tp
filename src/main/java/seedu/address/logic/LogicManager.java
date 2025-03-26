@@ -52,24 +52,13 @@ public class LogicManager implements Logic {
     @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
+        CommandResult commandResult;
 
         if (isPendingConfirmation) {
-            boolean isConfirmed = addressBookParser.parseConfirmation(commandText);
-            CommandResult result;
-            if (isConfirmed) {
-                result = pendingConfirmation.executeConfirmed(model);
-                if (pendingConfirmation instanceof UndoableCommand) {
-                    CommandTracker.getInstance().push((UndoableCommand) pendingConfirmation);
-                }
-            } else {
-                result = pendingConfirmation.executeAborted();
-            }
-            pendingConfirmation = null;
-            isPendingConfirmation = false;
-            return result;
+            commandResult = executeConfirmation(commandText);
+            saveState(commandText);
+            return commandResult;
         }
-
-        CommandResult commandResult;
         Command command = addressBookParser.parseCommand(commandText);
         commandResult = command.execute(model);
 
@@ -78,6 +67,12 @@ public class LogicManager implements Logic {
             isPendingConfirmation = true;
         }
 
+        saveState(commandText);
+
+        return commandResult;
+    }
+
+    private void saveState(String commandText) throws CommandException {
         try {
             storage.saveAddressBook(model.getAddressBook());
 
@@ -88,8 +83,28 @@ public class LogicManager implements Logic {
         } catch (IOException ioe) {
             throw new CommandException(String.format(FILE_OPS_ERROR_FORMAT, ioe.getMessage()), ioe);
         }
+    }
 
-        return commandResult;
+    /**
+     * Executes the confirmation logic for a pending command based on the user's input.
+     * If the input confirms the pending command, it executes the command,
+     * potentially tracking it for undo purposes if it is undoable.
+     * If the input denies the pending command, the command's abort behavior is executed.
+     */
+    public CommandResult executeConfirmation(String commandText) throws ParseException, CommandException {
+        boolean isConfirmed = addressBookParser.parseConfirmation(commandText);
+        CommandResult result;
+        if (isConfirmed) {
+            result = pendingConfirmation.executeConfirmed(model);
+            if (pendingConfirmation instanceof UndoableCommand) {
+                CommandTracker.getInstance().push((UndoableCommand) pendingConfirmation);
+            }
+        } else {
+            result = pendingConfirmation.executeAborted();
+        }
+        pendingConfirmation = null;
+        isPendingConfirmation = false;
+        return result;
     }
 
     @Override
