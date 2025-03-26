@@ -25,12 +25,16 @@
         </VBox>
 
         <ScrollPane fx:id="scrollPane" styleClass="scroll-pane">
-
+          <!-- Help Content -->
           <VBox fx:id="helpContent" styleClass="help-content">
+
+            <!-- Opening Header -->
             <VBox alignment="TOP_CENTER" style="-fx-padding: 80px 0px;">
               <Text text="Hey! How can we help?" styleClass="big-header"/>
               <Text text="If you're new, let's help you get set up!" styleClass="sub-header"/>
             </VBox>
+
+            <!-- Quick Start Block -->
             <VBox styleClass="section">
               <Label text="Quick Start" styleClass="section-header"/>
               <VBox styleClass="paragraph-container">
@@ -58,16 +62,19 @@
               </VBox>
             </VBox>
 
+            <!-- Commands -->
             <VBox styleClass="section" spacing="5">
               <Label text="Commands" styleClass="section-header"/>
 
-              <!-- Command Format Notes Box -->
+              <!-- Command Format Notes Block -->
               <HBox spacing="10" alignment="TOP_LEFT" styleClass="paragraph-container" style="-fx-padding: 15px;">
+
                 <!-- Info Icon -->
                 <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
                   <Image url="@/images/icons8-info-24.png"/>
                 </ImageView>
-                <!-- Note Content -->
+
+                <!-- Format of Commands Block -->
                 <VBox alignment="TOP_LEFT" spacing="8">
                   <Text text="Notes about command format: " style="-fx-font-weight: bold; -fx-fill: white; -fx-font-size:18px"/>
                   <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
@@ -133,6 +140,7 @@
                 </VBox>
               </HBox>
 
+              <!-- add Command -->
               <VBox styleClass="paragraph-container">
                 <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
                   <Text text="add" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 30px"/>
@@ -165,7 +173,7 @@
                     <Text text="No consecutive special characters (e.g., --, @@, ..)" style="-fx-fill: white;"/>
                   </TextFlow>
 
-                  <!-- Combined Note/Lightbulb Section -->
+                  <!-- Note Section Block -->
                   <HBox spacing="10" alignment="TOP_LEFT" styleClass="note-box">
                     <!-- Lightbulb Icon -->
                     <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
@@ -196,6 +204,7 @@
                     </VBox>
                   </HBox>
 
+                  <!-- Example Block -->
                   <TextFlow styleClass="paragraph">
                     <Text text="Example: " style="-fx-fill: white; -fx-font-weight: bold;"  wrappingWidth="200"/>
                     <Text text="add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son" styleClass="code-block"/>
@@ -203,6 +212,7 @@
                 </VBox>
               </VBox>
 
+              <!-- list Command -->
               <VBox styleClass="paragraph-container">
                 <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
                   <Text text="list" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 30px"/>
@@ -219,7 +229,7 @@
                     <Text text="Shows a list of all persons in the address book." style="-fx-fill: white;"/>
                   </TextFlow>
 
-                  <!-- Combined Note/Lightbulb Section -->
+                  <!-- Note Section Block -->
                   <HBox spacing="10" alignment="TOP_LEFT" styleClass="note-box">
                     <!-- Lightbulb Icon -->
                     <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
@@ -237,6 +247,7 @@
                     </VBox>
                   </HBox>
 
+                  <!-- Example Block -->
                   <TextFlow styleClass="paragraph">
                     <Text text="Example: " style="-fx-fill: white; -fx-font-weight: bold;" wrappingWidth="200"/>
                     <Text text="list" styleClass="code-block"/>
@@ -244,6 +255,7 @@
                 </VBox>
               </VBox>
 
+              <!-- edit Command -->
               <VBox styleClass="paragraph-container">
                 <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
                   <Text text="edit" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 30px"/>
@@ -287,7 +299,7 @@
                     <Text text=" without specifying any tags after it." style="-fx-fill: white;"/>
                   </TextFlow>
 
-                  <!-- Combined Note/Lightbulb Section -->
+                  <!-- Note Section Block -->
                   <HBox spacing="10" alignment="TOP_LEFT" styleClass="note-box">
                     <!-- Lightbulb Icon -->
                     <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
@@ -302,6 +314,7 @@
                     </VBox>
                   </HBox>
 
+                  <!-- Example Block -->
                   <TextFlow styleClass="paragraph">
                     <Text text="Examples: " style="-fx-fill: white; -fx-font-weight: bold;" wrappingWidth="200"/>
                   </TextFlow>
@@ -318,6 +331,7 @@
                 </VBox>
               </VBox>
 
+              <!-- find Command -->
               <VBox styleClass="paragraph-container">
                 <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
                   <Text text="find" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 30px"/>
@@ -373,7 +387,7 @@
                     <Text text="Bo Yang" style="-fx-fill: white; -fx-font-family: 'DejaVu Sans';"/>
                   </TextFlow>
 
-                  <!-- Combined Note/Lightbulb Section -->
+                  <!-- Note Section Block -->
                   <HBox spacing="10" alignment="TOP_LEFT" styleClass="note-box">
                     <!-- Lightbulb Icon -->
                     <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
@@ -391,6 +405,7 @@
                     </VBox>
                   </HBox>
 
+                  <!-- Example Block -->
                   <TextFlow styleClass="paragraph">
                     <Text text="Examples: " style="-fx-fill: white; -fx-font-weight: bold;" wrappingWidth="200"/>
                   </TextFlow>
@@ -413,6 +428,7 @@
                 </VBox>
               </VBox>
 
+              <!-- find Command -->
               <VBox styleClass="paragraph-container">
                 <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
                   <Text text="delete" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 30px"/>
@@ -452,7 +468,7 @@
                     <Text text=")." style="-fx-fill: white;"/>
                   </TextFlow>
 
-                  <!-- Combined Note/Lightbulb Section -->
+                  <!-- Note Section Block -->
                   <HBox spacing="10" alignment="TOP_LEFT" styleClass="note-box">
                     <!-- Lightbulb Icon -->
                     <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
@@ -474,6 +490,7 @@
                     </VBox>
                   </HBox>
 
+                  <!-- Example Block -->
                   <TextFlow styleClass="paragraph">
                     <Text text="Examples: " style="-fx-fill: white; -fx-font-weight: bold;" wrappingWidth="200"/>
                   </TextFlow>
@@ -496,8 +513,8 @@
                 </VBox>
               </VBox>
 
+              <!-- clear Command -->
               <VBox styleClass="paragraph-container" spacing="20">
-                <!-- Clear Command -->
                 <VBox spacing="10">
                   <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
                     <Text text="clear" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 30px"/>
@@ -513,7 +530,7 @@
                     <Text text="Clears all entries from the address book." style="-fx-fill: white;"/>
                   </TextFlow>
 
-                  <!-- Warning Note for Clear -->
+                  <!-- Warning Block -->
                   <HBox spacing="10" alignment="TOP_LEFT" styleClass="note-box" style="-fx-background-color: #5a2e2e;">
                     <ImageView fitWidth="30" fitHeight="30" preserveRatio="true">
                       <Image url="@/images/icons8-warning.png"/>
@@ -528,8 +545,8 @@
                 </VBox>
               </VBox>
 
+              <!-- exit Command -->
               <VBox styleClass="paragraph-container" spacing="20">
-              <!-- Exit Command -->
                 <VBox spacing="10">
                   <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
                     <Text text="exit" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 30px"/>
@@ -547,8 +564,8 @@
                 </VBox>
               </VBox>
 
+              <!-- help Command -->
               <VBox styleClass="paragraph-container" spacing="20">
-              <!-- Help Command -->
                 <VBox spacing="10">
                   <TextFlow style="-fx-background-radius: 10px; -fx-padding: 10px 10px 20px 10px; -fx-border-color: transparent transparent grey transparent; -fx-border-width: 0 0 1px 0;">
                     <Text text="help" style="-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 30px"/>
