@@ -25,10 +25,10 @@ public class PersonBuilder {
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
-    private static final String DEFAULT_BIRTHDAY = "01-01-1990";
-    private static final String DEFAULT_RELATIONSHIP = "Mother";
-    private static final String DEFAULT_NICKNAME = "Nicholas";
-    private static final String DEFAULT_NOTES = "Allergic to peanuts";
+    public static final String DEFAULT_BIRTHDAY = "01-01-1990";
+    public static final String DEFAULT_RELATIONSHIP = "Mother";
+    public static final String DEFAULT_NICKNAME = "Nicholas";
+    public static final String DEFAULT_NOTES = "Allergic to peanuts";
 
     private Name name;
     private Phone phone;
@@ -68,6 +68,24 @@ public class PersonBuilder {
         nickname = personToCopy.getNickname();
         notes = personToCopy.getNotes();
         tags = new HashSet<>(personToCopy.getTags());
+    }
+
+    /**
+     * Constructs a {@code PersonBuilder} with an option to include default optional fields.
+     *
+     * @param allOptionalFieldsPresent If true, initializes all optional fields with default values;
+     *                                 otherwise, optional fields remain uninitialized.
+     */
+    public PersonBuilder(boolean allOptionalFieldsPresent) {
+        name = new Name(DEFAULT_NAME);
+        phone = new Phone(DEFAULT_PHONE);
+        email = new Email(DEFAULT_EMAIL);
+        address = new Address(DEFAULT_ADDRESS);
+        birthday = Optional.of(new Birthday(DEFAULT_BIRTHDAY));
+        relationship = Optional.of(new Relationship(DEFAULT_RELATIONSHIP));
+        nickname = Optional.of(new Nickname(DEFAULT_NICKNAME));
+        notes = Optional.of(new Notes(DEFAULT_NOTES));
+        tags = new HashSet<>();
     }
 
     /**

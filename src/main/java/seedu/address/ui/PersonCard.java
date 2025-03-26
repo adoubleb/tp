@@ -67,7 +67,9 @@ public class PersonCard extends UiPart<Region> {
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
         relationship.setText(person.getRelationship()
-                .map(Relationship::getRelationshipString).orElse("No relationship specified"));
+                .map(Relationship::getRelationshipString)
+                .filter(str -> !str.isEmpty())
+                .orElse("No relationship specified"));
 
         setTextOrHide(birthday, person.getBirthday(), b -> ((Birthday) b).getBirthdayStringFormatted());
         setTextOrHide(notes, person.getNotes(), Object::toString);
