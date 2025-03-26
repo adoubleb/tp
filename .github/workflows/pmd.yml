@@ -20,3 +20,4 @@ jobs:
       with:
         rulesets: category/java/design.xml, category/java/bestpractices.xml # Or your custom ruleset
         failOnViolation: true # Fail the build if PMD finds violations
+        artifactName: pmd_results
