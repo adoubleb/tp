@@ -55,14 +55,18 @@ public class LogicManager implements Logic {
 
         if (isPendingConfirmation) {
             boolean isConfirmed = addressBookParser.parseConfirmation(commandText);
+            logger.info("Confirmation Status: " + ((isConfirmed) ? "Confirmed" : "Aborted"));
             CommandResult result;
             if (isConfirmed) {
                 result = pendingConfirmation.executeConfirmed(model);
+                logger.info("Executed confirmed command: " + pendingConfirmation);
                 if (pendingConfirmation instanceof UndoableCommand) {
+                    logger.info("Save UndoableCommand: " + pendingConfirmation);
                     CommandTracker.getInstance().push((UndoableCommand) pendingConfirmation);
                 }
             } else {
                 result = pendingConfirmation.executeAborted();
+                logger.info("Aborted command: " + pendingConfirmation);
             }
             pendingConfirmation = null;
             isPendingConfirmation = false;
@@ -71,21 +75,28 @@ public class LogicManager implements Logic {
 
         CommandResult commandResult;
         Command command = addressBookParser.parseCommand(commandText);
+        logger.info("Parsed command: " + command.getClass().getSimpleName());
+
         commandResult = command.execute(model);
+        logger.info("Executed command: " + commandResult.getFeedbackToUser());
+
 
         if (commandResult.isToBeConfirmed()) {
             pendingConfirmation = commandResult.getToBeConfirmed();
             isPendingConfirmation = true;
+            logger.info("Command requires confirmation: " + pendingConfirmation);
         }
 
         try {
             storage.saveAddressBook(model.getAddressBook());
-
             model.addToCommandHistory(commandText);
             storage.saveCommandHistory(model.getCommandHistory());
+            logger.info("Data saved successfully.");
         } catch (AccessDeniedException e) {
+            logger.severe("Permission error saving data: " + e.getMessage());
             throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
         } catch (IOException ioe) {
+            logger.severe("IO error saving data: " + ioe.getMessage());
             throw new CommandException(String.format(FILE_OPS_ERROR_FORMAT, ioe.getMessage()), ioe);
         }
 
