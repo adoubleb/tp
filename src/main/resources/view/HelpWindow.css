@@ -1,19 +1,155 @@
-#copyButton, #helpMessage {
+.root-container {
+    -fx-background-color: #0d1117;
+    -fx-spacing: 10px;
+}
+
+.header-container {
+    -fx-spacing: 5px;
+    -fx-padding: 0px 10px;
+}
+
+.title-container {
+    -fx-spacing: 2px;
+    -fx-alignment: bottom-left;
+}
+
+.app-title {
+    -fx-font-family: 'Space Mono';
+    -fx-font-size: 16px;
     -fx-text-fill: white;
 }
 
-#copyButton {
-    -fx-background-color: dimgray;
+.version-label {
+    -fx-font-family: 'Space Mono';
+    -fx-font-size: 10px;
+    -fx-text-fill: white;
 }
 
-#copyButton:hover {
-    -fx-background-color: gray;
+.docs-label {
+    -fx-font-family: 'Space Mono';
+    -fx-font-size: 14px;
+    -fx-text-fill: black;
+    -fx-background-color: #ff8709;
+    -fx-padding: 0 3px;
+    -fx-background-radius: 12;
 }
 
-#copyButton:armed {
-    -fx-background-color: darkgray;
+.scroll-pane {
+    -fx-background-color: #131921;
+    -fx-fit-to-width: true;
 }
 
-#helpMessageContainer {
-    -fx-background-color: derive(#1d1d1d, 20%);
+.big-header {
+    -fx-font-size: 35px;
+    -fx-fill: white;
+    -fx-font-family: "Space Mono";
+}
+
+.sub-header {
+    -fx-font-size: 16px;
+    -fx-fill: white;
+}
+
+.help-content {
+    -fx-background-color: #131921;
+    -fx-padding: 10px;
+    -fx-spacing: 15px;
+}
+
+.section {
+    -fx-spacing: 12px;
+    -fx-padding: 12px 0;
+}
+
+.paragraph-container {
+    -fx-spacing: 8px;
+    -fx-padding: 20px;
+    -fx-background-color: #18202a;
+    -fx-background-radius: 12;
+}
+
+.paragraph {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.section-header {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-family: 'Space Mono';
+    -fx-background-color: #5ca6ef;
+    -fx-padding: 3 6;
+    -fx-background-radius: 12;
+}
+
+.feature-name {
+    -fx-font-weight: bold;
+    -fx-fill: white;
+}
+
+.feature-description {
+    -fx-fill: white;
+}
+
+.code-block {
+    -fx-font-family: 'DejaVu Sans';
+    -fx-padding: 5px;
+    -fx-fill: #79b8ff;
+    -fx-border-radius: 3px;
+    -fx-font-size: 16px;
+}
+
+.code-inline {
+    -fx-font-family: 'DejaVu Sans';
+    -fx-padding: 5px;
+    -fx-fill: #79b8ff;
+    -fx-font-size: 16px;
+}
+
+.hyperlink {
+    -fx-fill: #58a6ff;
+    -fx-underline: true;
+    -fx-cursor: hand;
+}
+
+.hyperlink:hover {
+    -fx-fill: #79b8ff;
+}
+
+.note-box {
+    -fx-background-color: #57657c;
+    -fx-padding: 10px;
+    -fx-background-radius: 5px;
+}
+
+.note-box Text {
+    -fx-font-size: 12px;
+}
+
+
+.scroll-bar {
+    -fx-background-color: #0d1117;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #383838;
+    -fx-background-insets: 3;
+}
+
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 0;
+}
+
+.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+}
+
+.scroll-bar:vertical .increment-arrow, .scroll-bar:vertical .decrement-arrow {
+    -fx-padding: 1 8 1 8;
+}
+
+.scroll-bar:horizontal .increment-arrow, .scroll-bar:horizontal .decrement-arrow {
+    -fx-padding: 8 1 8 1;
 }

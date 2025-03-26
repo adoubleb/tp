@@ -15,4 +15,5 @@ public class CliSyntax {
     public static final Prefix PREFIX_RELATIONSHIP = new Prefix("r/");
     public static final Prefix PREFIX_NICKNAME = new Prefix("nn/");
     public static final Prefix PREFIX_NOTES = new Prefix("no/");
+    public static final Prefix PREFIX_SORT = new Prefix("s/");
 }
