@@ -46,6 +46,8 @@ public class DeleteCommand extends UndoableCommand implements ConfirmableCommand
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        logger.info("Get confirmation to delete: " + targetIndices.stream()
+                .map(Index::getOneBased).toList());
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
@@ -114,7 +116,9 @@ public class DeleteCommand extends UndoableCommand implements ConfirmableCommand
      * from the model.
      */
     public CommandResult executeConfirmed(Model model) throws CommandException {
-        logger.info("Execute Confirmed Deletion for: " + personsToDelete.stream());
+        logger.info("Execute Confirmed Deletion for: " + targetIndices.stream()
+                .map(Index::getOneBased).toList());
+
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
@@ -128,6 +132,8 @@ public class DeleteCommand extends UndoableCommand implements ConfirmableCommand
                 .map(targetIndex -> lastShownList.get(targetIndex.getZeroBased()))
                 .toList();
 
+        assert !personsToDelete.isEmpty();
+
         for (Person personToDelete : personsToDelete) {
             model.deletePerson(personToDelete);
         }
@@ -138,7 +144,11 @@ public class DeleteCommand extends UndoableCommand implements ConfirmableCommand
                         .collect(Collectors.joining(","))));
     }
 
+    /**
+     * Handles the process of aborting a delete operation and returns a feedback message to the user.
+     */
     public CommandResult executeAborted() {
+        logger.info("Execute Aborted Deletion");
         return new CommandResult(MESSAGE_ABORTED);
     }
 }
