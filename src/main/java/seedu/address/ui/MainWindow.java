@@ -62,10 +62,10 @@ public class MainWindow extends UiPart<Stage> {
 
         // Configure the UI
         setWindowDefaultSize(logic.getGuiSettings());
-
         setAccelerators();
 
-        helpWindow = new HelpWindow();
+        // Pass `this` (MainWindow) to HelpWindow
+        helpWindow = new HelpWindow(logic.getGuiSettings());
     }
 
     public Stage getPrimaryStage() {
