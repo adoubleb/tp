@@ -11,7 +11,7 @@
 <fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
          title="who-are-you-again? docs" minWidth="500" minHeight="600">
   <icons>
-    <Image url="@/images/help_icon.png" />
+    <Image url="@/images/icons8-info-32.png" />
   </icons>
   <scene>
     <Scene stylesheets="@HelpWindow.css">
