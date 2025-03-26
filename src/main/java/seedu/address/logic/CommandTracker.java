@@ -95,4 +95,12 @@ public class CommandTracker {
         }
         return null;
     }
+    /**
+     * Clears the undo and redo stacks for test hygiene
+     */
+    public void clear() {
+        undoStack.clear();
+        redoStack.clear();
+        wasUndoCalled = false;
+    }
 }

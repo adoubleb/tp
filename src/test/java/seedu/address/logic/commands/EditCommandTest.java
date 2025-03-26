@@ -1,7 +1,9 @@
 package seedu.address.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
@@ -17,17 +19,22 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.CommandTracker;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.CommandHistory;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Phone;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 
@@ -35,9 +42,11 @@ import seedu.address.testutil.PersonBuilder;
  * Contains integration tests (interaction with the Model) and unit tests for EditCommand.
  */
 public class EditCommandTest {
-
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new CommandHistory());
-
+    @BeforeEach
+    public void resetCommandTracker() {
+        CommandTracker.getInstance().clear();
+    }
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() {
         Person editedPerson = new PersonBuilder().build();
@@ -192,6 +201,87 @@ public class EditCommandTest {
 
         assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
+
+    @Test
+    public void executeUndoRedo_validEditCommand_successfulUndoRedo() throws Exception {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new CommandHistory());
+
+        // Edits the first person's name
+        Person originalPerson = model.getFilteredPersonList().get(0);
+        Name newName = new Name("Edited Name");
+        EditCommand.EditPersonDescriptor descriptor = new EditCommand.EditPersonDescriptor();
+        descriptor.setName(newName);
+        EditCommand editCommand = new EditCommand(Index.fromZeroBased(0), descriptor);
+
+        editCommand.execute(model);
+
+        // Check the initial name change
+        Person editedPerson = model.getFilteredPersonList().get(0);
+        assertEquals(newName, editedPerson.getName());
+
+        // Undo should bring back the original person
+        UndoableCommand lastCommand = (UndoableCommand) CommandTracker.getInstance().popUndo();
+        lastCommand.undo(model);
+
+        Person undonePerson = model.getFilteredPersonList().get(0);
+        assertEquals(originalPerson, undonePerson);
+
+        // Checks redo functionality
+        UndoableCommand redoCommand = (UndoableCommand) CommandTracker.getInstance().popRedo();
+        redoCommand.redo(model);
+
+        Person redonePerson = model.getFilteredPersonList().get(0);
+        assertEquals(newName, redonePerson.getName());
+    }
+
+    @Test
+    public void multipleEditCommands_undoOrderIsCorrect() throws Exception {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new CommandHistory());
+
+        Person firstPersonOriginal = model.getFilteredPersonList().get(0);
+        Person secondPersonOriginal = model.getFilteredPersonList().get(1);
+
+        EditCommand.EditPersonDescriptor descriptor1 = new EditCommand.EditPersonDescriptor();
+        descriptor1.setName(new Name("Alice Edited"));
+        EditCommand edit1 = new EditCommand(Index.fromZeroBased(0), descriptor1);
+        edit1.execute(model);
+
+        EditCommand.EditPersonDescriptor descriptor2 = new EditCommand.EditPersonDescriptor();
+        descriptor2.setPhone(new Phone("99999999"));
+        EditCommand edit2 = new EditCommand(Index.fromZeroBased(1), descriptor2);
+        edit2.execute(model);
+
+        // Undo edit2
+        UndoableCommand cmd2 = (UndoableCommand) CommandTracker.getInstance().popUndo();
+        cmd2.undo(model);
+
+        // Verify second person is reverted
+        assertEquals(secondPersonOriginal, model.getFilteredPersonList().get(1));
+
+        // Undo edit1
+        UndoableCommand cmd1 = (UndoableCommand) CommandTracker.getInstance().popUndo();
+        cmd1.undo(model);
+
+        // Verify first person is reverted
+        assertEquals(firstPersonOriginal, model.getFilteredPersonList().get(0));
+    }
+
+    @Test
+    public void undoMoreThanExecutedCommands_throwsCommandException() {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new CommandHistory());
+
+        EditCommand.EditPersonDescriptor descriptor = new EditCommand.EditPersonDescriptor();
+        descriptor.setPhone(new Phone("88888888"));
+        EditCommand editCommand = new EditCommand(Index.fromZeroBased(0), descriptor);
+        assertDoesNotThrow(() -> editCommand.execute(model));
+
+        UndoCommand undoCommand = new UndoCommand();
+        assertDoesNotThrow(() -> undoCommand.execute(model));
+
+        UndoCommand secondUndo = new UndoCommand();
+        assertThrows(CommandException.class, () -> secondUndo.execute(model));
+    }
+
 
     @Test
     public void equals() {
