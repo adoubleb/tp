@@ -44,7 +44,7 @@
             </Label>
           </VBox>
 
-          <!-- help Button -->
+          <!-- Help Button -->
           <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
             <Menu mnemonicParsing="false">
               <graphic>
@@ -61,7 +61,6 @@
               </MenuItem>
             </Menu>
           </MenuBar>
-
         </VBox>
 
         <!-- Main Content -->
