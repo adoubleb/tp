@@ -21,10 +21,6 @@ public class ClearCommand extends Command implements ConfirmableCommand {
 
     }
 
-    @Override
-    public String getConfirmationString() {
-        return MESSAGE_CONFIRMATION;
-    }
 
     /**
      * Executes the confirmed version of the clear command by clearing the address book.
