@@ -60,7 +60,7 @@ public class AddressBookParserTest {
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
-        ArrayList<String> toRemoveFields = new ArrayList<>();
+        ArrayList<Prefix> toRemoveFields = new ArrayList<>();
         assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor, toRemoveFields), command);
     }
 

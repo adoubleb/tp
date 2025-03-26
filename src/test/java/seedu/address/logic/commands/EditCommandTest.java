@@ -15,6 +15,10 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NICKNAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -29,6 +33,7 @@ import seedu.address.logic.CommandTracker;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.Prefix;
 import seedu.address.model.AddressBook;
 import seedu.address.model.CommandHistory;
 import seedu.address.model.Model;
@@ -53,7 +58,7 @@ public class EditCommandTest {
     public void execute_allFieldsSpecifiedUnfilteredList_success() {
         Person editedPerson = new PersonBuilder().build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
-        ArrayList<String> toRemoveFields = new ArrayList<>();
+        ArrayList<Prefix> toRemoveFields = new ArrayList<>();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor, toRemoveFields);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
@@ -69,11 +74,11 @@ public class EditCommandTest {
     public void execute_allOptionalFieldsEmpty_success() {
         Person editedPerson = new PersonBuilder(true).build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
-        ArrayList<String> toRemoveFields = new ArrayList<>();
-        toRemoveFields.add("/b");
-        toRemoveFields.add("/nn");
-        toRemoveFields.add("/r");
-        toRemoveFields.add("/no");
+        ArrayList<Prefix> toRemoveFields = new ArrayList<>();
+        toRemoveFields.add(PREFIX_BIRTHDAY);
+        toRemoveFields.add(PREFIX_NICKNAME);
+        toRemoveFields.add(PREFIX_RELATIONSHIP);
+        toRemoveFields.add(PREFIX_NOTES);
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor, toRemoveFields);
         Person editedPersonExpected = new PersonBuilder().build();
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
@@ -97,7 +102,7 @@ public class EditCommandTest {
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_HUSBAND).build();
-        ArrayList<String> toRemoveFields = new ArrayList<>();
+        ArrayList<Prefix> toRemoveFields = new ArrayList<>();
         EditCommand editCommand = new EditCommand(indexLastPerson, descriptor, toRemoveFields);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
@@ -236,7 +241,7 @@ public class EditCommandTest {
         Name newName = new Name("Edited Name");
         EditCommand.EditPersonDescriptor descriptor = new EditCommand.EditPersonDescriptor();
         descriptor.setName(newName);
-        EditCommand editCommand = new EditCommand(Index.fromZeroBased(0), descriptor);
+        EditCommand editCommand = new EditCommand(Index.fromZeroBased(0), descriptor, new ArrayList<>());
 
         editCommand.execute(model);
 
@@ -268,12 +273,12 @@ public class EditCommandTest {
 
         EditCommand.EditPersonDescriptor descriptor1 = new EditCommand.EditPersonDescriptor();
         descriptor1.setName(new Name("Alice Edited"));
-        EditCommand edit1 = new EditCommand(Index.fromZeroBased(0), descriptor1);
+        EditCommand edit1 = new EditCommand(Index.fromZeroBased(0), descriptor1, new ArrayList<>());
         edit1.execute(model);
 
         EditCommand.EditPersonDescriptor descriptor2 = new EditCommand.EditPersonDescriptor();
         descriptor2.setPhone(new Phone("99999999"));
-        EditCommand edit2 = new EditCommand(Index.fromZeroBased(1), descriptor2);
+        EditCommand edit2 = new EditCommand(Index.fromZeroBased(1), descriptor2, new ArrayList<>());
         edit2.execute(model);
 
         // Undo edit2
@@ -297,7 +302,7 @@ public class EditCommandTest {
 
         EditCommand.EditPersonDescriptor descriptor = new EditCommand.EditPersonDescriptor();
         descriptor.setPhone(new Phone("88888888"));
-        EditCommand editCommand = new EditCommand(Index.fromZeroBased(0), descriptor);
+        EditCommand editCommand = new EditCommand(Index.fromZeroBased(0), descriptor, new ArrayList<>());
         assertDoesNotThrow(() -> editCommand.execute(model));
 
         UndoCommand undoCommand = new UndoCommand();

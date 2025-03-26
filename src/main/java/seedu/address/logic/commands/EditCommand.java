@@ -26,6 +26,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.CommandTracker;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.Prefix;
 import seedu.address.model.Model;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthday;
@@ -68,7 +69,7 @@ public class EditCommand extends UndoableCommand {
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
-    private ArrayList<String> toRemoveFields;
+    private ArrayList<Prefix> toRemoveFields;
     private Person personToEdit;
     private Person editedPerson;
 
@@ -76,7 +77,7 @@ public class EditCommand extends UndoableCommand {
      * @param index of the person in the filtered person list to edit
      * @param editPersonDescriptor details to edit the person with
      */
-    public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor, ArrayList<String> toRemoveFields) {
+    public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor, ArrayList<Prefix> toRemoveFields) {
         requireNonNull(index);
         requireNonNull(editPersonDescriptor);
 
@@ -85,7 +86,7 @@ public class EditCommand extends UndoableCommand {
         this.toRemoveFields = toRemoveFields;
     }
 
-    public ArrayList<String> getToRemoveFields() {
+    public ArrayList<Prefix> getToRemoveFields() {
         return toRemoveFields;
     }
 
@@ -127,7 +128,7 @@ public class EditCommand extends UndoableCommand {
      * edited with {@code editPersonDescriptor}.
      */
     private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor,
-                                             ArrayList<String> toRemoveFields) {
+                                             ArrayList<Prefix> toRemoveFields) {
         assert personToEdit != null;
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
@@ -136,22 +137,22 @@ public class EditCommand extends UndoableCommand {
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Optional<Birthday> updatedBirthday = editPersonDescriptor.getBirthday().isPresent()
                 ? editPersonDescriptor.getBirthday() : personToEdit.getBirthday();
-        if (toRemoveFields.contains("b/")) {
+        if (toRemoveFields.contains(PREFIX_BIRTHDAY)) {
             updatedBirthday = Optional.empty();
         }
         Optional<Relationship> updatedRelationship = editPersonDescriptor.getRelationship().isPresent()
                 ? editPersonDescriptor.getRelationship() : personToEdit.getRelationship();
-        if (toRemoveFields.contains("r/")) {
+        if (toRemoveFields.contains(PREFIX_RELATIONSHIP)) {
             updatedRelationship = Optional.empty();
         }
         Optional<Nickname> updatedNickname = editPersonDescriptor.getNickname().isPresent()
                 ? editPersonDescriptor.getNickname() : personToEdit.getNickname();
-        if (toRemoveFields.contains("n/")) {
+        if (toRemoveFields.contains(PREFIX_NICKNAME)) {
             updatedNickname = Optional.empty();
         }
         Optional<Notes> updatedNotes = editPersonDescriptor.getNotes().isPresent()
                 ? editPersonDescriptor.getNotes() : personToEdit.getNotes();
-        if (toRemoveFields.contains("no/")) {
+        if (toRemoveFields.contains(PREFIX_NOTES)) {
             updatedNotes = Optional.empty();
         }
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
@@ -161,6 +162,7 @@ public class EditCommand extends UndoableCommand {
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedBirthday,
                 updatedRelationship, updatedNickname, updatedNotes, updatedTags);
     }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {

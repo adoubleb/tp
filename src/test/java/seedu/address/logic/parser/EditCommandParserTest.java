@@ -129,7 +129,7 @@ public class EditCommandParserTest {
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
-        ArrayList<String> toRemoveFields = new ArrayList<>();
+        ArrayList<Prefix> toRemoveFields = new ArrayList<>();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor, toRemoveFields);
 
         assertParseSuccess(parser, userInput, expectedCommand);
@@ -142,7 +142,7 @@ public class EditCommandParserTest {
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_AMY).build();
-        ArrayList<String> toRemoveFields = new ArrayList<>();
+        ArrayList<Prefix> toRemoveFields = new ArrayList<>();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor, toRemoveFields);
 
         assertParseSuccess(parser, userInput, expectedCommand);
@@ -154,7 +154,7 @@ public class EditCommandParserTest {
         Index targetIndex = INDEX_THIRD_PERSON;
         String userInput = targetIndex.getOneBased() + NAME_DESC_AMY;
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY).build();
-        ArrayList<String> toRemoveFields = new ArrayList<>();
+        ArrayList<Prefix> toRemoveFields = new ArrayList<>();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor, toRemoveFields);
         assertParseSuccess(parser, userInput, expectedCommand);
 
@@ -221,23 +221,25 @@ public class EditCommandParserTest {
         String userInput = targetIndex.getOneBased() + TAG_EMPTY;
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withTags().build();
-        ArrayList<String> toRemoveFields = new ArrayList<>();
+        ArrayList<Prefix> toRemoveFields = new ArrayList<>();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor, toRemoveFields);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
+
     @Test
     public void parse_emptyOptionalFields_success() throws Exception {
         String optionalFields = PREFIX_BIRTHDAY + " " + PREFIX_RELATIONSHIP + " " + PREFIX_NICKNAME + " "
                 + PREFIX_NOTES;
         String userInput = "1 " + optionalFields;
-        EditCommandParser res = new EditCommandParser();
-        EditCommand editCommand = res.parse(userInput);
-        ArrayList<String> toRemoveFields = editCommand.getToRemoveFields();
-        String joinedFields = String.join(", ", toRemoveFields);
+        EditCommand editCommand = parser.parse(userInput);
+
+        String joinedFields = String.join(", ", editCommand.getToRemoveFields().stream()
+                .map(Prefix::toString).toList());
 
         assertEquals("b/, r/, nn/, no/", joinedFields);
     }
+
     @Test
     public void parse_filledOptionalFields_success() throws Exception {
         String birthdayField = PREFIX_BIRTHDAY + " 12-12-2020";
@@ -246,10 +248,11 @@ public class EditCommandParserTest {
         String notesField = PREFIX_NOTES + " My notes";
         String optionalFields = birthdayField + " " + relationshipField + " " + nicknameField + " " + notesField;
         String userInput = "1 " + optionalFields;
-        EditCommandParser res = new EditCommandParser();
-        EditCommand editCommand = res.parse(userInput);
-        ArrayList<String> toRemoveFields = editCommand.getToRemoveFields();
-        String joinedFields = String.join(", ", toRemoveFields);
+        EditCommand editCommand = parser.parse(userInput);
+
+        String joinedFields = String.join(", ", editCommand.getToRemoveFields().stream()
+                .map(Prefix::toString).toList());
+
         assertEquals("", joinedFields);
     }
 }
