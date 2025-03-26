@@ -168,11 +168,14 @@
 
 .cell_relationship_label {
     -fx-text-fill: #0d1117 !important;
-    -fx-background-color: #ff8709;
-    -fx-padding: 1 3 1 3;
-    -fx-border-radius: 2;
-    -fx-background-radius: 2;
-    -fx-font-size: 11;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(to bottom, #ffa733, #ff8709);
+    -fx-padding: 4 8 4 8;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-size: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 2, 0, 0, 1);
 }
 
 .stack-pane {
@@ -379,11 +382,14 @@
 
 #tags .label {
     -fx-text-fill: #0d1117;
-    -fx-background-color: #35e118;
-    -fx-padding: 1 3 1 3;
-    -fx-border-radius: 2;
-    -fx-background-radius: 2;
+    -fx-font-family: "Segoe UI";
+    -fx-font-weight: normal;
+    -fx-background-color: linear-gradient(to bottom, #50f04a, #35e118);;
+    -fx-padding: 4 8 4 8;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
     -fx-font-size: 11;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 1.5, 0, 0, 0.5);
 }
 
 .menu-icon {
@@ -393,4 +399,23 @@
 .menu-icon:hover {
     -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.2), 5, 0, 0, 0);
     -fx-opacity: 0.8;
+}
+
+.index_circle {
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 13px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+
+    -fx-background-color: linear-gradient(to bottom, #1b2330, #131921);
+    -fx-alignment: center;
+
+    -fx-padding: 6 10 6 10;
+
+    -fx-background-radius: 100;
+    -fx-border-radius: 100;
+
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 2, 0.1, 0, 1);
+    -fx-border-width: 1.5;
+    -fx-border-color: #2d3b4a;
 }
