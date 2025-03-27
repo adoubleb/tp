@@ -55,6 +55,7 @@ public class LogicManager implements Logic {
         CommandResult commandResult;
 
         if (isPendingConfirmation) {
+            logger.info("Executing pending confirmation branch");
             commandResult = executeConfirmation(commandText);
             saveState(commandText);
             return commandResult;
