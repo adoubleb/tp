@@ -52,34 +52,19 @@ public class LogicManager implements Logic {
     @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
+        CommandResult commandResult;
 
         if (isPendingConfirmation) {
-            boolean isConfirmed = addressBookParser.parseConfirmation(commandText);
-            logger.info("Confirmation Status: " + ((isConfirmed) ? "Confirmed" : "Aborted"));
-            CommandResult result;
-            if (isConfirmed) {
-                result = pendingConfirmation.executeConfirmed(model);
-                logger.info("Executed confirmed command: " + pendingConfirmation);
-                if (pendingConfirmation instanceof UndoableCommand) {
-                    logger.info("Save UndoableCommand: " + pendingConfirmation);
-                    CommandTracker.getInstance().push((UndoableCommand) pendingConfirmation);
-                }
-            } else {
-                result = pendingConfirmation.executeAborted();
-                logger.info("Aborted command: " + pendingConfirmation);
-            }
-            pendingConfirmation = null;
-            isPendingConfirmation = false;
-            return result;
+            commandResult = executeConfirmation(commandText);
+            saveState(commandText);
+            return commandResult;
         }
 
-        CommandResult commandResult;
         Command command = addressBookParser.parseCommand(commandText);
         logger.info("Parsed command: " + command.getClass().getSimpleName());
 
         commandResult = command.execute(model);
         logger.info("Executed command: " + commandResult.getFeedbackToUser());
-
 
         if (commandResult.isToBeConfirmed()) {
             pendingConfirmation = commandResult.getToBeConfirmed();
@@ -87,6 +72,12 @@ public class LogicManager implements Logic {
             logger.info("Command requires confirmation: " + pendingConfirmation);
         }
 
+        saveState(commandText);
+
+        return commandResult;
+    }
+
+    private void saveState(String commandText) throws CommandException {
         try {
             storage.saveAddressBook(model.getAddressBook());
             model.addToCommandHistory(commandText);
@@ -99,8 +90,31 @@ public class LogicManager implements Logic {
             logger.severe("IO error saving data: " + ioe.getMessage());
             throw new CommandException(String.format(FILE_OPS_ERROR_FORMAT, ioe.getMessage()), ioe);
         }
+    }
 
-        return commandResult;
+    /**
+     * Executes the confirmation logic for a pending command based on the user's input.
+     * If the input confirms the pending command, it executes the command,
+     * potentially tracking it for undo purposes if it is undoable.
+     * If the input denies the pending command, the command's abort behavior is executed.
+     */
+    public CommandResult executeConfirmation(String commandText) throws ParseException, CommandException {
+        boolean isConfirmed = addressBookParser.parseConfirmation(commandText);
+        logger.info("Confirmation Status: " + ((isConfirmed) ? "Confirmed" : "Aborted"));
+        CommandResult result;
+        if (isConfirmed) {
+            result = pendingConfirmation.executeConfirmed(model);
+            logger.info("Executed confirmed command: " + pendingConfirmation);
+            if (pendingConfirmation instanceof UndoableCommand) {
+                CommandTracker.getInstance().push((UndoableCommand) pendingConfirmation);
+            }
+        } else {
+            logger.info("Aborted command: " + pendingConfirmation);
+            result = pendingConfirmation.executeAborted();
+        }
+        pendingConfirmation = null;
+        isPendingConfirmation = false;
+        return result;
     }
 
     @Override

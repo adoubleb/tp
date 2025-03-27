@@ -12,6 +12,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -40,7 +41,7 @@ public class EditCommandParser implements Parser<EditCommand> {
                         PREFIX_BIRTHDAY, PREFIX_RELATIONSHIP, PREFIX_NICKNAME, PREFIX_NOTES, PREFIX_TAG);
 
         Index index;
-
+        ArrayList<Prefix> toRemoveFields = new ArrayList<>();
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
         } catch (ParseException pe) {
@@ -65,25 +66,33 @@ public class EditCommandParser implements Parser<EditCommand> {
             editPersonDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
         }
         if (argMultimap.getValue(PREFIX_BIRTHDAY).isPresent()) {
-            editPersonDescriptor.setBirthday(ParserUtil.parseBirthday(argMultimap.getValue(PREFIX_BIRTHDAY)));
+            if (!toRemove(argMultimap, toRemoveFields, PREFIX_BIRTHDAY)) {
+                editPersonDescriptor.setBirthday(ParserUtil.parseBirthday(argMultimap.getValue(PREFIX_BIRTHDAY)));
+            }
         }
         if (argMultimap.getValue(PREFIX_RELATIONSHIP).isPresent()) {
-            editPersonDescriptor.setRelationship(ParserUtil
-                    .parseRelationship(argMultimap.getValue(PREFIX_RELATIONSHIP)));
+            if (!toRemove(argMultimap, toRemoveFields, PREFIX_RELATIONSHIP)) {
+                editPersonDescriptor.setRelationship(ParserUtil
+                        .parseRelationship(argMultimap.getValue(PREFIX_RELATIONSHIP)));
+            }
         }
         if (argMultimap.getValue(PREFIX_NICKNAME).isPresent()) {
-            editPersonDescriptor.setNickname(ParserUtil.parseNickname(argMultimap.getValue(PREFIX_NICKNAME)));
+            if (!toRemove(argMultimap, toRemoveFields, PREFIX_NICKNAME)) {
+                editPersonDescriptor.setNickname(ParserUtil.parseNickname(argMultimap.getValue(PREFIX_NICKNAME)));
+            }
         }
         if (argMultimap.getValue(PREFIX_NOTES).isPresent()) {
-            editPersonDescriptor.setNotes(ParserUtil.parseNotes(argMultimap.getValue(PREFIX_NOTES)));
+            if (!toRemove(argMultimap, toRemoveFields, PREFIX_NOTES)) {
+                editPersonDescriptor.setNotes(ParserUtil.parseNotes(argMultimap.getValue(PREFIX_NOTES)));
+            }
         }
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
 
-        if (!editPersonDescriptor.isAnyFieldEdited()) {
+        if (!editPersonDescriptor.isAnyFieldEdited() && toRemoveFields.isEmpty()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
 
-        return new EditCommand(index, editPersonDescriptor);
+        return new EditCommand(index, editPersonDescriptor, toRemoveFields);
     }
 
     /**
@@ -99,6 +108,17 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
         Collection<String> tagSet = tags.size() == 1 && tags.contains("") ? Collections.emptySet() : tags;
         return Optional.of(ParserUtil.parseTags(tagSet));
+    }
+
+    private boolean toRemove(ArgumentMultimap argMultimap,
+                          ArrayList<Prefix> toRemoveFields, Prefix prefix) {
+        assert argMultimap.getValue(prefix).isPresent();
+        String inputStr = argMultimap.getValue(prefix).get();
+        if (inputStr.equals("")) {
+            toRemoveFields.add(prefix);
+            return true;
+        }
+        return false;
     }
 
 }
