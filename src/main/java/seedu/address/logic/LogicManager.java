@@ -106,6 +106,7 @@ public class LogicManager implements Logic {
             result = pendingConfirmation.executeConfirmed(model);
             logger.info("Executed confirmed command: " + pendingConfirmation);
             if (pendingConfirmation instanceof UndoableCommand) {
+                logger.info("Save UndoableCommand: " + pendingConfirmation);
                 CommandTracker.getInstance().push((UndoableCommand) pendingConfirmation);
             }
         } else {
