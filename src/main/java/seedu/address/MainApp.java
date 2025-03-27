@@ -61,16 +61,22 @@ public class MainApp extends Application {
 
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
+        logger.info("User preferences loaded: " + userPrefs);
+
         AddressBookStorage addressBookStorage = new JsonAddressBookStorage(userPrefs.getAddressBookFilePath());
         CommandHistoryStorage commandHistoryStorage =
                 new JsonCommandHistoryStorage(userPrefs.getCommandHistoryFilePath());
         storage = new StorageManager(addressBookStorage, userPrefsStorage, commandHistoryStorage);
+        logger.info("StorageManager initialised.");
 
         model = initModelManager(storage, userPrefs);
+        logger.info("ModelManager initialised.");
 
         logic = new LogicManager(model, storage);
+        logger.info("LogicManager initialised.");
 
         ui = new UiManager(logic);
+        logger.info("UiManager initialised.");
     }
 
     /**
