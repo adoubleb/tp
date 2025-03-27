@@ -87,6 +87,9 @@ public class EditCommand extends UndoableCommand {
     }
 
     public ArrayList<Prefix> getToRemoveFields() {
+        if (toRemoveFields == null) {
+            throw new AssertionError("toRemoveField is null");
+        }
         return toRemoveFields;
     }
 
@@ -130,34 +133,37 @@ public class EditCommand extends UndoableCommand {
     private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor,
                                              ArrayList<Prefix> toRemoveFields) {
         assert personToEdit != null;
+        assert editPersonDescriptor != null;
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
+
         Optional<Birthday> updatedBirthday = editPersonDescriptor.getBirthday().isPresent()
                 ? editPersonDescriptor.getBirthday() : personToEdit.getBirthday();
         if (toRemoveFields.contains(PREFIX_BIRTHDAY)) {
             updatedBirthday = Optional.empty();
         }
+
         Optional<Relationship> updatedRelationship = editPersonDescriptor.getRelationship().isPresent()
                 ? editPersonDescriptor.getRelationship() : personToEdit.getRelationship();
         if (toRemoveFields.contains(PREFIX_RELATIONSHIP)) {
             updatedRelationship = Optional.empty();
         }
+
         Optional<Nickname> updatedNickname = editPersonDescriptor.getNickname().isPresent()
                 ? editPersonDescriptor.getNickname() : personToEdit.getNickname();
         if (toRemoveFields.contains(PREFIX_NICKNAME)) {
             updatedNickname = Optional.empty();
         }
+
         Optional<Notes> updatedNotes = editPersonDescriptor.getNotes().isPresent()
                 ? editPersonDescriptor.getNotes() : personToEdit.getNotes();
         if (toRemoveFields.contains(PREFIX_NOTES)) {
             updatedNotes = Optional.empty();
         }
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
-
-
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedBirthday,
                 updatedRelationship, updatedNickname, updatedNotes, updatedTags);
