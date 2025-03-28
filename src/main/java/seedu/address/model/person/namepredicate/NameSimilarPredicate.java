@@ -14,11 +14,7 @@ import seedu.address.model.person.Person;
  *
  * The predicate converts both the person's name and the keywords to lowercase, splits the name into words,
  * and checks each keyword against the name's words. If any keyword matches a name word with a similarity
- * score above the threshold (default set to 0.7), the predicate evaluates to true.
- *
- * This class is immutable and ensures equality checks are based on the list of keywords.
- *
- * Implements {@link Predicate} with a type parameter of {@link Person}.
+ * score above the threshold (default set to 0.6), the predicate evaluates to true.
  */
 public class NameSimilarPredicate implements Predicate<Person> {
     private static double threshold = 0.6;
