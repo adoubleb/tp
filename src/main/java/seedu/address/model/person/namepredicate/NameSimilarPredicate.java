@@ -1,8 +1,6 @@
 package seedu.address.model.person.namepredicate;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -36,37 +34,12 @@ public class NameSimilarPredicate implements Predicate<Person> {
         for (String keyword : keywords) {
             String keywordLowerCase = keyword.toLowerCase();
             for (String word : nameWords) {
-                if (!findSimilarWordsAboveThreshold(new String[]{word}, keywordLowerCase, 0.6).isEmpty()) {
+                if (StringUtil.calculateSimilarity(word, keywordLowerCase) >= 0.6) {
                     return true;
                 }
             }
         }
         return false;
-    }
-
-    private static List<String> findSimilarWordsAboveThreshold(String[] words, String targetWord, double threshold) {
-        // Validate input
-        if (words == null || words.length == 0 || targetWord == null) {
-            return Collections.emptyList();
-        }
-
-        List<String> similarWords = new ArrayList<>();
-
-        for (String word : words) {
-            // Calculate Levenshtein Distance
-            int distance = StringUtil.levenshteinDistance(word, targetWord);
-
-            // Calculate similarity score as a ratio:
-            // Similarity = 1 - (distance / maxLength)
-            double maxLength = Math.max(word.length(), targetWord.length());
-            double similarity = 1 - (double) distance / maxLength;
-
-            if (similarity >= threshold) {
-                similarWords.add(word);
-            }
-        }
-
-        return similarWords;
     }
 
 
