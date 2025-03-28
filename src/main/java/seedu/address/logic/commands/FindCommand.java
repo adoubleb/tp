@@ -21,11 +21,15 @@ public class FindCommand extends Command {
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
             + "Example: " + COMMAND_WORD + " alice bob charlie";
 
-    public static final String MESSAGE_NO_MATCH_BUT_SIMILAR = "No match found but found %d similar entries";
+    public static final String MESSAGE_NO_MATCH_BUT_SIMILAR = "No match found, found %d similar entries";
 
     private final NameContainsKeywordsPredicate predicate;
 
+    /**
+     * Constructs a FindCommand that finds all persons whose names contain any of the specified keywords.
+     */
     public FindCommand(NameContainsKeywordsPredicate predicate) {
+        assert predicate != null;
         this.predicate = predicate;
     }
 
