@@ -92,7 +92,7 @@ public class StringUtil {
         // 3. Length Ratio Score (penalizes large length differences)
         double lengthRatioScore = computeLengthRatioScore(a, b);
 
-        // Combine the scores using weighted contributions
+        // Combine the scores
         double similarityIndex = (0.6 * editDistanceScore) + (0.3 * overlapScore) + (0.1 * lengthRatioScore);
 
         return similarityIndex;

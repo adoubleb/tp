@@ -21,6 +21,8 @@ import seedu.address.model.person.Person;
  * Implements {@link Predicate} with a type parameter of {@link Person}.
  */
 public class NameSimilarPredicate implements Predicate<Person> {
+    private static double threshold = 0.6;
+
     private final List<String> keywords;
     public NameSimilarPredicate(List<String> keywords) {
         this.keywords = keywords;
@@ -28,13 +30,14 @@ public class NameSimilarPredicate implements Predicate<Person> {
 
     @Override
     public boolean test(Person person) {
+        assert person != null;
         String fullName = person.getName().fullName.toLowerCase();
         List<String> nameWords = Arrays.asList(fullName.split("\\s+"));
 
         for (String keyword : keywords) {
             String keywordLowerCase = keyword.toLowerCase();
             for (String word : nameWords) {
-                if (StringUtil.calculateSimilarity(word, keywordLowerCase) >= 0.6) {
+                if (StringUtil.calculateSimilarity(word, keywordLowerCase) >= threshold) {
                     return true;
                 }
             }

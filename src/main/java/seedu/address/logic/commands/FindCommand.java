@@ -37,9 +37,10 @@ public class FindCommand extends Command {
             NameSimilarPredicate nameSimilarPredicate = new NameSimilarPredicate(predicate.getKeywords());
             model.updateFilteredPersonList(nameSimilarPredicate);
             return new CommandResult(String.format(MESSAGE_NO_MATCH_BUT_SIMILAR, model.getFilteredPersonList().size()));
+        } else {
+            return new CommandResult(
+                    String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
         }
-        return new CommandResult(
-                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
     }
 
     @Override
