@@ -5,7 +5,8 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.namepredicate.NameContainsKeywordsPredicate;
+import seedu.address.model.person.namepredicate.NameSimilarPredicate;
 
 /**
  * Finds and lists all persons in address book whose name contains any of the argument keywords.
@@ -20,6 +21,8 @@ public class FindCommand extends Command {
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
             + "Example: " + COMMAND_WORD + " alice bob charlie";
 
+    public static final String MESSAGE_NO_MATCH_BUT_SIMILAR = "No match found but found %d similar entries";
+
     private final NameContainsKeywordsPredicate predicate;
 
     public FindCommand(NameContainsKeywordsPredicate predicate) {
@@ -30,6 +33,11 @@ public class FindCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.updateFilteredPersonList(predicate);
+        if (model.getFilteredPersonList().isEmpty()) {
+            NameSimilarPredicate nameSimilarPredicate = new NameSimilarPredicate(predicate.getKeywords());
+            model.updateFilteredPersonList(nameSimilarPredicate);
+            return new CommandResult(String.format(MESSAGE_NO_MATCH_BUT_SIMILAR, model.getFilteredPersonList().size()));
+        }
         return new CommandResult(
                 String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
     }

@@ -65,4 +65,33 @@ public class StringUtil {
             return false;
         }
     }
+
+    /**
+     * Computes the Levenshtein distance (edit distance) between two strings.
+     * The Levenshtein distance measures the minimum number of single-character
+     * edits (insertions, deletions, or substitutions) required to change one string into the other.
+     *
+     * @param a The first string. Cannot be null.
+     * @param b The second string. Cannot be null.
+     * @return The Levenshtein distance between the two strings as an integer.
+     */
+    public static int levenshteinDistance(String a, String b) {
+        int[][] dp = new int[a.length() + 1][b.length() + 1];
+
+        for (int i = 0; i <= a.length(); i++) {
+            for (int j = 0; j <= b.length(); j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                } else if (j == 0) {
+                    dp[i][j] = i;
+                } else {
+                    dp[i][j] = Math.min(dp[i - 1][j - 1] + (a.charAt(i - 1) == b.charAt(j - 1) ? 0 : 1),
+                            Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1));
+                }
+            }
+        }
+        return dp[a.length()][b.length()];
+    }
+
+
 }
