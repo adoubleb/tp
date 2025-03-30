@@ -1,7 +1,6 @@
 package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.AppUtil.checkArgument;
 
 // ATTRIBUTION: this code was adapted from the Tag.java class created by Yijin, Liang,
 // Yong, Tan, Ullas, Rajapakse and Izq.
@@ -12,7 +11,10 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Relationship {
 
-    public static final String MESSAGE_CONSTRAINTS = "Relationships should have alphanumeric characters.";
+    public static final int MAX_LENGTH = 50;
+    public static final String MESSAGE_CONSTRAINTS_LENGTH = "Relationships can be at most " + MAX_LENGTH
+            + " characters long";
+    public static final String MESSAGE_CONSTRAINTS_CHARACTERS = "Relationships should have alphanumeric characters.";
     public static final String VALIDATION_REGEX = "[\\p{Alnum}\\s-]+";
     public final String relationship;
 
@@ -23,7 +25,7 @@ public class Relationship {
      */
     public Relationship(String relationship) {
         requireNonNull(relationship);
-        checkArgument(isValidRelationship(relationship), MESSAGE_CONSTRAINTS);
+        isValidRelationship(relationship);
         this.relationship = relationship;
     }
     public String getRelationshipString() {
@@ -34,7 +36,16 @@ public class Relationship {
      * Returns true if a given string is a valid relationship.
      */
     public static boolean isValidRelationship(String test) {
-        return test.matches(VALIDATION_REGEX);
+        if (test.isEmpty()) {
+            return true;
+        }
+        if (test.length() > MAX_LENGTH) {
+            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_LENGTH);
+        }
+        if (!test.matches(VALIDATION_REGEX)) {
+            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_CHARACTERS);
+        }
+        return true;
     }
 
     @Override

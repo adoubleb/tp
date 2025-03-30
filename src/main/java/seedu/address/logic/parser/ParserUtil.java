@@ -20,6 +20,7 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.Relationship;
 import seedu.address.model.tag.Tag;
 
+
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
  */
@@ -55,8 +56,10 @@ public class ParserUtil {
         }
         String formattedName = formatName(input);
         formattedName = escapeRemover(formattedName);
-        if (!Name.isValidName(formattedName)) {
-            throw new ParseException(Name.MESSAGE_CONSTRAINTS_CHARACTERS);
+        try {
+            Name.isValidName(formattedName);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(e.getMessage());
         }
         return new Name(formattedName);
     }
@@ -223,13 +226,11 @@ public class ParserUtil {
      * @throws ParseException if the given {@code relationship} is invalid.
      */
     public static Optional<Relationship> parseRelationship(Optional<String> relationship) throws ParseException {
-        if (relationship.isEmpty()) {
-            return Optional.empty();
-        }
-        requireNonNull(relationship);
         String trimmedRelationship = relationship.get().trim();
-        if (!Relationship.isValidRelationship(trimmedRelationship)) {
-            throw new ParseException(Relationship.MESSAGE_CONSTRAINTS);
+        try {
+            Relationship.isValidRelationship(trimmedRelationship);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(e.getMessage());
         }
         return Optional.of(new Relationship(trimmedRelationship));
     }
@@ -241,19 +242,30 @@ public class ParserUtil {
      * @throws ParseException if the given {@code tag} is invalid.
      */
     public static Tag parseTag(String tag) throws ParseException {
-        requireNonNull(tag);
         String trimmedTag = tag.trim();
-        if (!Tag.isValidTagName(trimmedTag)) {
-            throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
+        try {
+            Tag.isValidTagName(trimmedTag);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(e.getMessage());
         }
         return new Tag(trimmedTag);
     }
 
     /**
      * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
+     * Limits the number of tags to MAX_TAGS_PER_PERSON.
+     *
+     * @throws ParseException if there are more than MAX_TAGS_PER_PERSON tags or if any tag is invalid.
      */
     public static Set<Tag> parseTags(Collection<String> tags) throws ParseException {
         requireNonNull(tags);
+
+        // Check if the number of tags exceeds the limit
+        if (tags.size() > Tag.MAX_NUM) {
+            throw new ParseException(
+                    String.format("Number of tags cannot exceed %d", Tag.MAX_NUM));
+        }
+
         final Set<Tag> tagSet = new HashSet<>();
         for (String tagName : tags) {
             tagSet.add(parseTag(tagName));

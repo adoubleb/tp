@@ -8,7 +8,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class Name {
 
-    public static final int MAX_LENGTH = 300;
+    public static final int MAX_LENGTH = 200;
     public static final String MESSAGE_CONSTRAINTS_LENGTH = "Names can be at most " + MAX_LENGTH
             + " characters long";
     public static final String MESSAGE_CONSTRAINTS_CHARACTERS =
@@ -38,9 +38,6 @@ public class Name {
      * Returns true if a given string is a valid name.
      */
     public static boolean isValidName(String test) {
-        if (test.isEmpty()) {
-            return true;
-        }
         if (test.length() > MAX_LENGTH) {
             throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_LENGTH);
         }

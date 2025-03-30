@@ -8,7 +8,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class Address {
 
-    public static final int MAX_LENGTH = 300;
+    public static final int MAX_LENGTH = 200;
     public static final String MESSAGE_CONSTRAINTS_LENGTH = "Addresses can be at most " + MAX_LENGTH
             + " characters long";
     public static final String MESSAGE_CONSTRAINTS_CHARACTERS =

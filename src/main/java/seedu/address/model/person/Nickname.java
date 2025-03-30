@@ -7,12 +7,12 @@ import static java.util.Objects.requireNonNull;
  * Guarantees: immutable; is valid as declared in {@link #isValidNickname(String)}
  */
 public class Nickname {
+
+    public static final int MAX_LENGTH = 50;
     public static final String MESSAGE_CONSTRAINTS_LENGTH =
-            "Nicknames should be less than 30 characters long";
+            "Nicknames should be less than " + MAX_LENGTH + " characters long";
     public static final String MESSAGE_CONSTRAINTS_CHARACTERS =
             "Nicknames can only contain printable ASCII characters";
-
-    public static final int MAX_LENGTH = 30;
     public static final String VALIDATION_REGEX = "[^\\s].*";
 
     public final String nickname;

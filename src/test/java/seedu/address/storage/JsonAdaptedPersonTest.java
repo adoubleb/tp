@@ -140,7 +140,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
                         VALID_BIRTHDAY, INVALID_RELATIONSHIP, VALID_NICKNAME, VALID_NOTES, VALID_TAGS);
-        String expectedMessage = Relationship.MESSAGE_CONSTRAINTS;
+        String expectedMessage = Relationship.MESSAGE_CONSTRAINTS_CHARACTERS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 
