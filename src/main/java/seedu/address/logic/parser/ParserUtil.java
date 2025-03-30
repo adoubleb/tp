@@ -51,12 +51,12 @@ public class ParserUtil {
         requireNonNull(name);
         String input = name.trim();
         if (!input.matches(INPUT_VALIDATION_REGEX)) {
-            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Name.MESSAGE_CONSTRAINTS_CHARACTERS);
         }
         String formattedName = formatName(input);
         formattedName = escapeRemover(formattedName);
         if (!Name.isValidName(formattedName)) {
-            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Name.MESSAGE_CONSTRAINTS_CHARACTERS);
         }
         return new Name(formattedName);
     }
@@ -101,13 +101,17 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code phone} is invalid.
      */
-    public static Phone parsePhone(String phone) throws ParseException {
-        requireNonNull(phone);
-        String trimmedPhone = phone.trim();
-        if (!Phone.isValidPhone(trimmedPhone)) {
-            throw new ParseException(Phone.MESSAGE_CONSTRAINTS);
+    public static Optional<Phone> parsePhone(Optional<String> phone) throws ParseException {
+        if (phone.isEmpty()) {
+            return Optional.empty();
         }
-        return new Phone(trimmedPhone);
+        String trimmedPhone = phone.get().trim();
+        try {
+            Phone.isValidPhone(trimmedPhone);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(e.getMessage());
+        }
+        return Optional.of(new Phone(trimmedPhone));
     }
 
     /**
@@ -116,13 +120,17 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code address} is invalid.
      */
-    public static Address parseAddress(String address) throws ParseException {
-        requireNonNull(address);
-        String trimmedAddress = address.trim();
-        if (!Address.isValidAddress(trimmedAddress)) {
-            throw new ParseException(Address.MESSAGE_CONSTRAINTS);
+    public static Optional<Address> parseAddress(Optional<String> address) throws ParseException {
+        if (address.isEmpty()) {
+            return Optional.empty();
         }
-        return new Address(trimmedAddress);
+        String trimmedAddress = address.get().trim();
+        try {
+            Address.isValidAddress(trimmedAddress);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(e.getMessage());
+        }
+        return Optional.of(new Address(trimmedAddress));
     }
 
     /**
@@ -195,13 +203,17 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code email} is invalid.
      */
-    public static Email parseEmail(String email) throws ParseException {
-        requireNonNull(email);
-        String trimmedEmail = email.trim();
-        if (!Email.isValidEmail(trimmedEmail)) {
-            throw new ParseException(Email.MESSAGE_CONSTRAINTS);
+    public static Optional<Email> parseEmail(Optional<String> email) throws ParseException {
+        if (email.isEmpty()) {
+            return Optional.empty();
         }
-        return new Email(trimmedEmail);
+        String trimmedEmail = email.get().trim();
+        try {
+            Email.isValidEmail(trimmedEmail);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(e.getMessage());
+        }
+        return Optional.of(new Email(trimmedEmail));
     }
 
     /**

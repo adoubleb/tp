@@ -39,14 +39,11 @@ public class Messages {
      */
     public static String format(Person person) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(person.getName())
-                .append("; Phone: ")
-                .append(person.getPhone())
-                .append("; Email: ")
-                .append(person.getEmail())
-                .append("; Address: ")
-                .append(person.getAddress());
+        builder.append(person.getName());
 
+        appendIfNotEmpty(builder, "Phone", person.getPhoneValue());
+        appendIfNotEmpty(builder, "Email", person.getEmailValue());
+        appendIfNotEmpty(builder, "Address", person.getAddressValue());
         appendIfNotEmpty(builder, "Birthday", person.getBirthdayValue());
         appendIfNotEmpty(builder, "Relationship", person.getRelationshipValue());
         appendIfNotEmpty(builder, "Nickname", person.getNicknameValue());

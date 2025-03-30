@@ -7,12 +7,13 @@ import static java.util.Objects.requireNonNull;
  * Guarantees: immutable; is valid as declared in {@link #isValidNotes(String)}
  */
 public class Notes {
+
+    public static final int MAX_LENGTH = 300;
     public static final String MESSAGE_CONSTRAINTS_LENGTH =
-            "Notes can be at most 100 characters long";
+            "Notes can be at most " + MAX_LENGTH + " characters long";
     public static final String MESSAGE_CONSTRAINTS_CHARACTERS =
             "Notes should only contain printable characters";
     public static final String VALIDATION_REGEX = "[^\\s].*";
-    public static final int MAX_LENGTH = 100;
 
     public final String value;
 

@@ -68,9 +68,9 @@ class JsonAdaptedPerson {
      */
     public JsonAdaptedPerson(Person source) {
         name = source.getName().fullName;
-        phone = source.getPhone().value;
-        email = source.getEmail().value;
-        address = source.getAddress().value;
+        phone = source.getPhone().map(p -> p.value).orElse("");
+        email = source.getEmail().map(e -> e.value).orElse("");
+        address = source.getAddress().map(a -> a.value).orElse("");
         birthday = source.getBirthday().map(b -> b.value).orElse("");
         relationship = source.getRelationship().map(b->b.relationship).orElse("");
         nickname = source.getNickname().map(Nickname::toString).orElse("");
@@ -92,17 +92,14 @@ class JsonAdaptedPerson {
         }
 
         final Name modelName = parseRequiredField(name, Name::new, Name::isValidName,
-                String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()), Name.MESSAGE_CONSTRAINTS);
+                String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()),
+                Name.MESSAGE_CONSTRAINTS_LENGTH);
 
-        final Phone modelPhone = parseRequiredField(phone, Phone::new, Phone::isValidPhone,
-                String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()), Phone.MESSAGE_CONSTRAINTS);
+        final Optional<Phone> modelPhone = parseOptionalField(phone, Phone::new);
 
-        final Email modelEmail = parseRequiredField(email, Email::new, Email::isValidEmail,
-                String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()), Email.MESSAGE_CONSTRAINTS);
+        final Optional<Email> modelEmail = parseOptionalField(email, Email::new);
 
-        final Address modelAddress = parseRequiredField(address, Address::new, Address::isValidAddress,
-                String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                        Address.class.getSimpleName()), Address.MESSAGE_CONSTRAINTS);
+        final Optional<Address> modelAddress = parseOptionalField(address, Address::new);
 
         final Optional<Birthday> modelBirthday = parseOptionalField(birthday, Birthday::new);
         final Optional<Relationship> modelRelationship = parseOptionalField(relationship, Relationship::new);

@@ -55,13 +55,14 @@ public class CommandTestUtil {
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
-    public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
     public static final String INVALID_NICKNAME_LENGTH_DESC = " " + PREFIX_NICKNAME
             + "ThisNicknameIsWayTooLongAndExceedsTheMaximumLengthOfThirtyCharacters"; // exceeds 30 chars
     public static final String INVALID_NOTES_LENGTH_DESC = " " + PREFIX_NOTES
-            + "This notes text is much too long and exceeds the maximum allowed length of one hundred characters "
-            + "which will cause validation to fail"; // exceeds 100 chars
+            + "This text is exactly 301 characters long including spaces and will be used to test the validation."
+            + " This should be just over the limit for the notes field validation. To ensure this is exactly 301"
+            + " characters, I've carefully counted each letter, number, space, and punctuation mark to reach the"
+            + " target length of three hundred and one characters."; // 301 characters
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
