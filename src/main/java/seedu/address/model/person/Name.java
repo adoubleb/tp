@@ -8,7 +8,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class Name {
 
-    public static final int MAX_LENGTH = 200;
+    public static final int MAX_LENGTH = 150;
     public static final String MESSAGE_CONSTRAINTS_LENGTH = "Names can be at most " + MAX_LENGTH
             + " characters long";
     public static final String MESSAGE_CONSTRAINTS_CHARACTERS =
