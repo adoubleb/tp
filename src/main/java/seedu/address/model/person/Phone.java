@@ -31,9 +31,6 @@ public class Phone {
      * Returns true if a given string is a valid phone number.
      */
     public static boolean isValidPhone(String test) {
-        if (test.isEmpty()) {
-            return true;
-        }
         if (test.length() > MAX_LENGTH) {
             throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_LENGTH);
         }

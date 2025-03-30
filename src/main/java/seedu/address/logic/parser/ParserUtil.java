@@ -226,6 +226,9 @@ public class ParserUtil {
      * @throws ParseException if the given {@code relationship} is invalid.
      */
     public static Optional<Relationship> parseRelationship(Optional<String> relationship) throws ParseException {
+        if (relationship.isEmpty()) {
+            return Optional.empty();
+        }
         String trimmedRelationship = relationship.get().trim();
         try {
             Relationship.isValidRelationship(trimmedRelationship);

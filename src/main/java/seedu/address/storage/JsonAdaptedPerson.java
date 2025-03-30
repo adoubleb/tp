@@ -92,15 +92,12 @@ class JsonAdaptedPerson {
         }
 
         final Name modelName = parseRequiredField(name, Name::new, Name::isValidName,
-                String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()),
-                Name.MESSAGE_CONSTRAINTS_LENGTH);
+                String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
 
+        System.out.println(phone);
         final Optional<Phone> modelPhone = parseOptionalField(phone, Phone::new);
-
         final Optional<Email> modelEmail = parseOptionalField(email, Email::new);
-
         final Optional<Address> modelAddress = parseOptionalField(address, Address::new);
-
         final Optional<Birthday> modelBirthday = parseOptionalField(birthday, Birthday::new);
         final Optional<Relationship> modelRelationship = parseOptionalField(relationship, Relationship::new);
         final Optional<Nickname> modelNickname = parseOptionalField(nickname, Nickname::new);
@@ -119,20 +116,26 @@ class JsonAdaptedPerson {
      * @param constructor     A function that constructs the model object from a valid string.
      * @param validator       A predicate that checks the validity of the string.
      * @param missingMessage  The error message to throw if the value is null.
-     * @param invalidMessage  The error message to throw if the value is invalid.
      * @return The constructed model object.
      * @throws IllegalValueException If the value is null or invalid.
      */
     private <T> T parseRequiredField(String value, Function<String, T> constructor,
-                                     Predicate<String> validator, String missingMessage, String invalidMessage)
+                                     Predicate<String> validator, String missingMessage)
             throws IllegalValueException {
         if (value == null) {
             throw new IllegalValueException(missingMessage);
         }
-        if (!validator.test(value)) {
-            throw new IllegalValueException(invalidMessage);
+        try {
+            validator.test(value);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalValueException(e.getMessage());
         }
-        return constructor.apply(value);
+
+        try {
+            return constructor.apply(value);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalValueException(e.getMessage());
+        }
     }
 
     /**

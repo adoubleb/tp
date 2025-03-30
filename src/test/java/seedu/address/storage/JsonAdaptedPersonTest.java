@@ -31,14 +31,19 @@ public class JsonAdaptedPersonTest {
     private static final String INVALID_NICKNAME =
             "This is a very long nickname that exceeds 30 characters";
     private static final String INVALID_NOTES =
-            "This note is intentionally exceeding the maximum allowed length of 100 characters with "
-                    + "unnecessary and redundant information...";
+            "This note is exceeding the maximum allowed length of 300 characters with unnecessary and redundant "
+                    + "information. It contains many details that are not relevant to the contact entry but are just "
+                    + "included to test the validation logic. This test string needs to be exactly 300 characters "
+                    + "long to properly test the boundary conditions.";
     private static final String INVALID_TAG = "#friend";
 
     private static final String VALID_NAME = BENSON.getName().toString();
-    private static final String VALID_PHONE = BENSON.getPhone().toString();
-    private static final String VALID_EMAIL = BENSON.getEmail().toString();
-    private static final String VALID_ADDRESS = BENSON.getAddress().toString();
+    private static final String VALID_PHONE = BENSON.getPhone().map(Phone::toString)
+            .orElse("");
+    private static final String VALID_EMAIL = BENSON.getEmail().map(Email::toString)
+            .orElse("");
+    private static final String VALID_ADDRESS = BENSON.getAddress().map(Address::toString)
+            .orElse("");
     private static final String VALID_BIRTHDAY = BENSON.getBirthday()
             .map(Birthday::toString)
             .orElse("01-01-1990");
@@ -86,14 +91,6 @@ public class JsonAdaptedPersonTest {
     }
 
     @Test
-    public void toModelType_nullPhone_throwsIllegalValueException() {
-        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, null, VALID_EMAIL, VALID_ADDRESS,
-                VALID_BIRTHDAY, VALID_RELATIONSHIP, VALID_NICKNAME, VALID_NOTES, VALID_TAGS);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName());
-        assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
-    }
-
-    @Test
     public void toModelType_invalidEmail_throwsIllegalValueException() {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, INVALID_EMAIL, VALID_ADDRESS,
@@ -115,14 +112,6 @@ public class JsonAdaptedPersonTest {
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, INVALID_ADDRESS,
                         VALID_BIRTHDAY, VALID_RELATIONSHIP, VALID_NICKNAME, VALID_NOTES, VALID_TAGS);
         String expectedMessage = Address.MESSAGE_CONSTRAINTS_CHARACTERS;
-        assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
-    }
-
-    @Test
-    public void toModelType_nullAddress_throwsIllegalValueException() {
-        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, null,
-                VALID_BIRTHDAY, VALID_RELATIONSHIP, VALID_NICKNAME, VALID_NOTES, VALID_TAGS);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 
@@ -176,7 +165,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
                         VALID_BIRTHDAY, VALID_RELATIONSHIP, VALID_NICKNAME, VALID_NOTES, invalidTags);
-        assertThrows(IllegalValueException.class, person::toModelType);
+        assertThrows(IllegalArgumentException.class, person::toModelType);
     }
 
 }

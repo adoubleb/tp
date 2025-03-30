@@ -59,9 +59,9 @@ public abstract class JsonStorage<T, S extends JsonSerializable<T>> {
 
         try {
             return Optional.of(jsonData.get().toModelType());
-        } catch (IllegalValueException ive) {
-            logger.info("Illegal values found in " + filePath + ": " + ive.getMessage());
-            throw new DataLoadingException(ive);
+        } catch (IllegalValueException | IllegalArgumentException e) {
+            logger.info("Illegal values found in " + filePath + ": " + e.getMessage());
+            throw new DataLoadingException(e);
         }
     }
 
