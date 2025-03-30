@@ -7,11 +7,11 @@
       "headings": {
         "about-us": "About Us",
         "project-team": "Project team",
-        "john-doe": "John Doe",
-        "jane-doe": "Jane Doe",
-        "johnny-doe": "Johnny Doe",
-        "jean-doe": "Jean Doe",
-        "james-doe": "James Doe"
+        "yashvan-alagirisamy-alagirisamyyashvan-gmail-com": "Yashvan Alagirisamy |alagirisamyyashvan@gmail.com",
+        "muhammad-a-qil-qilstianooo-gmail-com": "Muhammad A'qil |qilstianooo@gmail.com",
+        "benjamin-wang-ben-wang9000-gmail-com": "Benjamin Wang |ben.wang9000@gmail.com",
+        "abdul-hakam-bin-nor-razak-abdulhakamnr-gmail-com": "Abdul Hakam Bin Nor Razak |abdulhakamnr@gmail.com",
+        "tok-jun-hui-nicholas-nicholastok0101-gmail-com": "Tok Jun Hui Nicholas |nicholastok0101@gmail.com"
       },
       "headingKeywords": {}
     },
@@ -38,9 +38,8 @@
     },
     {
       "src": "DeveloperGuide.md",
-      "title": "Developer Guide",
       "headings": {
-        "ab-3-developer-guide": "AB-3 Developer Guide",
+        "whoareyouagain-developer-guide": "WhoAreYouAgain? Developer Guide",
         "acknowledgements": "Acknowledgements",
         "setting-up-getting-started": "Setting up, getting started",
         "design": "Design",
@@ -57,7 +56,31 @@
         "appendix-requirements": "Appendix: Requirements",
         "product-scope": "Product scope",
         "user-stories": "User stories",
-        "use-cases": "Use cases",
+        "whoareyouagain-use-cases": "WhoAreYouAgain? - Use Cases",
+        "use-case-1-add-nickname-to-family-member-s-profile": "Use Case 1: Add Nickname to Family Member’s Profile",
+        "main-success-scenario-mss": "Main Success Scenario (MSS):",
+        "extensions": "Extensions:",
+        "use-case-2-view-a-list-of-upcoming-birthdays": "Use Case 2: View a List of Upcoming Birthdays",
+        "main-success-scenario-mss-2": "Main Success Scenario (MSS):",
+        "extensions-2": "Extensions:",
+        "use-case-3-add-a-custom-family-event": "Use Case 3: Add a Custom Family Event",
+        "main-success-scenario-mss-3": "Main Success Scenario (MSS):",
+        "extensions-3": "Extensions:",
+        "use-case-4-search-for-a-family-member-in-the-tree": "Use Case 4: Search for a Family Member in the Tree",
+        "main-success-scenario-mss-4": "Main Success Scenario (MSS):",
+        "extensions-4": "Extensions:",
+        "use-case-5-export-family-directory-as-csv": "Use Case 5: Export Family Directory as CSV",
+        "main-success-scenario-mss-5": "Main Success Scenario (MSS):",
+        "extensions-5": "Extensions:",
+        "use-case-6-view-family-tree-visualization": "Use Case 6: View Family Tree Visualization",
+        "main-success-scenario-mss-6": "Main Success Scenario (MSS):",
+        "extensions-6": "Extensions:",
+        "use-case-7-relationship-calculator": "Use Case 7: Relationship Calculator",
+        "main-success-scenario-mss-7": "Main Success Scenario (MSS):",
+        "extensions-7": "Extensions:",
+        "use-case-8-auntie-name-translator": "Use Case 8: Auntie Name Translator",
+        "main-success-scenario-mss-8": "Main Success Scenario (MSS):",
+        "extensions-8": "Extensions:",
         "non-functional-requirements": "Non-Functional Requirements",
         "glossary": "Glossary",
         "appendix-instructions-for-manual-testing": "Appendix: Instructions for manual testing",
@@ -107,15 +130,16 @@
       "src": "UserGuide.md",
       "title": "User Guide",
       "headings": {
-        "ab-3-user-guide": "AB-3 User Guide",
+        "whoareyouagain-user-guide": "WhoAreYouAgain? User Guide",
         "quick-start": "Quick start",
         "features": "Features",
         "viewing-help-help": "Viewing help : help",
         "adding-a-person-add": "Adding a person: add",
+        "name-requirements": "Name Requirements",
         "listing-all-persons-list": "Listing all persons : list",
         "editing-a-person-edit": "Editing a person : edit",
         "locating-persons-by-name-find": "Locating persons by name: find",
-        "deleting-a-person-delete": "Deleting a person : delete",
+        "deleting-a-person-delete": "Deleting a person: delete",
         "clearing-all-entries-clear": "Clearing all entries : clear",
         "exiting-the-program-exit": "Exiting the program : exit",
         "saving-the-data": "Saving the data",
@@ -131,12 +155,52 @@
       "src": "index.md",
       "title": "",
       "headings": {
-        "addressbook-level-3": "AddressBook Level-3"
+        "whoareyouagain-never-forget-who-s-who-again": "WhoAreYouAgain? – Never Forget Who’s Who Again!"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/adoubleb.md",
+      "title": "John Doe's Project Portfolio Page",
+      "headings": {
+        "project-addressbook-level-3": "Project: AddressBook Level 3"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/benjam11n.md",
+      "title": "John Doe's Project Portfolio Page",
+      "headings": {
+        "project-addressbook-level-3": "Project: AddressBook Level 3"
       },
       "headingKeywords": {}
     },
     {
       "src": "team/johndoe.md",
+      "title": "John Doe's Project Portfolio Page",
+      "headings": {
+        "project-addressbook-level-3": "Project: AddressBook Level 3"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/nictok.md",
+      "title": "John Doe's Project Portfolio Page",
+      "headings": {
+        "project-addressbook-level-3": "Project: AddressBook Level 3"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/qilstiano.md",
+      "title": "John Doe's Project Portfolio Page",
+      "headings": {
+        "project-addressbook-level-3": "Project: AddressBook Level 3"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/yashvangh.md",
       "title": "John Doe's Project Portfolio Page",
       "headings": {
         "project-addressbook-level-3": "Project: AddressBook Level 3"
