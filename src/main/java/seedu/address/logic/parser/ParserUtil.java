@@ -13,6 +13,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthday;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.ImagePath;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Nickname;
 import seedu.address.model.person.Notes;
@@ -248,4 +249,32 @@ public class ParserUtil {
         }
         return tagSet;
     }
+
+    /**
+     * Parses a {@code String imagePath} into an {@code ImagePath}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @param imagePath
+     * @return An {@code ImagePath} object if the input string is valid.
+     * @throws ParseException
+     */
+    public static Optional<ImagePath> parseImagePath(Optional<String> imagePath) throws ParseException {
+        if (imagePath.isEmpty()) {
+            return Optional.empty();
+        }
+
+        String trimmed = imagePath.get().trim();
+        if (trimmed.isEmpty()) {
+            throw new ParseException("Image path cannot be empty if provided.");
+        }
+
+        if (!ImagePath.isValidImagePath(trimmed)) {
+            throw new ParseException("Invalid image path: must be a readable .png file"
+                    + " (Only PNG images are supported for optimal performance) — '"
+                    + trimmed + "'");
+        }
+
+        return Optional.of(new ImagePath(trimmed));
+    }
+
 }

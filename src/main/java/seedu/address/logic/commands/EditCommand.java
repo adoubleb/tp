@@ -31,6 +31,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthday;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.ImagePath;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Nickname;
 import seedu.address.model.person.Notes;
@@ -165,8 +166,12 @@ public class EditCommand extends UndoableCommand {
         }
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
+        Optional<ImagePath> updatedImagePath = editPersonDescriptor.getImagePath().isPresent()
+                ? editPersonDescriptor.getImagePath()
+                : Optional.of(personToEdit.getImagePath());
+
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedBirthday,
-                updatedRelationship, updatedNickname, updatedNotes, updatedTags);
+                updatedRelationship, updatedNickname, updatedNotes, updatedImagePath, updatedTags);
     }
 
     @Override
@@ -206,9 +211,12 @@ public class EditCommand extends UndoableCommand {
         private Optional<Relationship> relationship;
         private Optional<Nickname> nickname;
         private Optional<Notes> notes;
+        private Optional<ImagePath> imagePath;
         private Set<Tag> tags;
 
-        public EditPersonDescriptor() {}
+        public EditPersonDescriptor() {
+            this.imagePath = Optional.empty();
+        }
 
         /**
          * Copy constructor.
@@ -223,6 +231,7 @@ public class EditCommand extends UndoableCommand {
             setRelationship(toCopy.relationship);
             setNickname(toCopy.nickname);
             setNotes(toCopy.notes);
+            setImagePath(toCopy.imagePath);
             setTags(toCopy.tags);
         }
 
@@ -231,8 +240,9 @@ public class EditCommand extends UndoableCommand {
          */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(name, phone, email, address, birthday, relationship,
-                    nickname, notes, tags);
-        }
+                    nickname, notes, tags)
+                    || (imagePath != null && imagePath.isPresent());
+        } //Changed
 
         public void setName(Name name) {
             this.name = name;
@@ -287,7 +297,12 @@ public class EditCommand extends UndoableCommand {
         public Optional<Notes> getNotes() {
             return Optional.ofNullable(notes).flatMap(b -> b);
         }
-
+        public void setImagePath(Optional<ImagePath> imagePath) {
+            this.imagePath = imagePath != null ? imagePath : Optional.empty(); //Changed
+        }
+        public Optional<ImagePath> getImagePath() {
+            return imagePath;
+        }
         /**
          * Sets {@code tags} to this object's {@code tags}.
          * A defensive copy of {@code tags} is used internally.
@@ -325,7 +340,8 @@ public class EditCommand extends UndoableCommand {
                     && Objects.equals(relationship, otherEditPersonDescriptor.relationship)
                     && Objects.equals(nickname, otherEditPersonDescriptor.nickname)
                     && Objects.equals(notes, otherEditPersonDescriptor.notes)
-                    && Objects.equals(tags, otherEditPersonDescriptor.tags);
+                    && Objects.equals(tags, otherEditPersonDescriptor.tags)
+                    && Objects.equals(imagePath, otherEditPersonDescriptor.imagePath);
         }
 
         @Override
@@ -340,6 +356,7 @@ public class EditCommand extends UndoableCommand {
                     .add("nickname", nickname)
                     .add("notes", notes)
                     .add("tags", tags)
+                    .add("imagePath", imagePath)
                     .toString();
         }
     }

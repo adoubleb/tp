@@ -16,6 +16,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthday;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.ImagePath;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Nickname;
 import seedu.address.model.person.Notes;
@@ -40,6 +41,7 @@ class JsonAdaptedPerson {
     private final String nickname;
     private final String notes;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final String imagePath;
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -49,6 +51,7 @@ class JsonAdaptedPerson {
             @JsonProperty("email") String email, @JsonProperty("address") String address,
                 @JsonProperty("birthday") String birthday, @JsonProperty("relationship") String relationship,
                 @JsonProperty("nickname") String nickname, @JsonProperty("notes") String notes,
+                             @JsonProperty("imagePath") String imagePath,
                              @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
@@ -61,6 +64,7 @@ class JsonAdaptedPerson {
         if (tags != null) {
             this.tags.addAll(tags);
         }
+        this.imagePath = imagePath;
     }
 
     /**
@@ -78,6 +82,7 @@ class JsonAdaptedPerson {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
+        imagePath = source.getImagePath().toString();
     }
 
     /**
@@ -110,8 +115,9 @@ class JsonAdaptedPerson {
         final Optional<Notes> modelNotes = parseOptionalField(notes, Notes::new);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
+        final Optional<ImagePath> modelImagePath = parseOptionalField(imagePath, ImagePath::new);
         return new Person(modelName, modelPhone, modelEmail, modelAddress,
-                modelBirthday, modelRelationship, modelNickname, modelNotes, modelTags);
+                modelBirthday, modelRelationship, modelNickname, modelNotes, modelImagePath, modelTags);
     }
 
     /**

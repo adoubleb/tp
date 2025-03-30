@@ -10,6 +10,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.model.person.ImagePath.DEFAULT_IMAGE_RELATIVE_PATH;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,13 +26,14 @@ public class TypicalPersons {
 
     public static final Person ALICE = new PersonBuilder().withName("Alice Pauline")
             .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com")
-            .withPhone("94351253")
+            .withPhone("94351253").withImagePath(DEFAULT_IMAGE_RELATIVE_PATH)
             .withTags("friends").build();
     public static final Person BENSON = new PersonBuilder().withName("Benson Meier")
             .withAddress("311, Clementi Ave 2, #02-25")
             .withEmail("johnd@example.com").withPhone("98765432").withRelationship("Neighbour")
             .withBirthday("01-01-1990").withNickname("BENNY").withBirthday("02-02-1991")
-            .withNotes("Allergic to peanuts").withTags("owesMoney", "friends").build();
+            .withNotes("Allergic to peanuts").withImagePath(DEFAULT_IMAGE_RELATIVE_PATH)
+            .withTags("owesMoney", "friends").build();
     public static final Person CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
             .withEmail("heinz@example.com").withAddress("wall street").withBirthday("03-03-1992").build();
     public static final Person DANIEL = new PersonBuilder().withName("Daniel Meier").withPhone("87652533")
