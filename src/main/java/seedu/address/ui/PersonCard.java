@@ -100,7 +100,7 @@ public class PersonCard extends UiPart<Region> {
                     if (file.exists()) {
                         image = new Image(file.toURI().toString(), true);
                     } else {
-                        // Fallback to classpath resource (use getResourceAsStream if needed)
+                        // Fallback to classpath resource
                         image = new Image(ImagePath.class.getResourceAsStream("/images/defaultUserPicture.png"));
                     }
                 }
