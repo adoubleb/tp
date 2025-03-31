@@ -32,6 +32,7 @@ public class AddCommand extends UndoableCommand {
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_BIRTHDAY + "BIRTHDAY] "
+            + "[" + PREFIX_RELATIONSHIP + "RELATIONSHIP] "
             + "[" + PREFIX_NICKNAME + "NICKNAME] "
             + "[" + PREFIX_NOTES + "NOTES] "
             + "[" + PREFIX_TAG + "TAG]...\n"

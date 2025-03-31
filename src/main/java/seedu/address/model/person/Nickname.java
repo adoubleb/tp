@@ -32,6 +32,9 @@ public class Nickname {
      * Validates the nickname and throws an IllegalArgumentException with a specific message if invalid.
      */
     public static boolean isValidNickname(String test) {
+        if (test.isEmpty()) {
+            return true;
+        }
         if (!test.matches(VALIDATION_REGEX)) {
             throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_CHARACTERS);
         }

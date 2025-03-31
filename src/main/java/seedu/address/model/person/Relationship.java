@@ -36,9 +36,6 @@ public class Relationship {
      * Returns true if a given string is a valid relationship.
      */
     public static boolean isValidRelationship(String test) {
-        if (test.isEmpty()) {
-            return true;
-        }
         if (test.length() > MAX_LENGTH) {
             throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_LENGTH);
         }
