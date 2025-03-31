@@ -110,7 +110,13 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        personListPanel = new PersonListPanel(logic.getFilteredPersonList());
+        personListPanel = new PersonListPanel(logic.getFilteredPersonList(), commandText -> {
+            try {
+                executeCommand(commandText);
+            } catch (CommandException | ParseException e) {
+                logger.warning("Failed to execute command from UI: " + e.getMessage());
+            }
+        });
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();

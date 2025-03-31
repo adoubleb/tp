@@ -29,13 +29,14 @@ public class Person {
     private final Optional<Nickname> nickname;
     private final Optional<Notes> notes;
     private final Set<Tag> tags = new HashSet<>();
+    private final ImagePath imagePath;
 
     /**
      * Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Address address, Optional<Birthday> birthday,
                   Optional<Relationship> relationship, Optional<Nickname> nickname, Optional<Notes> notes,
-                  Set<Tag> tags) {
+                  Optional<ImagePath> imagePath, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
@@ -46,6 +47,7 @@ public class Person {
         this.nickname = nickname;
         this.notes = notes;
         this.tags.addAll(tags);
+        this.imagePath = imagePath.orElse(ImagePath.getDefault());
     }
 
     public Name getName() {
@@ -87,6 +89,14 @@ public class Person {
     }
     public String getNotesValue() {
         return notes.map(Object::toString).orElse("");
+    }
+
+    public ImagePath getImagePath() {
+        return imagePath;
+    }
+
+    public String getImagePathValue() {
+        return imagePath.toString();
     }
 
     /**

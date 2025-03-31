@@ -30,6 +30,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.ImagePath;
 import seedu.address.model.person.Person;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonCommandHistoryStorage;
@@ -198,5 +199,49 @@ public class LogicManagerTest {
         ModelManager expectedModel = new ModelManager();
         expectedModel.addPerson(expectedPerson);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_addCommandWithEmptyImage_throwsParseException() {
+        String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + " img/";
+
+        assertParseException(addCommand, "Image path cannot be empty if provided.");
+    }
+
+    @Test
+    public void execute_addCommandWithInvalidImage_throwsParseException() {
+        String badImagePath = "/invalid/path/to/image.jpg"; // wrong extension
+
+        String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + " img/" + badImagePath;
+
+        String expectedMessage = "Invalid image path: must be a readable .png file "
+                + "(Only PNG images are supported for optimal performance) — " + "'" + badImagePath + "'";
+
+        assertParseException(addCommand, expectedMessage);
+    }
+
+    @Test
+    public void execute_addCommandWithDefaultImage_success() throws Exception {
+        String testImagePath = ImagePath.getDefault().getPath(); // returns a valid file:/ or jar:/ URL
+
+        Person expectedPerson = new PersonBuilder(AMY)
+                .withImagePath(testImagePath)
+                .withTags()
+                .build();
+
+        String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + " img/" + testImagePath;
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), model.getCommandHistory());
+        expectedModel.addPerson(expectedPerson);
+        String expectedMessage = "New person added: " + expectedPerson.getName()
+                + "; Phone: " + expectedPerson.getPhone()
+                + "; Email: " + expectedPerson.getEmail()
+                + "; Address: " + expectedPerson.getAddress()
+                + "; Image: " + expectedPerson.getImagePath().getPath();
+
+        assertCommandSuccess(addCommand, expectedMessage, expectedModel);
     }
 }
