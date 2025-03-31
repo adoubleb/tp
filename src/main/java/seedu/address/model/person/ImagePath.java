@@ -1,6 +1,6 @@
 package seedu.address.model.person;
 
-import java.io.File;
+//import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -11,18 +11,19 @@ import java.util.Objects;
 public class ImagePath {
     public static final String MESSAGE_CONSTRAINTS = "Image path should be a valid path to a .png file";
     public static final String DEFAULT_IMAGE_RELATIVE_PATH = "src/main/resources/images/defaultUserPicture.png";
-    private static final Path DEFAULT_IMAGE_PATH = Paths.get(DEFAULT_IMAGE_RELATIVE_PATH);
-    private final Path path;
+    // private static final Path DEFAULT_IMAGE_PATH = Paths.get(DEFAULT_IMAGE_RELATIVE_PATH);
+    private final String path;
     /**
      * Constructs an instance of ImagePath
      *
      * @param pathString Path of the image, as a string
      */
     public ImagePath(String pathString) {
+        System.out.println("DEBUGG ImagePath: " + pathString);
         if (!isValidImagePath(pathString)) {
             throw new IllegalArgumentException(MESSAGE_CONSTRAINTS);
         }
-        this.path = Paths.get(pathString);
+        this.path = pathString;
     }
 
     /**
@@ -30,13 +31,25 @@ public class ImagePath {
      *
      * @return Path of the image loaded in Person
      */
-    public Path getPath() {
+    public String getPath() {
         return path;
     }
 
+//    public static ImagePath getDefault() {
+//        // This returns a URL to the file within the resources folder
+//        String path = Objects.requireNonNull(ImagePath.class.getResource("/images/defaultUserPicture.png"))
+//                .getPath();
+//        return new ImagePath(path);
+//    }
+
     public static ImagePath getDefault() {
-        return new ImagePath(DEFAULT_IMAGE_PATH.toString());
+        String resourceUrl = Objects.requireNonNull(
+                ImagePath.class.getResource("/images/defaultUserPicture.png")
+        ).toExternalForm(); // Works in JARs
+        return new ImagePath(resourceUrl);
     }
+
+
 
     /**
      * Returns true if a given string is a valid image path.
@@ -46,11 +59,6 @@ public class ImagePath {
      * @return Boolean Value
      */
     public static boolean isValidImagePath(String pathString) {
-        File file = new File(pathString);
-        if (!(file.exists() && file.isFile() && file.canRead())) {
-            return false;
-        }
-
         String lowerCasePath = pathString.toLowerCase();
         return lowerCasePath.endsWith(".png");
     }

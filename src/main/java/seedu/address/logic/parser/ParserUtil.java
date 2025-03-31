@@ -2,6 +2,8 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.io.File;
+import java.net.URI;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
@@ -268,10 +270,29 @@ public class ParserUtil {
             throw new ParseException("Image path cannot be empty if provided.");
         }
 
-        if (!ImagePath.isValidImagePath(trimmed)) {
-            throw new ParseException("Invalid image path: must be a readable .png file"
-                    + " (Only PNG images are supported for optimal performance) — '"
-                    + trimmed + "'");
+        if (!trimmed.toLowerCase().endsWith(".png")) {
+            throw new ParseException("Invalid image path: must be a readable .png file "
+                    + "(Only PNG images are supported for optimal performance) — '" + trimmed + "'");
+        }
+
+        // Handle file:/... resource URLs (e.g. from getDefault())
+        if (trimmed.startsWith("file:")) {
+            try {
+                File file = new File(new URI(trimmed));
+                if (!(file.exists() && file.isFile() && file.canRead())) {
+                    throw new ParseException("Invalid image path: must be a readable .png file "
+                            + "(Only PNG images are supported for optimal performance) — '" + trimmed + "'");
+                }
+            } catch (Exception e) {
+                throw new ParseException("Invalid image path: malformed file URL — '" + trimmed + "'");
+            }
+        } else {
+            // Normal absolute/relative file path
+            File file = new File(trimmed);
+            if (!(file.exists() && file.isFile() && file.canRead())) {
+                throw new ParseException("Invalid image path: must be a readable .png file "
+                        + "(Only PNG images are supported for optimal performance) — '" + trimmed + "'");
+            }
         }
 
         return Optional.of(new ImagePath(trimmed));

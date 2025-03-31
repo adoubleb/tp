@@ -64,9 +64,8 @@ public class ImagePathTest {
     }
 
     @Test
-    public void constructor_nonExistentFile_throwsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () ->
-                new ImagePath(nonExistentFile.getAbsolutePath()));
+    public void constructor_nonExistentFile_stillValidNow() {
+        assertDoesNotThrow(() -> new ImagePath(nonExistentFile.getAbsolutePath()));
     }
 
     @Test
@@ -87,14 +86,14 @@ public class ImagePathTest {
     }
 
     @Test
-    public void isValidImagePath_nonexistent_returnsFalse() {
-        assertFalse(ImagePath.isValidImagePath(nonExistentFile.getAbsolutePath()));
+    public void isValidImagePath_nonexistent_returnsTrueBecauseOnlyExtensionChecked() {
+        assertTrue(ImagePath.isValidImagePath(nonExistentFile.getAbsolutePath()));
     }
 
     @Test
     public void getPath_returnsCorrectPath() {
         ImagePath imagePath = new ImagePath(validPngFile.getAbsolutePath());
-        assertEquals(Path.of(validPngFile.getAbsolutePath()), imagePath.getPath());
+        assertEquals(validPngFile.getAbsolutePath(), imagePath.getPath());
     }
 
     @Test

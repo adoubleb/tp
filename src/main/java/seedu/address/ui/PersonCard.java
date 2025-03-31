@@ -90,8 +90,22 @@ public class PersonCard extends UiPart<Region> {
 
         Platform.runLater(() -> {
             try {
-                String imagePath = person.getImagePath().getPath().toUri().toString();
-                profileImage.setImage(new Image(imagePath, true)); // for background loading
+                String rawPath = person.getImagePath().getPath();
+                Image image;
+
+                if (rawPath.startsWith("jar:") || rawPath.startsWith("file:") || rawPath.startsWith("http")) {
+                    image = new Image(rawPath, true);
+                } else {
+                    File file = new File(rawPath);
+                    if (file.exists()) {
+                        image = new Image(file.toURI().toString(), true);
+                    } else {
+                        // Fallback to classpath resource (use getResourceAsStream if needed)
+                        image = new Image(ImagePath.class.getResourceAsStream("/images/defaultUserPicture.png"));
+                    }
+                }
+
+                profileImage.setImage(image);
             } catch (Exception e) {
                 System.out.println("Failed to load image for " + person.getName().fullName + ": " + e.getMessage());
             }
