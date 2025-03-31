@@ -239,7 +239,8 @@ public class LogicManagerTest {
         String expectedMessage = "New person added: " + expectedPerson.getName()
                 + "; Phone: " + expectedPerson.getPhone()
                 + "; Email: " + expectedPerson.getEmail()
-                + "; Address: " + expectedPerson.getAddress();
+                + "; Address: " + expectedPerson.getAddress()
+                + "; Image: " + expectedPerson.getImagePath().getPath();
 
         assertCommandSuccess(addCommand, expectedMessage, expectedModel);
     }

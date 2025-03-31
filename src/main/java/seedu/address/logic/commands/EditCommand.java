@@ -242,7 +242,7 @@ public class EditCommand extends UndoableCommand {
             return CollectionUtil.isAnyNonNull(name, phone, email, address, birthday, relationship,
                     nickname, notes, tags)
                     || (imagePath != null && imagePath.isPresent());
-        } //Changed
+        }
 
         public void setName(Name name) {
             this.name = name;
@@ -298,7 +298,7 @@ public class EditCommand extends UndoableCommand {
             return Optional.ofNullable(notes).flatMap(b -> b);
         }
         public void setImagePath(Optional<ImagePath> imagePath) {
-            this.imagePath = imagePath != null ? imagePath : Optional.empty(); //Changed
+            this.imagePath = imagePath != null ? imagePath : Optional.empty();
         }
         public Optional<ImagePath> getImagePath() {
             return imagePath;
