@@ -211,7 +211,6 @@ public class EditCommandParserTest {
         userInput = targetIndex.getOneBased() + INVALID_PHONE_DESC + ADDRESS_DESC_AMY + INVALID_EMAIL_DESC
                 + INVALID_PHONE_DESC + INVALID_EMAIL_DESC + ADDRESS_DESC_BOB;
 
-        System.out.println(userInput);
         assertParseFailure(parser, userInput,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS));
     }

@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_IMG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NICKNAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
@@ -35,6 +36,7 @@ public class AddCommand extends UndoableCommand {
             + "[" + PREFIX_RELATIONSHIP + "RELATIONSHIP] "
             + "[" + PREFIX_NICKNAME + "NICKNAME] "
             + "[" + PREFIX_NOTES + "NOTES] "
+            + "[" + PREFIX_IMG + "IMAGE_PATH] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "

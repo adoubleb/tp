@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.ImageView?>
 
 <?import javafx.scene.text.TextFlow?>
 <?import javafx.scene.text.Text?>
@@ -50,4 +51,12 @@
       <Label fx:id="notes" styleClass="cell_small_label" text="\$notes" wrapText="true" />
     </VBox>
   </GridPane>
+  <!-- Image on the right -->
+  <VBox alignment="CENTER_RIGHT" spacing="5">
+    <padding>
+      <Insets top="10" right="10" bottom="10" left="10" />
+    </padding>
+    <ImageView fx:id="profileImage" fitHeight="100" fitWidth="100" preserveRatio="true"/>
+  </VBox>
+
 </HBox>

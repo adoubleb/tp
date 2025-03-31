@@ -48,6 +48,7 @@ public class Messages {
         appendIfNotEmpty(builder, "Relationship", person.getRelationshipValue());
         appendIfNotEmpty(builder, "Nickname", person.getNicknameValue());
         appendIfNotEmpty(builder, "Notes", person.getNotesValue());
+        appendIfNotEmpty(builder, "Image", person.getImagePathValue());
 
         Set<Tag> tags = person.getTags();
         if (!tags.isEmpty()) {
