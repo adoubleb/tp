@@ -103,12 +103,12 @@ public class PersonTest {
 
     @Test
     public void imagePath_defaultAndCustomValidation() {
-        assertEquals(Paths.get(DEFAULT_IMAGE_RELATIVE_PATH).toString(), ALICE.getImagePathValue());
+        assertEquals(ImagePath.getDefault().getPath(), ALICE.getImagePathValue());
 
         Person personWithImage = new PersonBuilder(ALICE)
-                .withImagePath(DEFAULT_IMAGE_RELATIVE_PATH)
+                .withImagePath(ImagePath.getDefault().getPath())
                 .build();
 
-        assertEquals(Paths.get(DEFAULT_IMAGE_RELATIVE_PATH).toString(), personWithImage.getImagePathValue());
+        assertEquals(ImagePath.getDefault().getPath(), personWithImage.getImagePathValue());
     }
 }

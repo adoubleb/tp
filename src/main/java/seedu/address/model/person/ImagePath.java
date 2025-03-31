@@ -38,9 +38,6 @@ public class ImagePath {
         assert resourceUrl.endsWith(".png") : "Default image should be a .png file";
         return new ImagePath(resourceUrl);
     }
-
-
-
     /**
      * Returns true if a given string is a valid image path.
      * Will be enforcing .png extensions only for optimal performance.
