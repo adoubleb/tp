@@ -256,4 +256,41 @@ public class EditCommandParserTest {
 
         assertEquals("", joinedFields);
     }
+
+    @Test
+    public void parse_escapedPrefixInValue_success() {
+        Index targetIndex = INDEX_FIRST_PERSON;
+
+        // Test nickname with escaped prefix
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_NICKNAME + "John n\\/Wang";
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withNickname("John n/Wang").build();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor, new ArrayList<>());
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        // Test multiple fields with escaped prefixes
+        userInput = targetIndex.getOneBased() + " " + PREFIX_NICKNAME + "John n\\/Wang"
+                + " " + PREFIX_NOTES + "Met at n\\/a conference";
+        descriptor = new EditPersonDescriptorBuilder()
+                .withNickname("John n/Wang")
+                .withNotes("Met at n/a conference")
+                .build();
+        expectedCommand = new EditCommand(targetIndex, descriptor, new ArrayList<>());
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_escapedBackslashInValue_success() {
+        Index targetIndex = INDEX_FIRST_PERSON;
+
+        String nicknameWithEscapedBackslash = " " + PREFIX_NICKNAME + "C:\\\\Users\\\\John";
+        String userInput = targetIndex.getOneBased() + nicknameWithEscapedBackslash;
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withNickname("C:\\\\Users\\\\John").build();
+        ArrayList<Prefix> toRemoveFields = new ArrayList<>();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor, toRemoveFields);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
 }

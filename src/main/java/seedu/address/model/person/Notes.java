@@ -12,8 +12,9 @@ public class Notes {
     public static final String MESSAGE_CONSTRAINTS_LENGTH =
             "Notes can be at most " + MAX_LENGTH + " characters long";
     public static final String MESSAGE_CONSTRAINTS_CHARACTERS =
-            "Notes should only contain printable characters";
-    public static final String VALIDATION_REGEX = "[^\\s].*";
+            "Notes can only contain printable ASCII characters";
+    // This regex matches only printable ASCII characters (codes 32-126)
+    public static final String VALIDATION_REGEX = "^[\\x20-\\x7E]*$";
 
     public final String value;
 

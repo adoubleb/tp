@@ -13,7 +13,8 @@ public class Nickname {
             "Nicknames should be less than " + MAX_LENGTH + " characters long";
     public static final String MESSAGE_CONSTRAINTS_CHARACTERS =
             "Nicknames can only contain printable ASCII characters";
-    public static final String VALIDATION_REGEX = "[^\\s].*";
+    // This regex matches only printable ASCII characters (codes 32-126)
+    public static final String VALIDATION_REGEX = "^[\\x20-\\x7E]*$";
 
     public final String nickname;
 
@@ -54,12 +55,10 @@ public class Nickname {
         if (other == this) {
             return true;
         }
-
         // instanceof handles nulls
         if (!(other instanceof Nickname)) {
             return false;
         }
-
         Nickname otherNickname = (Nickname) other;
         return nickname.equals(otherNickname.nickname);
     }
