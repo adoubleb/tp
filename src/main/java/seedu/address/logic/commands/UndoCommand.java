@@ -14,7 +14,7 @@ public class UndoCommand extends Command {
             + ": Undoes the most recent command entered by the user.\n"
             + "Example: " + COMMAND_WORD;
 
-    public static final String MESSAGE_UNDO_SUCCESS = "Undo successful!";
+    public static final String MESSAGE_UNDO_SUCCESS = "Undo successful! Reverted Command: ";
 
     public static final String MESSAGE_NO_UNDO_FAILURE = "Nothing to undo!";
 
@@ -33,7 +33,8 @@ public class UndoCommand extends Command {
         }
 
         lastCommand.undo(model);
-        return new CommandResult(MESSAGE_UNDO_SUCCESS);
+        String undoneCommand = lastCommand.getCommandString();
+        return new CommandResult(MESSAGE_UNDO_SUCCESS + undoneCommand);
     }
 
     @Override

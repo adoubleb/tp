@@ -21,6 +21,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.ArrayList;
@@ -336,6 +337,34 @@ public class EditCommandTest {
 
         // different descriptor -> returns false
         assertFalse(standardCommand.equals(new EditCommand(INDEX_FIRST_PERSON, DESC_BOB, new ArrayList<>())));
+    }
+
+    @Test
+    public void getCommandString_returnsCorrectUndoMessage() throws Exception {
+        // Arrange: Original and edited person
+        Person original = new PersonBuilder()
+                .withName("Alice Pauline")
+                .withEmail("alice@example.com")
+                .build();
+
+        Person edited = new PersonBuilder(original)
+                .withName("Bob Tan")
+                .withEmail("bob@example.com")
+                .build();
+
+        EditCommand.EditPersonDescriptor descriptor = new EditCommand.EditPersonDescriptor();
+        descriptor.setName(edited.getName());
+        descriptor.setEmail(edited.getEmail());
+
+        EditCommand editCommand = new EditCommand(Index.fromZeroBased(0), descriptor, new ArrayList<>());
+
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new CommandHistory());
+        model.setPerson(model.getFilteredPersonList().get(0), original); // overwrite with known person
+
+        editCommand.execute(model);
+
+        String expected = String.format("edit %s (%s)", ALICE.getName(), ALICE.getEmail());
+        assertEquals(expected, editCommand.getCommandString());
     }
 
     @Test

@@ -8,6 +8,7 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.List;
@@ -180,6 +181,13 @@ public class DeleteCommandTest {
 
         // multiple vs single -> returns false
         assertNotEquals(deleteFirstCommand, deleteMultipleCommand);
+    }
+
+    @Test
+    public void getCommandStringMethod() {
+        DeleteCommand deleteCommand = new DeleteCommand(List.of(INDEX_FIRST_PERSON));
+        String expected = String.format("delete <unknown person(s)>");
+        assertEquals(expected, deleteCommand.getCommandString());
     }
 
     @Test
