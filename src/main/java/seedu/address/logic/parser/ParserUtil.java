@@ -85,15 +85,6 @@ public class ParserUtil {
         }
         return formattedName.toString().trim();
     }
-    /**
-     * Removes escape characters from the input string.
-     *
-     * @param input The input string.
-     * @return The input string with escape characters removed.
-     */
-    public static String escapeRemover(String input) {
-        return input.replace("\\", "");
-    }
 
     /**
      * Parses a {@code String phone} into a {@code Phone}.
@@ -161,6 +152,7 @@ public class ParserUtil {
         }
         String trimmedNickname = nickname.get().trim();
         try {
+            trimmedNickname = slashEscapeRemover(trimmedNickname);
             Nickname.isValidNickname(trimmedNickname);
         } catch (IllegalArgumentException e) {
             throw new ParseException(e.getMessage());
@@ -182,6 +174,7 @@ public class ParserUtil {
         }
         String trimmedNotes = notes.get().trim();
         try {
+            trimmedNotes = slashEscapeRemover(trimmedNotes);
             Notes.isValidNotes(trimmedNotes);
         } catch (IllegalArgumentException e) {
             throw new ParseException(e.getMessage());
@@ -247,5 +240,25 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Removes escape characters from the input string.
+     *
+     * @param input The input string.
+     * @return The input string with escape characters removed.
+     */
+    public static String escapeRemover(String input) {
+        return input.replace("\\", "");
+    }
+
+    /**
+     * Removes escape characters only when they precede a forward slash.
+     *
+     * @param input The input string.
+     * @return The input string with escape characters removed before forward slashes.
+     */
+    public static String slashEscapeRemover(String input) {
+        return input.replace("\\/", "/");
     }
 }
