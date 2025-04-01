@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_IMG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NICKNAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
@@ -59,6 +60,7 @@ public class EditCommand extends UndoableCommand {
             + "[" + PREFIX_RELATIONSHIP + "RELATIONSHIP] "
             + "[" + PREFIX_NICKNAME + "NICKNAME] "
             + "[" + PREFIX_NOTES + "NOTES] "
+            + "[" + PREFIX_IMG + "IMAGE_PATH] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
@@ -137,33 +139,44 @@ public class EditCommand extends UndoableCommand {
         assert editPersonDescriptor != null;
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
-        Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
-        Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
-        Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
 
-        Optional<Birthday> updatedBirthday = editPersonDescriptor.getBirthday().isPresent()
-                ? editPersonDescriptor.getBirthday() : personToEdit.getBirthday();
-        if (toRemoveFields.contains(PREFIX_BIRTHDAY)) {
-            updatedBirthday = Optional.empty();
-        }
+        assert updatedName != null : "Name cannot be null after editing";
 
-        Optional<Relationship> updatedRelationship = editPersonDescriptor.getRelationship().isPresent()
-                ? editPersonDescriptor.getRelationship() : personToEdit.getRelationship();
-        if (toRemoveFields.contains(PREFIX_RELATIONSHIP)) {
-            updatedRelationship = Optional.empty();
-        }
+        Optional<Phone> updatedPhone = processOptionalField(
+                editPersonDescriptor.getPhone(),
+                personToEdit.getPhone(),
+                toRemoveFields.contains(PREFIX_PHONE));
 
-        Optional<Nickname> updatedNickname = editPersonDescriptor.getNickname().isPresent()
-                ? editPersonDescriptor.getNickname() : personToEdit.getNickname();
-        if (toRemoveFields.contains(PREFIX_NICKNAME)) {
-            updatedNickname = Optional.empty();
-        }
+        Optional<Email> updatedEmail = processOptionalField(
+                editPersonDescriptor.getEmail(),
+                personToEdit.getEmail(),
+                toRemoveFields.contains(PREFIX_EMAIL));
 
-        Optional<Notes> updatedNotes = editPersonDescriptor.getNotes().isPresent()
-                ? editPersonDescriptor.getNotes() : personToEdit.getNotes();
-        if (toRemoveFields.contains(PREFIX_NOTES)) {
-            updatedNotes = Optional.empty();
-        }
+        Optional<Address> updatedAddress = processOptionalField(
+                editPersonDescriptor.getAddress(),
+                personToEdit.getAddress(),
+                toRemoveFields.contains(PREFIX_ADDRESS));
+
+        Optional<Birthday> updatedBirthday = processOptionalField(
+                editPersonDescriptor.getBirthday(),
+                personToEdit.getBirthday(),
+                toRemoveFields.contains(PREFIX_BIRTHDAY));
+
+        Optional<Relationship> updatedRelationship = processOptionalField(
+                editPersonDescriptor.getRelationship(),
+                personToEdit.getRelationship(),
+                toRemoveFields.contains(PREFIX_RELATIONSHIP));
+
+        Optional<Nickname> updatedNickname = processOptionalField(
+                editPersonDescriptor.getNickname(),
+                personToEdit.getNickname(),
+                toRemoveFields.contains(PREFIX_NICKNAME));
+
+        Optional<Notes> updatedNotes = processOptionalField(
+                editPersonDescriptor.getNotes(),
+                personToEdit.getNotes(),
+                toRemoveFields.contains(PREFIX_NOTES));
+
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
         Optional<ImagePath> updatedImagePath = editPersonDescriptor.getImagePath().isPresent()
@@ -172,6 +185,22 @@ public class EditCommand extends UndoableCommand {
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedBirthday,
                 updatedRelationship, updatedNickname, updatedNotes, updatedImagePath, updatedTags);
+    }
+
+    private static <T> Optional<T> processOptionalField(
+            Optional<T> editDescriptorValue,
+            Optional<T> existingValue,
+            boolean shouldRemove) {
+
+        if (editDescriptorValue.isPresent()) {
+            return editDescriptorValue;
+        }
+
+        if (shouldRemove) {
+            return Optional.empty();
+        }
+
+        return existingValue;
     }
 
     @Override
@@ -204,9 +233,9 @@ public class EditCommand extends UndoableCommand {
      */
     public static class EditPersonDescriptor {
         private Name name;
-        private Phone phone;
-        private Email email;
-        private Address address;
+        private Optional<Phone> phone;
+        private Optional<Email> email;
+        private Optional<Address> address;
         private Optional<Birthday> birthday;
         private Optional<Relationship> relationship;
         private Optional<Nickname> nickname;
@@ -252,26 +281,26 @@ public class EditCommand extends UndoableCommand {
             return Optional.ofNullable(name);
         }
 
-        public void setPhone(Phone phone) {
+        public void setPhone(Optional<Phone> phone) {
             this.phone = phone;
         }
 
         public Optional<Phone> getPhone() {
-            return Optional.ofNullable(phone);
+            return Optional.ofNullable(phone).flatMap(p -> p);
         }
 
-        public void setEmail(Email email) {
+        public void setEmail(Optional<Email> email) {
             this.email = email;
         }
 
         public Optional<Email> getEmail() {
-            return Optional.ofNullable(email);
+            return Optional.ofNullable(email).flatMap(e -> e);
         }
-        public void setAddress(Address address) {
+        public void setAddress(Optional<Address> address) {
             this.address = address;
         }
         public Optional<Address> getAddress() {
-            return Optional.ofNullable(address);
+            return Optional.ofNullable(address).flatMap(a -> a);
         }
         public void setBirthday(Optional<Birthday> birthday) {
             this.birthday = birthday;
