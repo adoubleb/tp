@@ -4,16 +4,17 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Represents a Person's notes in the address book.
- * Guarantees: immutable; is valid as declared in {@link #isValidNotes(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValidNotes(String)}.
  */
 public class Notes {
+
+    public static final int MAX_LENGTH = 300;
     public static final String MESSAGE_CONSTRAINTS_LENGTH =
-            "Notes can be at most 100 characters long";
+            "Notes can be at most " + MAX_LENGTH + " characters long";
     public static final String MESSAGE_CONSTRAINTS_CHARACTERS =
             "Notes can only contain printable ASCII characters";
     // This regex matches only printable ASCII characters (codes 32-126)
     public static final String VALIDATION_REGEX = "^[\\x20-\\x7E]*$";
-    public static final int MAX_LENGTH = 100;
 
     public final String value;
 
@@ -29,8 +30,10 @@ public class Notes {
     }
 
     /**
-     * Returns true if a given string is valid notes.
-     * Empty string is considered valid as notes are optional.
+     * Validates the given notes.
+     *
+     * @return true if validation passes.
+     * @throws IllegalArgumentException if the notes are invalid.
      */
     public static boolean isValidNotes(String test) {
         if (test.isEmpty()) {

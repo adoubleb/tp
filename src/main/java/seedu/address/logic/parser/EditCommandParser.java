@@ -58,13 +58,19 @@ public class EditCommandParser implements Parser<EditCommand> {
             editPersonDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
         }
         if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
-            editPersonDescriptor.setPhone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get()));
+            if (!toRemove(argMultimap, toRemoveFields, PREFIX_PHONE)) {
+                editPersonDescriptor.setPhone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)));
+            }
         }
         if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            editPersonDescriptor.setEmail(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get()));
+            if (!toRemove(argMultimap, toRemoveFields, PREFIX_EMAIL)) {
+                editPersonDescriptor.setEmail(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL)));
+            }
         }
         if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
-            editPersonDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
+            if (!toRemove(argMultimap, toRemoveFields, PREFIX_ADDRESS)) {
+                editPersonDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS)));
+            }
         }
         if (argMultimap.getValue(PREFIX_BIRTHDAY).isPresent()) {
             if (!toRemove(argMultimap, toRemoveFields, PREFIX_BIRTHDAY)) {

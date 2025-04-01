@@ -72,10 +72,9 @@ public class PersonCard extends UiPart<Region> {
         id.setText(String.valueOf(displayedIndex));
         name.setText(person.getName().fullName);
         setTextOrHide(nickname, person.getNickname(), nick -> " (" + nick + ")");
-
-        phone.setText(person.getPhone().value);
-        address.setText(person.getAddress().value);
-        email.setText(person.getEmail().value);
+        setTextOrHide(phone, person.getPhone(), Object::toString);
+        setTextOrHide(address, person.getAddress(), Object::toString);
+        setTextOrHide(email, person.getEmail(), Object::toString);
         relationship.setText(person.getRelationship()
                 .map(Relationship::getRelationshipString)
                 .filter(str -> !str.isEmpty())

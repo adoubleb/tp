@@ -10,6 +10,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.image.ImageView?>
 
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.text.Text?>
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
 
   <!-- Number Circle -->
@@ -30,9 +32,11 @@
       <padding>
         <Insets top="5" right="5" bottom="5" left="8" />
       </padding>
-      <HBox spacing="0.5" alignment="CENTER_LEFT">
-        <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
-        <Label fx:id="nickname" styleClass="cell_nickname_label" text="\$nickname" />
+      <HBox spacing="5" alignment="CENTER_LEFT">
+        <VBox>
+          <Label fx:id="name" text="\$first" styleClass="cell_big_label" wrapText="true"/>
+          <Label fx:id="nickname" styleClass="cell_nickname_label" text="\$nickname" wrapText="true"/>
+        </VBox>
       </HBox>
       <Label fx:id="relationship" styleClass="cell_relationship_label" text="\$relationship" />
       <FlowPane fx:id="tags" />
@@ -41,9 +45,9 @@
           <Insets top="2" />
         </VBox.margin>
       </Label>
-      <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
-      <Label fx:id="email" styleClass="cell_small_label" text="\$email" />
-      <Label fx:id="birthday" styleClass="cell_small_label" text="\$birthday" />
+      <Label fx:id="address" styleClass="cell_small_label" text="\$address" wrapText="true" />
+      <Label fx:id="email" styleClass="cell_small_label" text="\$email" wrapText="true" />
+      <Label fx:id="birthday" styleClass="cell_small_label" text="\$birthday" wrapText="true" />
       <Label fx:id="notes" styleClass="cell_small_label" text="\$notes" wrapText="true" />
     </VBox>
   </GridPane>

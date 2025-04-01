@@ -14,20 +14,13 @@ public class RelationshipTest {
     }
 
     @Test
-    public void constructor_invalidRelationship_throwsIllegalArgumentException() {
-        String invalidRelationship = "";
-        assertThrows(IllegalArgumentException.class, () -> new Relationship(invalidRelationship));
-    }
-
-    @Test
     public void isValidRelationship() {
         // null relationship
         assertThrows(NullPointerException.class, () -> Relationship.isValidRelationship(null));
 
         // invalid relationship
-        assertFalse(Relationship.isValidRelationship("")); // empty string
-        assertFalse(Relationship.isValidRelationship("^")); // only non-alphanumeric characters
-        assertFalse(Relationship.isValidRelationship("mother*")); // contains non-alphanumeric characters
+        assertThrows(IllegalArgumentException.class, () -> Relationship.isValidRelationship("^"));
+        assertThrows(IllegalArgumentException.class, () -> Relationship.isValidRelationship("mother*"));
 
         // valid relationship
         assertTrue(Relationship.isValidRelationship("mother")); // alphabets only

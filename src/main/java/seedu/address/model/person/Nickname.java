@@ -4,16 +4,15 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Represents a Person's nickname in the address book.
- * Guarantees: immutable; is valid as declared in {@link #isValidNickname(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValidNickname(String)}.
  */
 public class Nickname {
 
+    public static final int MAX_LENGTH = 50;
     public static final String MESSAGE_CONSTRAINTS_LENGTH =
-            "Nicknames should be less than 30 characters long";
+            "Nicknames should be less than " + MAX_LENGTH + " characters long";
     public static final String MESSAGE_CONSTRAINTS_CHARACTERS =
             "Nicknames can only contain printable ASCII characters";
-    public static final int MAX_LENGTH = 30;
-
     // This regex matches only printable ASCII characters (codes 32-126)
     public static final String VALIDATION_REGEX = "^[\\x20-\\x7E]*$";
 
@@ -34,11 +33,14 @@ public class Nickname {
      * Validates the nickname and throws an IllegalArgumentException with a specific message if invalid.
      */
     public static boolean isValidNickname(String test) {
-        if (!test.matches(VALIDATION_REGEX)) {
-            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_CHARACTERS);
+        if (test.isEmpty()) {
+            return true;
         }
         if (test.length() > MAX_LENGTH) {
             throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_LENGTH);
+        }
+        if (!test.matches(VALIDATION_REGEX)) {
+            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_CHARACTERS);
         }
         return true;
     }

@@ -23,7 +23,7 @@ public class CommandHistory implements ReadOnlyCommandHistory {
     }
 
     /**
-     * Creates a CommandHistory using the List in the {@code toBeCopied}
+     * Creates a CommandHistory using the List in the {@code toBeCopied}.
      */
     public CommandHistory(ReadOnlyCommandHistory toBeCopied) {
         this();

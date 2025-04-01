@@ -237,9 +237,9 @@ public class LogicManagerTest {
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), model.getCommandHistory());
         expectedModel.addPerson(expectedPerson);
         String expectedMessage = "New person added: " + expectedPerson.getName()
-                + "; Phone: " + expectedPerson.getPhone()
-                + "; Email: " + expectedPerson.getEmail()
-                + "; Address: " + expectedPerson.getAddress()
+                + "; Phone: " + expectedPerson.getPhone().get()
+                + "; Email: " + expectedPerson.getEmail().get()
+                + "; Address: " + expectedPerson.getAddress().get()
                 + "; Image: " + expectedPerson.getImagePath().getPath();
 
         assertCommandSuccess(addCommand, expectedMessage, expectedModel);

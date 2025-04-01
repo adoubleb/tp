@@ -19,11 +19,11 @@ public class Person {
 
     // Identity fields
     private final Name name;
-    private final Phone phone;
-    private final Email email;
+    private final Optional<Phone> phone;
+    private final Optional<Email> email;
 
     // Data fields
-    private final Address address;
+    private final Optional<Address> address;
     private final Optional<Birthday> birthday;
     private final Optional<Relationship> relationship;
     private final Optional<Nickname> nickname;
@@ -34,18 +34,18 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Optional<Birthday> birthday,
-                  Optional<Relationship> relationship, Optional<Nickname> nickname, Optional<Notes> notes,
-                  Optional<ImagePath> imagePath, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+    public Person(Name name, Optional<Phone> phone, Optional<Email> email, Optional<Address> address,
+                  Optional<Birthday> birthday, Optional<Relationship> relationship, Optional<Nickname> nickname,
+                  Optional<Notes> notes, Optional<ImagePath> imagePath, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, birthday, relationship, nickname, notes, imagePath, tags);
         this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
-        this.birthday = birthday != null ? birthday : Optional.empty();
-        this.relationship = relationship != null ? relationship : Optional.empty();
-        this.nickname = nickname;
-        this.notes = notes;
+        this.phone = phone.isPresent() ? phone : Optional.empty();
+        this.email = email.isPresent() ? email : Optional.empty();
+        this.address = address.isPresent() ? address : Optional.empty();
+        this.birthday = birthday.isPresent() ? birthday : Optional.empty();
+        this.relationship = relationship.isPresent() ? relationship : Optional.empty();
+        this.nickname = nickname.isPresent() ? nickname : Optional.empty();
+        this.notes = notes.isPresent() ? notes : Optional.empty();
         this.tags.addAll(tags);
         this.imagePath = imagePath.orElse(ImagePath.getDefault());
     }
@@ -54,20 +54,29 @@ public class Person {
         return name;
     }
 
-    public Phone getPhone() {
+    public Optional<Phone> getPhone() {
         return phone;
     }
 
-    public Email getEmail() {
+    public Optional<Email> getEmail() {
         return email;
     }
 
-    public Address getAddress() {
+    public Optional<Address> getAddress() {
         return address;
     }
 
     public Optional<Birthday> getBirthday() {
         return birthday;
+    }
+    public String getPhoneValue() {
+        return phone.map(Object::toString).orElse("");
+    }
+    public String getEmailValue() {
+        return email.map(Object::toString).orElse("");
+    }
+    public String getAddressValue() {
+        return address.map(Object::toString).orElse("");
     }
     public String getBirthdayValue() {
         return birthday.map(Object::toString).orElse("");
