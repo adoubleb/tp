@@ -159,10 +159,94 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### \[Proposed\] Undo/redo feature
+### \[Current\] Undo/Redo feature
 
-#### Proposed Implementation
+#### Current Implementation
 
+The current undo/redo mechanism is facilitated by `CommandTracker`. It tracks the `Undoable` commands i.e. commands that extend `Undoable` in the form of 2 separate stacks: `undoStack` and `redoStack`. 
+Additionally, it supports these operations:
+
+* `CommandTracker#getInstance` - Returns the singleton instance of ```CommandTracker```
+* `CommandTracker#push` - Pushes a new `UndoableCommmand` onto the undo stack and clears the redo stack
+* `CommandTracker#popUndo` - Pops and returns the most recent command from the undo stack
+* `CommandTracker#getRedo` - Pops and returns the most recent command from the redo stack
+* `CommandTracker#canUndo` - Returns true if there are commands to undo
+* `CommandTracker#canRedo` - Returns true if there are commands to redo
+* `CommandTracker#clear` - Clears both the undo and redo stacks
+
+Step 1: Initial Application Launch
+
+- State:
+  - The application is launched.
+  - The address book contains preloaded contacts.
+
+-  Behaviour:
+    - No undo or redo operations are available at this point since no changes have been made.
+
+Step 2: Adding a Person
+
+- Action:
+  - The user executes the `add` command to add a new person.
+  - ```add n/John Doe p/98765432 e/johndoe@example.com```
+
+- State:
+    - The address book now contains the new person, John Doe.
+
+-  Behaviour:
+    - The `add` command is executed and is reflected in the new address book state (with the newly added person). 
+    - ```CommandTracker.getInstance().push()``` is called to push this command to the undo stack.
+        - This is allowed because the ```AddCommand``` extends ```UndoableCommand```.
+    - `undo` is now available, but `redo` is not (since no action has been undone yet).
+
+Step 3: Deleting a Person
+
+- Action:
+    - The user executes the ```delete``` command to delete the previously added person.
+    - ```delete <index>``` where `index` is the location John Doe is stored.
+
+- State:
+    - The address book now no longer contains John Doe.
+
+- Behaviour:
+    - The ```delete command``` is executed and is reflected in the new address book state (without the deleted person).
+    - ```CommandTracker.getInstance().push()``` is called to push this command to the undo stack.
+        - This is allowed because the ```DeleteCommand``` extends ```UndoableCommand```.
+    - `undo` is still available to restore the deleted person, but `redo` is still not available since delete has not been undone yet.
+
+Step 4: Undoing the DeleteCommand
+
+- Action:
+    - The user decides to undo the delete command using the ```undo``` command.
+
+- State:
+    - The address book is reverted to the state before the delete command, with John Doe restored.
+
+- Behaviour:
+  - The ```undo``` command is called.
+  - ```CommandTracker.canUndo()``` is called to see if the command can be undone.
+      - Since it can, ```CommandTracker.getInstance().popUndo()``` is called to pop the command from the undo stack.
+      - Subsequently, this command is also pushed to the redo stack.
+  - The ```DeleteCommand#redo``` method is invoked on the last ```delete``` command and restores the deleted person.
+  - `undo` is still available (for the intial ```add``` command) and `redo` is available since delete has been undone.
+
+Step 5: Redoing the DeleteCommand
+
+- Action:
+    - The user decides to redo the delete command using the ```redo``` command.
+
+- State:
+    - The address book is reverted to the state after the delete command, with John Doe deleted.
+
+- Behaviour:
+    - The ```redo``` command is called.
+    - ```CommandTracker.canRedo()``` is called to see if the command can be redone.
+        - Since it can, ```CommandTracker.getInstance().popRedo()``` is called to pop the command from the redo stack.
+    - The ```DeleteCommand#redo``` method is invoked on the last ```delete``` command and deletes the person again.
+    - `undo` is still available (for the intial ```add``` command) and `redo` is no longer available since delete has been redone.
+
+**Note:** At this point, the user should be able to notice that the `undo` and `redo` commands can be called in a circular manner i.e. ```undo -> redo -> undo -> ...``` 
+
+### \[Proposed\] Possible Undo/Redo Implementation
 The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
 
 * `VersionedAddressBook#commit()` — Saves the current address book state in its history.
@@ -236,25 +320,6 @@ Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Sinc
 The following activity diagram summarizes what happens when a user executes a new command:
 
 <puml src="diagrams/CommitActivityDiagram.puml" width="250" />
-
-#### Design considerations:
-
-**Aspect: How undo & redo executes:**
-
-* **Alternative 1 (current choice):** Saves the entire address book.
-    * Pros: Easy to implement.
-    * Cons: May have performance issues in terms of memory usage.
-
-* **Alternative 2:** Individual command knows how to undo/redo by
-  itself.
-    * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
-    * Cons: We must ensure that the implementation of each individual command are correct.
-
-_{more aspects and alternatives to be added}_
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
 
 
 --------------------------------------------------------------------------------------------------------------------
