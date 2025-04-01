@@ -140,6 +140,8 @@ public class EditCommand extends UndoableCommand {
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
 
+        assert updatedName != null : "Name cannot be null after editing";
+
         Optional<Phone> updatedPhone = processOptionalField(
                 editPersonDescriptor.getPhone(),
                 personToEdit.getPhone(),
@@ -190,11 +192,15 @@ public class EditCommand extends UndoableCommand {
             Optional<T> existingValue,
             boolean shouldRemove) {
 
+        if (editDescriptorValue.isPresent()) {
+            return editDescriptorValue;
+        }
+
         if (shouldRemove) {
             return Optional.empty();
         }
 
-        return editDescriptorValue.isPresent() ? editDescriptorValue : existingValue;
+        return existingValue;
     }
 
     @Override

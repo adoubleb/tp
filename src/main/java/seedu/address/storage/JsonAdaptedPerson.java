@@ -99,7 +99,6 @@ class JsonAdaptedPerson {
         final Name modelName = parseRequiredField(name, Name::new, Name::isValidName,
                 String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
 
-        System.out.println(phone);
         final Optional<Phone> modelPhone = parseOptionalField(phone, Phone::new);
         final Optional<Email> modelEmail = parseOptionalField(email, Email::new);
         final Optional<Address> modelAddress = parseOptionalField(address, Address::new);

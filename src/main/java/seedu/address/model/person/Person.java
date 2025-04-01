@@ -37,10 +37,10 @@ public class Person {
     public Person(Name name, Optional<Phone> phone, Optional<Email> email, Optional<Address> address,
                   Optional<Birthday> birthday, Optional<Relationship> relationship, Optional<Nickname> nickname,
                   Optional<Notes> notes, Optional<ImagePath> imagePath, Set<Tag> tags) {
-        requireAllNonNull(name, tags);
+        requireAllNonNull(name, phone, email, address, birthday, relationship, nickname, notes, imagePath, tags);
         this.name = name;
-        this.phone = phone.isPresent() ? phone : Optional.empty();;
-        this.email = email.isPresent() ? email : Optional.empty();;
+        this.phone = phone.isPresent() ? phone : Optional.empty();
+        this.email = email.isPresent() ? email : Optional.empty();
         this.address = address.isPresent() ? address : Optional.empty();
         this.birthday = birthday.isPresent() ? birthday : Optional.empty();
         this.relationship = relationship.isPresent() ? relationship : Optional.empty();
