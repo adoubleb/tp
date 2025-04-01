@@ -9,6 +9,7 @@ import static java.util.Objects.requireNonNull;
 public class Tag {
     public static final int MAX_LENGTH = 30;
     public static final int MAX_NUM = 10;
+    public static final String MESSAGE_CONSTRAINTS_NUM = "Number of tags cannot exceed " + MAX_NUM;
     public static final String MESSAGE_CONSTRAINTS_LENGTH =
             "Tags should be less than " + MAX_LENGTH + " characters long";
     public static final String MESSAGE_CONSTRAINTS_CHARACTERS = "Tags names should be alphanumeric";

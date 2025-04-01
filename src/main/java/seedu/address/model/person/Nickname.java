@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Represents a Person's nickname in the address book.
- * Guarantees: immutable; is valid as declared in {@link #isValidNickname(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValidNickname(String)}.
  */
 public class Nickname {
 

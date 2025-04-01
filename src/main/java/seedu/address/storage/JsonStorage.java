@@ -15,8 +15,9 @@ import seedu.address.commons.util.JsonUtil;
 
 /**
  * A generic class to access data stored as a json file on the hard disk.
- * @param <T> The model type being stored
- * @param <S> The JsonSerializable wrapper for the model type
+ *
+ * @param <T> The model type being stored.
+ * @param <S> The JsonSerializable wrapper for the model type.
  */
 public abstract class JsonStorage<T, S extends JsonSerializable<T>> {
     private static final Logger logger = LogsCenter.getLogger(JsonStorage.class);

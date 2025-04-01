@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Represents a Person's notes in the address book.
- * Guarantees: immutable; is valid as declared in {@link #isValidNotes(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValidNotes(String)}.
  */
 public class Notes {
 
@@ -31,8 +31,9 @@ public class Notes {
 
     /**
      * Validates the given notes.
-     * @return true if validation passes
-     * @throws IllegalArgumentException if the notes are invalid
+     *
+     * @return true if validation passes.
+     * @throws IllegalArgumentException if the notes are invalid.
      */
     public static boolean isValidNotes(String test) {
         if (test.isEmpty()) {

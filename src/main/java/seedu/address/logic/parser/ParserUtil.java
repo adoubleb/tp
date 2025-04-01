@@ -259,10 +259,8 @@ public class ParserUtil {
     public static Set<Tag> parseTags(Collection<String> tags) throws ParseException {
         requireNonNull(tags);
 
-        // Check if the number of tags exceeds the limit
         if (tags.size() > Tag.MAX_NUM) {
-            throw new ParseException(
-                    String.format("Number of tags cannot exceed %d", Tag.MAX_NUM));
+            throw new ParseException(Tag.MESSAGE_CONSTRAINTS_NUM);
         }
 
         final Set<Tag> tagSet = new HashSet<>();
