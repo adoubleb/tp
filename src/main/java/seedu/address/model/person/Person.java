@@ -150,7 +150,7 @@ public class Person {
      * @return The command summary of the person.
      */
     public String toCommandSummary() {
-        return String.format("%s (%s)", name, email);
+        return String.format("%s", name);
     }
 
     @Override

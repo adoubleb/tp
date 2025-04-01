@@ -129,7 +129,12 @@ public class EditCommand extends UndoableCommand {
 
     @Override
     public String getCommandString() {
-        return COMMAND_WORD + " " + personToEdit.toCommandSummary();
+        return String.format("%s %d: %s -> %s",
+                COMMAND_WORD,
+                index.getOneBased(),
+                personToEdit.toCommandSummary(),
+                editedPerson.toCommandSummary()
+        );
     }
 
     /**
