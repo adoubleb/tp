@@ -36,11 +36,11 @@ public class Nickname {
         if (test.isEmpty()) {
             return true;
         }
-        if (!test.matches(VALIDATION_REGEX)) {
-            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_CHARACTERS);
-        }
         if (test.length() > MAX_LENGTH) {
             throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_LENGTH);
+        }
+        if (!test.matches(VALIDATION_REGEX)) {
+            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_CHARACTERS);
         }
         return true;
     }

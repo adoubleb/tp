@@ -30,8 +30,9 @@ public class Notes {
     }
 
     /**
-     * Returns true if a given string is valid notes.
-     * Empty string is considered valid as notes are optional.
+     * Validates the given notes.
+     * @return true if validation passes
+     * @throws IllegalArgumentException if the notes are invalid
      */
     public static boolean isValidNotes(String test) {
         if (test.isEmpty()) {
