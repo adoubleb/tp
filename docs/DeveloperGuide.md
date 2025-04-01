@@ -467,18 +467,27 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Non-Functional Requirements
 
 1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2. Should be able to hold up to 1000 family members without a noticeable sluggishness in performance for typical usage.
+2. Should be able to hold up to 200 family members with a response time of less than 5 seconds.
 3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4. All features should function without requiring an internet connection.
-5. The application should launch and be ready for user interaction within 5 seconds on standard hardware.
-6. The application should handle unexpected inputs gracefully with informative error messages.
-7. All commands should execute and display results within 2 seconds on a standard computer system.
-8. All family data should be stored locally.
+4. The application should handle unexpected inputs gracefully with informative error messages.
+5. The application should not utilise a database management system.
+6. All family data should be stored locally.
+7. All family data should be stored in a human editable text file.
+8. The software should function without an installer.
+9. The software architecture must primarily follow object-oriented programming principles. 
+10. External libraries must be free, open-source, require no user installation.
+11. The GUI must work well at 1920×1080 resolution and higher with 100-125% scaling, and remain usable at 1280×720 with 150% scaling. 
+12. The product JAR file must not exceed 100MB, and documentation PDFs must not exceed 15MB each. 
+13. The entire application must be packaged as a single JAR file.
 
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+* **Average typing speed**: 40 words per minute (wpm)
+* **JAR file**: Java Archive file that packages multiple Java class files and associated metadata into a single file
+* **Human editable text file**: A file format such as JSON or txt that can be read and modified using common text editors
+* **Database management system**: Software for creating and managing databases, providing systematic access to stored data (e.g., MySQL, PostgreSQL, MongoDB)
+* **GUI:** Graphical User Interface: a visual way of interacting with a computer program using graphical elements such as windows, icons, and buttons
 
 --------------------------------------------------------------------------------------------------------------------
 
