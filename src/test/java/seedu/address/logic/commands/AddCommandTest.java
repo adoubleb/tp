@@ -99,7 +99,7 @@ public class AddCommandTest {
     @Test
     public void getCommandStringMethod() {
         AddCommand addCommand = new AddCommand(ALICE);
-        String expected = String.format("add %s (%s)", ALICE.getName(), ALICE.getEmail());
+        String expected = String.format("add %s", ALICE.getName());
         assertEquals(expected, addCommand.getCommandString());
     }
 

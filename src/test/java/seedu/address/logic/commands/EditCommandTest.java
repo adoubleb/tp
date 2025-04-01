@@ -22,6 +22,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.BOB;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.ArrayList;
@@ -348,7 +349,7 @@ public class EditCommandTest {
                 .build();
 
         Person edited = new PersonBuilder(original)
-                .withName("Bob Tan")
+                .withName("Bob Choo")
                 .withEmail("bob@example.com")
                 .build();
 
@@ -363,7 +364,7 @@ public class EditCommandTest {
 
         editCommand.execute(model);
 
-        String expected = String.format("edit %s (%s)", ALICE.getName(), ALICE.getEmail());
+        String expected = String.format("edit 1: %s -> %s", ALICE.getName(), BOB.getName());
         assertEquals(expected, editCommand.getCommandString());
     }
 
