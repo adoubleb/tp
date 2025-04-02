@@ -564,7 +564,8 @@ testers are expected to do more *exploratory* testing.
 
     1. Download the jar file and copy into an empty folder
 
-    1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+    1. Double-click the jar file or run `java -jar <file_name>` in the folder. <br>
+       Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
 1. Saving window preferences
 
@@ -573,16 +574,47 @@ testers are expected to do more *exploratory* testing.
     1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+### Adding a person
 
+1. Adding a person with ALL fields
+
+    1. Prerequisites: No persons / Multiple persons in the list.
+
+    1. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 b/30-12-2001 r/Father nn/Johnny no/Allergic to peanuts t/friends t/owesMoney`<br>
+       Expected: Person with given details is added to the list.
+
+    1. Test case: `add n/John Doe`<br>
+       Expected: Person is added as only name is a compulsory field.
+
+    1. Other incorrect add commands to try: `add`, `add 3`, `add x/` (where x is an unknown field)<br>
+       Expected: Error details shown in the status message. Status bar remains the same.
+
+### Editing a person
+
+1. Edit some fields of a person
+
+    1. Prerequisites: At least one person in the list.
+
+    1. Test case: `edit 1 p/91234567 e/johndoe@example.com`<br>
+       Expected: Person at index 1 is edited with new details.
+
+    1. Test case: `edit 1`<br>
+       Expected: Error details shown in the status message. Status bar remains the same.
+
+    1. Other incorrect edit commands to try: `edit x` (where x is an unknown index), `edit 1 y/` (where y is an unknown field)<br>
+       Expected: Similar to previous.
+    
 ### Deleting a person
 
-1. Deleting a person while all persons are being shown
+1. Deleting a person
 
-    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+    1. Prerequisites: List all persons using the `list` command and at least one person in the list.
 
     1. Test case: `delete 1`<br>
-       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+       Expected: Confirmation message pops up. First contact is deleted from the list when user enters `y`. Details of the deleted contact shown in the status message.
+   
+    1. Test case: `delete 1`<br>
+       Expected: Confirmation message pops up. Contact is not deleted from the list when user enters `n`. Deletion abortion message is shown.
 
     1. Test case: `delete 0`<br>
        Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
@@ -590,12 +622,113 @@ testers are expected to do more *exploratory* testing.
     1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
        Expected: Similar to previous.
 
-1. _{ more test cases …​ }_
+### Listing persons
+
+1. List persons
+
+    1. Prerequisites: At least one person in the list.
+
+    1. Test case: `list asc`<br>
+       Expected: Persons listed in order of soonest upcoming birthday.
+
+    1. Test case: `list desc`<br>
+       Expected: Persons listed with furthest birthdays first.
+
+    1. Other incorrect delete commands to try: `list 1`, `list y/` (where y is an unknown field)<br>
+       Expected: Error details shown in the status message. Status bar remains the same.
+
+### Clear persons
+
+1. Clear persons
+
+    1. Prerequisites: At least one person in the list.
+
+    1. Test case: `clear`<br>
+       Expected: Confirmation message pops up. All contacts cleared when user enters `y`.
+
+    1. Test case: `clear`<br>
+       Expected: Confirmation message pops up. No action occurs when user enters `n`.
+
+    1. Test case: `clear 1`<br>
+       Expected: Error details shown in the status message. Status bar remains the same.
+
+    1. Other incorrect delete commands to try: `clear name`, `clear 1`<br>
+       Expected: Similar to previous.
+
+### Finding persons
+
+1. Finding a person / persons
+
+    1. Prerequisites: At least one person in the list.
+
+    1. Test case: `find Alice`<br>
+       Expected: Persons with "Alice" in their name are listed.
+
+    1. Test case: `find ALICE`<br>
+       Expected: Persons with "Alice" in their name are listed.
+
+    1. Test case: `find Aliss`<br>
+       Expected: Shows no exact matches but displays similar entries.
+
+### Undo and Redo
+
+1. Undo the last command
+
+    1. Prerequisites: At least one undoable command (e.g., add, edit, delete) has been executed.
+
+    1. Test case: `undo`<br>
+       Expected: Last change is reverted. Successful undo message shown.
+
+2. Redo the last undone command
+
+   1. Test case: `redo` <br>
+      Expected: The previously undone change is re-applied. Successful redo message shown.
+
+3. Attempting undo/redo when nothing to undo/redo or after undoable command
+
+    1. Test case: undo or redo repeatedly after no more history <br>
+    Expected: Error message "Nothing to undo!" or "Nothing to redo!" displayed.
+
+### Help and Exit
+
+1. Help command
+
+    1. Test case: `help` <br>
+    Expected: Help window appears.
+
+2. Exit command
+
+    1. Test case: `exit` <br>
+    Expected: Application closes.
 
 ### Saving data
 
 1. Dealing with missing/corrupted data files
 
-    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+    1. Load the application and run some commands.
 
-1. _{ more test cases …​ }_
+    1. Go into the folder where the jar file is stored and delete the savedata folder.
+
+    1. Re-run the application.
+
+    1. Address book is now in original default state with preloaded contacts for testing.
+
+2. Transferring data
+
+    1. Go into the folder where the jar file is stored and delete the savedata folder.
+
+    1. Replace it with your incoming savedata folder.
+
+    1. Re-run the application.
+
+    1. Address book contains contacts from the new savedata folder.
+
+1. Modifying data
+
+    1. Go into the folder where the jar file is stored and modify the savedata folder.
+
+    1. You may add/edit/delete people here manually.
+
+    1. Re-run the application.
+
+    1. Address book contains contacts from the modified savedata folder.
