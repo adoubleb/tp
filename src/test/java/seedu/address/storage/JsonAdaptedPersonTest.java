@@ -15,6 +15,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthday;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.ImagePath;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Nickname;
 import seedu.address.model.person.Notes;
@@ -23,7 +24,7 @@ import seedu.address.model.person.Relationship;
 
 public class JsonAdaptedPersonTest {
     private static final String INVALID_NAME = "Rachel@";
-    private static final String INVALID_PHONE = "";
+    private static final String INVALID_PHONE = " ";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_BIRTHDAY = "31-02-2000";
