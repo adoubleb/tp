@@ -8,7 +8,7 @@ import seedu.address.model.Model;
  * Classes implementing this interface should define the specific logic for confirmation and execution.
  */
 public interface ConfirmableCommand {
-    public String getConfirmationString();
+
     public CommandResult executeConfirmed(Model model) throws CommandException;
 
     public CommandResult executeAborted();

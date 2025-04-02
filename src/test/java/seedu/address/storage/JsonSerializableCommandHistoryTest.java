@@ -16,7 +16,8 @@ import seedu.address.model.CommandHistory;
 
 public class JsonSerializableCommandHistoryTest {
 
-    private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonSerializableCommandHistoryTest");
+    private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data",
+            "JsonSerializableCommandHistoryTest");
     private static final Path TYPICAL_COMMANDS_FILE = TEST_DATA_FOLDER.resolve("typicalCommandHistory.json");
     private static final Path INVALID_COMMAND_FILE = TEST_DATA_FOLDER.resolve("invalidCommandHistory.json");
 

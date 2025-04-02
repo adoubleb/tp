@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import seedu.address.testutil.PersonBuilder;
 
 public class PersonTest {
-
     @Test
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {
         Person person = new PersonBuilder().build();
@@ -97,5 +96,16 @@ public class PersonTest {
                 + ALICE.getBirthday() + ", relationship=" + ALICE.getRelationship() + ", nickname="
                 + ALICE.getNickname() + ", notes=" + ALICE.getNotes() + ", tags=" + ALICE.getTags() + "}";
         assertEquals(expected, ALICE.toString());
+    }
+
+    @Test
+    public void imagePath_defaultAndCustomValidation() {
+        assertEquals(ImagePath.getDefault().getPath(), ALICE.getImagePathValue());
+
+        Person personWithImage = new PersonBuilder(ALICE)
+                .withImagePath(ImagePath.getDefault().getPath())
+                .build();
+
+        assertEquals(ImagePath.getDefault().getPath(), personWithImage.getImagePathValue());
     }
 }

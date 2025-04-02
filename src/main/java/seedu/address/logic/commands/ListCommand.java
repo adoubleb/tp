@@ -48,10 +48,10 @@ public class ListCommand extends Command {
     }
 
     /**
-     * Returns a comparator that compares persons by their upcoming birthday with todays date.
-     * @param today
-     * @param descending
-     * @return
+     * Returns a comparator that compares persons by their upcoming birthday with today's date.
+     * @param today current date in LocalDate
+     * @param descending true if the comparator should be in descending order, false otherwise
+     * @return birthday comparator
      */
     public static Comparator<Person> getBirthdayComparator(LocalDate today, boolean descending) {
         Comparator<Person> comparator = Comparator.comparing(

@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -14,6 +16,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthday;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.ImagePath;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Nickname;
 import seedu.address.model.person.Notes;
@@ -38,6 +41,7 @@ class JsonAdaptedPerson {
     private final String nickname;
     private final String notes;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final String imagePath;
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -47,6 +51,7 @@ class JsonAdaptedPerson {
             @JsonProperty("email") String email, @JsonProperty("address") String address,
                 @JsonProperty("birthday") String birthday, @JsonProperty("relationship") String relationship,
                 @JsonProperty("nickname") String nickname, @JsonProperty("notes") String notes,
+                             @JsonProperty("imagePath") String imagePath,
                              @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
@@ -59,6 +64,7 @@ class JsonAdaptedPerson {
         if (tags != null) {
             this.tags.addAll(tags);
         }
+        this.imagePath = imagePath;
     }
 
     /**
@@ -66,9 +72,9 @@ class JsonAdaptedPerson {
      */
     public JsonAdaptedPerson(Person source) {
         name = source.getName().fullName;
-        phone = source.getPhone().value;
-        email = source.getEmail().value;
-        address = source.getAddress().value;
+        phone = source.getPhone().map(p -> p.value).orElse("");
+        email = source.getEmail().map(e -> e.value).orElse("");
+        address = source.getAddress().map(a -> a.value).orElse("");
         birthday = source.getBirthday().map(b -> b.value).orElse("");
         relationship = source.getRelationship().map(b->b.relationship).orElse("");
         nickname = source.getNickname().map(Nickname::toString).orElse("");
@@ -76,6 +82,7 @@ class JsonAdaptedPerson {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
+        imagePath = source.getImagePath().toString();
     }
 
     /**
@@ -89,85 +96,72 @@ class JsonAdaptedPerson {
             personTags.add(tag.toModelType());
         }
 
-        if (name == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
-        }
-        if (!Name.isValidName(name)) {
-            throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
-        }
-        final Name modelName = new Name(name);
+        final Name modelName = parseRequiredField(name, Name::new, Name::isValidName,
+                String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
 
-        if (phone == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
-        }
-        if (!Phone.isValidPhone(phone)) {
-            throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
-        }
-        final Phone modelPhone = new Phone(phone);
-
-        if (email == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
-        }
-        if (!Email.isValidEmail(email)) {
-            throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
-        }
-        final Email modelEmail = new Email(email);
-
-        if (address == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
-        }
-        if (!Address.isValidAddress(address)) {
-            throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
-        }
-
-        final Address modelAddress = new Address(address);
-
-        final Optional<Birthday> modelBirthday;
-        if (birthday == null || birthday.isEmpty()) {
-            modelBirthday = Optional.empty();
-        } else {
-            try {
-                modelBirthday = Optional.of(new Birthday(birthday));
-            } catch (IllegalArgumentException e) {
-                throw new IllegalValueException(e.getMessage());
-            }
-        }
-
-        final Optional<Relationship> modelRelationship;
-        if (relationship == null || relationship.isEmpty()) {
-            modelRelationship = Optional.empty();
-        } else {
-            try {
-                modelRelationship = Optional.of(new Relationship(relationship));
-            } catch (IllegalArgumentException e) {
-                throw new IllegalValueException(e.getMessage());
-            }
-        }
-        final Optional<Nickname> modelNickname;
-        if (nickname == null || nickname.isEmpty()) {
-            modelNickname = Optional.empty();
-        } else {
-            try {
-                modelNickname = Optional.of(new Nickname(nickname));
-            } catch (IllegalArgumentException e) {
-                throw new IllegalValueException(e.getMessage());
-            }
-        }
-
-        final Optional<Notes> modelNotes;
-        if (notes == null || notes.isEmpty()) {
-            modelNotes = Optional.empty();
-        } else {
-            try {
-                modelNotes = Optional.of(new Notes(notes));
-            } catch (IllegalArgumentException e) {
-                throw new IllegalValueException(e.getMessage());
-            }
-        }
+        final Optional<Phone> modelPhone = parseOptionalField(phone, Phone::new);
+        final Optional<Email> modelEmail = parseOptionalField(email, Email::new);
+        final Optional<Address> modelAddress = parseOptionalField(address, Address::new);
+        final Optional<Birthday> modelBirthday = parseOptionalField(birthday, Birthday::new);
+        final Optional<Relationship> modelRelationship = parseOptionalField(relationship, Relationship::new);
+        final Optional<Nickname> modelNickname = parseOptionalField(nickname, Nickname::new);
+        final Optional<Notes> modelNotes = parseOptionalField(notes, Notes::new);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelBirthday, modelRelationship,
-                modelNickname, modelNotes, modelTags);
+        final Optional<ImagePath> modelImagePath = parseOptionalField(imagePath, ImagePath::new);
+        return new Person(modelName, modelPhone, modelEmail, modelAddress,
+                modelBirthday, modelRelationship, modelNickname, modelNotes, modelImagePath, modelTags);
+    }
+
+    /**
+     * Parses a required field from its string representation into the corresponding model object.
+     *
+     * @param <T>             The type of the model object to be constructed.
+     * @param value           The string representation of the field.
+     * @param constructor     A function that constructs the model object from a valid string.
+     * @param validator       A predicate that checks the validity of the string.
+     * @param missingMessage  The error message to throw if the value is null.
+     * @return The constructed model object.
+     * @throws IllegalValueException If the value is null or invalid.
+     */
+    private <T> T parseRequiredField(String value, Function<String, T> constructor,
+                                     Predicate<String> validator, String missingMessage)
+            throws IllegalValueException {
+        if (value == null) {
+            throw new IllegalValueException(missingMessage);
+        }
+        try {
+            validator.test(value);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalValueException(e.getMessage());
+        }
+
+        try {
+            return constructor.apply(value);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalValueException(e.getMessage());
+        }
+    }
+
+    /**
+     * Parses an optional field from its string representation into an {@code Optional} containing the model object.
+     *
+     * @param <T>         The type of the model object to be constructed.
+     * @param value       The string representation of the optional field.
+     * @param constructor A function that constructs the model object from the string.
+     * @return {@code Optional} containing the  object if the string is non-empty; otherwise {@code Optional.empty()}.
+     * @throws IllegalValueException If the string is non-empty but invalid for the model type.
+     */
+    private <T> Optional<T> parseOptionalField(String value, Function<String, T> constructor)
+            throws IllegalValueException {
+        if (value == null || value.isEmpty()) {
+            return Optional.empty();
+        }
+        try {
+            return Optional.of(constructor.apply(value));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalValueException(e.getMessage());
+        }
     }
 
 }

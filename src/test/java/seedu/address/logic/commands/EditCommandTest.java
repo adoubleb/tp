@@ -24,6 +24,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -277,7 +278,7 @@ public class EditCommandTest {
         edit1.execute(model);
 
         EditCommand.EditPersonDescriptor descriptor2 = new EditCommand.EditPersonDescriptor();
-        descriptor2.setPhone(new Phone("99999999"));
+        descriptor2.setPhone(Optional.of(new Phone("99999999")));
         EditCommand edit2 = new EditCommand(Index.fromZeroBased(1), descriptor2, new ArrayList<>());
         edit2.execute(model);
 
@@ -301,7 +302,7 @@ public class EditCommandTest {
         Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new CommandHistory());
 
         EditCommand.EditPersonDescriptor descriptor = new EditCommand.EditPersonDescriptor();
-        descriptor.setPhone(new Phone("88888888"));
+        descriptor.setPhone(Optional.of(new Phone("88888888")));
         EditCommand editCommand = new EditCommand(Index.fromZeroBased(0), descriptor, new ArrayList<>());
         assertDoesNotThrow(() -> editCommand.execute(model));
 
