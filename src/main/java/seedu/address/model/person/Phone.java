@@ -12,8 +12,8 @@ public class Phone {
     public static final String MESSAGE_CONSTRAINTS_LENGTH = "Phone numbers can be at most "
             + MAX_LENGTH + " characters long";
     public static final String MESSAGE_CONSTRAINTS_CHARACTERS =
-            "Phone numbers should only contain numbers, and it should be at least 3 digits long";
-    public static final String VALIDATION_REGEX = "\\d{3,}";
+            "Phone numbers should only contain printable ASCII characters and must not be blank";
+    public static final String VALIDATION_REGEX = "(?!^\\s+$)[\\x20-\\x7E]+";
     public final String value;
 
     /**

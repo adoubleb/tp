@@ -24,7 +24,7 @@ import seedu.address.model.person.Relationship;
 
 public class JsonAdaptedPersonTest {
     private static final String INVALID_NAME = "Rachel@";
-    private static final String INVALID_PHONE = "+651234";
+    private static final String INVALID_PHONE = " ";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_BIRTHDAY = "31-02-2000";
