@@ -11,8 +11,8 @@ public class Phone {
 
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Phone numbers should only contain printable ASCII characters";
-    public static final String VALIDATION_REGEX = "[\\x20-\\x7E]*";
+            "Phone numbers should only contain printable ASCII characters and must not be blank";
+    public static final String VALIDATION_REGEX = "(?!^\\s+$)[\\x20-\\x7E]+";
     public final String value;
 
     /**

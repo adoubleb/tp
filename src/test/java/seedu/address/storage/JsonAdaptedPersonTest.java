@@ -79,7 +79,7 @@ public class JsonAdaptedPersonTest {
     @Test
     public void toModelType_invalidPhone_throwsIllegalValueException() {
         JsonAdaptedPerson person =
-                new JsonAdaptedPerson(VALID_NAME, INVALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                new JsonAdaptedPerson(VALID_NAME, "", VALID_EMAIL, VALID_ADDRESS,
                         VALID_BIRTHDAY, VALID_RELATIONSHIP, VALID_NICKNAME, VALID_NOTES, VALID_TAGS);
         String expectedMessage = Phone.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
