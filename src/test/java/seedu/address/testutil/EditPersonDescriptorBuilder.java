@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.ImagePath;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Nickname;
 import seedu.address.model.person.Notes;
@@ -40,6 +41,7 @@ public class EditPersonDescriptorBuilder {
         descriptor.setEmail(person.getEmail());
         descriptor.setAddress(person.getAddress());
         descriptor.setTags(person.getTags());
+        descriptor.setImagePath(Optional.ofNullable(person.getImagePath()));
     }
 
     /**
@@ -54,7 +56,7 @@ public class EditPersonDescriptorBuilder {
      * Sets the {@code Phone} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditPersonDescriptorBuilder withPhone(String phone) {
-        descriptor.setPhone(new Phone(phone));
+        descriptor.setPhone(Optional.of(new Phone(phone)));
         return this;
     }
 
@@ -62,7 +64,7 @@ public class EditPersonDescriptorBuilder {
      * Sets the {@code Email} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditPersonDescriptorBuilder withEmail(String email) {
-        descriptor.setEmail(new Email(email));
+        descriptor.setEmail(Optional.of(new Email(email)));
         return this;
     }
 
@@ -70,7 +72,7 @@ public class EditPersonDescriptorBuilder {
      * Sets the {@code Address} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditPersonDescriptorBuilder withAddress(String address) {
-        descriptor.setAddress(new Address(address));
+        descriptor.setAddress(Optional.of(new Address(address)));
         return this;
     }
 
@@ -87,6 +89,13 @@ public class EditPersonDescriptorBuilder {
      */
     public EditPersonDescriptorBuilder withNotes(String notes) {
         descriptor.setNotes(Optional.of(new Notes(notes)));
+        return this;
+    }
+    /**
+     * Sets the {@code ImagePath} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditPersonDescriptorBuilder withImagePath(String imagePath) {
+        descriptor.setImagePath(Optional.of(new ImagePath(imagePath)));
         return this;
     }
 

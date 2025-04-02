@@ -7,6 +7,7 @@ import java.util.Set;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthday;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.ImagePath;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Nickname;
 import seedu.address.model.person.Notes;
@@ -29,30 +30,32 @@ public class PersonBuilder {
     public static final String DEFAULT_RELATIONSHIP = "Mother";
     public static final String DEFAULT_NICKNAME = "Nicholas";
     public static final String DEFAULT_NOTES = "Allergic to peanuts";
+    public static final String DEFAULT_IMAGE_PATH = ImagePath.getDefault().toString();
 
     private Name name;
-    private Phone phone;
-    private Email email;
-    private Address address;
+    private Optional<Phone> phone;
+    private Optional<Email> email;
+    private Optional<Address> address;
     private Optional<Birthday> birthday;
     private Optional<Relationship> relationship;
     private Optional<Nickname> nickname;
     private Optional<Notes> notes;
     private Set<Tag> tags;
-
+    private Optional<ImagePath> imagePath;
     /**
      * Creates a {@code PersonBuilder} with the default details.
      */
     public PersonBuilder() {
         name = new Name(DEFAULT_NAME);
-        phone = new Phone(DEFAULT_PHONE);
-        email = new Email(DEFAULT_EMAIL);
-        address = new Address(DEFAULT_ADDRESS);
+        phone = Optional.of(new Phone(DEFAULT_PHONE));
+        email = Optional.of(new Email(DEFAULT_EMAIL));
+        address = Optional.of(new Address(DEFAULT_ADDRESS));
         birthday = Optional.empty();
         relationship = Optional.empty();
         nickname = Optional.empty();
         notes = Optional.empty();
         tags = new HashSet<>();
+        imagePath = Optional.empty();
     }
 
     /**
@@ -68,6 +71,7 @@ public class PersonBuilder {
         nickname = personToCopy.getNickname();
         notes = personToCopy.getNotes();
         tags = new HashSet<>(personToCopy.getTags());
+        imagePath = Optional.ofNullable(personToCopy.getImagePath());
     }
 
     /**
@@ -78,14 +82,15 @@ public class PersonBuilder {
      */
     public PersonBuilder(boolean allOptionalFieldsPresent) {
         name = new Name(DEFAULT_NAME);
-        phone = new Phone(DEFAULT_PHONE);
-        email = new Email(DEFAULT_EMAIL);
-        address = new Address(DEFAULT_ADDRESS);
+        phone = Optional.of(new Phone(DEFAULT_PHONE));
+        email = Optional.of(new Email(DEFAULT_EMAIL));
+        address = Optional.of(new Address(DEFAULT_ADDRESS));
         birthday = Optional.of(new Birthday(DEFAULT_BIRTHDAY));
         relationship = Optional.of(new Relationship(DEFAULT_RELATIONSHIP));
         nickname = Optional.of(new Nickname(DEFAULT_NICKNAME));
         notes = Optional.of(new Notes(DEFAULT_NOTES));
         tags = new HashSet<>();
+        imagePath = Optional.of(new ImagePath(DEFAULT_IMAGE_PATH));
     }
 
     /**
@@ -108,7 +113,7 @@ public class PersonBuilder {
      * Sets the {@code Address} of the {@code Person} that we are building.
      */
     public PersonBuilder withAddress(String address) {
-        this.address = new Address(address);
+        this.address = Optional.of(new Address(address));
         return this;
     }
 
@@ -160,7 +165,7 @@ public class PersonBuilder {
      * Sets the {@code Phone} of the {@code Person} that we are building.
      */
     public PersonBuilder withPhone(String phone) {
-        this.phone = new Phone(phone);
+        this.phone = Optional.of(new Phone(phone));
         return this;
     }
 
@@ -168,12 +173,25 @@ public class PersonBuilder {
      * Sets the {@code Email} of the {@code Person} that we are building.
      */
     public PersonBuilder withEmail(String email) {
-        this.email = new Email(email);
+        this.email = Optional.of(new Email(email));
         return this;
     }
 
+    /**
+     * Sets the {@code ImagePath} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withImagePath(String imagePath) {
+        this.imagePath = Optional.of(new ImagePath(imagePath));
+        return this;
+    }
+
+    /**
+     * Builds the {@code Person} object with the specified fields.
+     * @return
+     */
     public Person build() {
-        return new Person(name, phone, email, address, birthday, relationship, nickname, notes, tags);
+        return new Person(name, phone, email, address, birthday, relationship, nickname, notes,
+                imagePath != null ? imagePath : Optional.of(ImagePath.getDefault()), tags);
     }
 
 }

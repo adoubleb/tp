@@ -16,4 +16,5 @@ public class CliSyntax {
     public static final Prefix PREFIX_NICKNAME = new Prefix("nn/");
     public static final Prefix PREFIX_NOTES = new Prefix("no/");
     public static final Prefix PREFIX_SORT = new Prefix("s/");
+    public static final Prefix PREFIX_IMG = new Prefix("img/");
 }

@@ -15,8 +15,9 @@ import seedu.address.commons.util.JsonUtil;
 
 /**
  * A generic class to access data stored as a json file on the hard disk.
- * @param <T> The model type being stored
- * @param <S> The JsonSerializable wrapper for the model type
+ *
+ * @param <T> The model type being stored.
+ * @param <S> The JsonSerializable wrapper for the model type.
  */
 public abstract class JsonStorage<T, S extends JsonSerializable<T>> {
     private static final Logger logger = LogsCenter.getLogger(JsonStorage.class);
@@ -59,9 +60,9 @@ public abstract class JsonStorage<T, S extends JsonSerializable<T>> {
 
         try {
             return Optional.of(jsonData.get().toModelType());
-        } catch (IllegalValueException ive) {
-            logger.info("Illegal values found in " + filePath + ": " + ive.getMessage());
-            throw new DataLoadingException(ive);
+        } catch (IllegalValueException | IllegalArgumentException e) {
+            logger.info("Illegal values found in " + filePath + ": " + e.getMessage());
+            throw new DataLoadingException(e);
         }
     }
 

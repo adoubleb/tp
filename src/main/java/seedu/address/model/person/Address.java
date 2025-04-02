@@ -1,7 +1,6 @@
 package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents a Person's address in the address book.
@@ -9,7 +8,11 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Address {
 
-    public static final String MESSAGE_CONSTRAINTS = "Addresses can take any values, and it should not be blank";
+    public static final int MAX_LENGTH = 200;
+    public static final String MESSAGE_CONSTRAINTS_LENGTH = "Addresses can be at most " + MAX_LENGTH
+            + " characters long";
+    public static final String MESSAGE_CONSTRAINTS_CHARACTERS =
+            "Addresses can take any values, and it should not be blank";
 
     /*
      * The first character of the address must not be a whitespace,
@@ -26,7 +29,7 @@ public class Address {
      */
     public Address(String address) {
         requireNonNull(address);
-        checkArgument(isValidAddress(address), MESSAGE_CONSTRAINTS);
+        isValidAddress(address);
         value = address;
     }
 
@@ -34,7 +37,13 @@ public class Address {
      * Returns true if a given string is a valid email.
      */
     public static boolean isValidAddress(String test) {
-        return test.matches(VALIDATION_REGEX);
+        if (test.length() > MAX_LENGTH) {
+            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_LENGTH);
+        }
+        if (!test.matches(VALIDATION_REGEX)) {
+            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_CHARACTERS);
+        }
+        return true;
     }
 
     @Override

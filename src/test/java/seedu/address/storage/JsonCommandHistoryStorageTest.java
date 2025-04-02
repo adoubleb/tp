@@ -16,7 +16,8 @@ import seedu.address.model.CommandHistory;
 import seedu.address.model.ReadOnlyCommandHistory;
 
 public class JsonCommandHistoryStorageTest {
-    private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonCommandHistoryStorageTest");
+    private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data",
+            "JsonCommandHistoryStorageTest");
 
     @TempDir
     public Path testFolder;

@@ -1,7 +1,6 @@
 package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents a Person's phone number in the address book.
@@ -9,8 +8,10 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Phone {
 
-
-    public static final String MESSAGE_CONSTRAINTS =
+    public static final int MAX_LENGTH = 50;
+    public static final String MESSAGE_CONSTRAINTS_LENGTH = "Phone numbers can be at most "
+            + MAX_LENGTH + " characters long";
+    public static final String MESSAGE_CONSTRAINTS_CHARACTERS =
             "Phone numbers should only contain printable ASCII characters and must not be blank";
     public static final String VALIDATION_REGEX = "(?!^\\s+$)[\\x20-\\x7E]+";
     public final String value;
@@ -22,7 +23,7 @@ public class Phone {
      */
     public Phone(String phone) {
         requireNonNull(phone);
-        checkArgument(isValidPhone(phone), MESSAGE_CONSTRAINTS);
+        isValidPhone(phone);
         value = phone;
     }
 
@@ -30,7 +31,13 @@ public class Phone {
      * Returns true if a given string is a valid phone number.
      */
     public static boolean isValidPhone(String test) {
-        return test.matches(VALIDATION_REGEX);
+        if (test.length() > MAX_LENGTH) {
+            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_LENGTH);
+        }
+        if (!test.matches(VALIDATION_REGEX)) {
+            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS_CHARACTERS);
+        }
+        return true;
     }
 
     @Override

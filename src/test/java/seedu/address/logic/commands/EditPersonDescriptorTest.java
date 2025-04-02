@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
@@ -14,6 +15,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
+import seedu.address.model.person.ImagePath;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 public class EditPersonDescriptorTest {
@@ -58,6 +60,21 @@ public class EditPersonDescriptorTest {
     }
 
     @Test
+    public void differentImagePath_shouldNotBeEqual() {
+        EditPersonDescriptor editedAmy = new EditPersonDescriptorBuilder(DESC_AMY)
+                .withImagePath("src/main/resources/images/clock.png")
+                .build();
+
+        String originalPath = DESC_AMY.getImagePath().map(ImagePath::toString).orElse(null);
+        String newPath = editedAmy.getImagePath().map(ImagePath::toString).orElse(null);
+
+        System.out.println("DESC_AMY path: " + originalPath);
+        System.out.println("editedAmy path: " + newPath);
+
+        assertNotEquals(originalPath, newPath, "Image paths should differ");
+    }
+
+    @Test
     public void toStringMethod() {
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
         String expected = EditPersonDescriptor.class.getCanonicalName()
@@ -69,7 +86,9 @@ public class EditPersonDescriptorTest {
                 + ", relationship=" + editPersonDescriptor.getRelationship().orElse(null)
                 + ", nickname=" + editPersonDescriptor.getNickname().orElse(null)
                 + ", notes=" + editPersonDescriptor.getNotes().orElse(null)
-                + ", tags=" + editPersonDescriptor.getTags().orElse(null) + "}";
+                + ", tags=" + editPersonDescriptor.getTags().orElse(null)
+                + ", imagePath=" + editPersonDescriptor.getImagePath()
+                + "}";
         assertEquals(expected, editPersonDescriptor.toString());
     }
 }
