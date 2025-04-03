@@ -486,8 +486,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Average typing speed**: 40 words per minute (wpm)
 * **JAR file**: Java Archive file that packages multiple Java class files and associated metadata into a single file
 * **Human editable text file**: A file format such as JSON or txt that can be read and modified using common text editors
+* **JSON**: JavaScript Object Notation, a lightweight data interchange format that uses human-readable text to store and transmit data objects consisting of attribute-value pairs and arrays
 * **Database management system**: Software for creating and managing databases, providing systematic access to stored data (e.g., MySQL, PostgreSQL, MongoDB)
-* **GUI:** Graphical User Interface: a visual way of interacting with a computer program using graphical elements such as windows, icons, and buttons
+* **GUI:** Graphical User Interface, a visual way of interacting with a computer program using graphical elements such as windows, icons, and buttons
 
 --------------------------------------------------------------------------------------------------------------------
 
