@@ -150,6 +150,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void addPersonAt(Person addPerson, int index) {
+
+        }
+
+        @Override
         public void setAddressBook(ReadOnlyAddressBook newData) {
             throw new AssertionError("This method should not be called.");
         }
