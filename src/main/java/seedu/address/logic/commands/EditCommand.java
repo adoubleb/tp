@@ -113,7 +113,6 @@ public class EditCommand extends UndoableCommand {
         }
 
         model.setPerson(personToEdit, editedPerson);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         CommandTracker.getInstance().push(this); //push this EditCommand into the stack
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
     }
