@@ -128,6 +128,17 @@ public class EditCommand extends UndoableCommand {
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
+
+    @Override
+    public String getCommandString() {
+        return String.format("%s %d: %s -> %s",
+                COMMAND_WORD,
+                index.getOneBased(),
+                personToEdit.toCommandSummary(),
+                editedPerson.toCommandSummary()
+        );
+    }
+
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.

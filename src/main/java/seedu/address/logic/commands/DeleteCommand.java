@@ -90,6 +90,18 @@ public class DeleteCommand extends UndoableCommand implements ConfirmableCommand
     }
 
     @Override
+    public String getCommandString() {
+        if (personsToDelete == null || personsToDelete.isEmpty()) {
+            return COMMAND_WORD + " <unknown person(s)>";
+        }
+
+        String summary = personsToDelete.stream()
+                .map(Person::toCommandSummary)
+                .collect(Collectors.joining(", "));
+        return COMMAND_WORD + " " + summary;
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
