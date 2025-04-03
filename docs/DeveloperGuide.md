@@ -107,6 +107,7 @@ How the `Logic` component works:
 1. The command can communicate with the `Model` when it is executed (e.g. to delete a person).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
 1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
+1. Please do note that this explanation is **intentionally** simplified (i.e. no elaboration on `executeConfirmed`) for the ease of reading and reference. 
 
 Here are the other classes in `Logic` (omitted from the class diagram above) that are used for parsing a user command:
 
@@ -215,6 +216,8 @@ Step 3: Deleting a Person
 
 Step 4: Undoing the DeleteCommand
 
+<puml src="diagrams/UndoSequenceDiagram-Logic.puml" alt="UndoSequenceDiagram" />
+
 - Action:
     - The user decides to undo the delete command using the ```undo``` command.
 
@@ -231,6 +234,8 @@ Step 4: Undoing the DeleteCommand
 
 Step 5: Redoing the DeleteCommand
 
+<puml src="diagrams/RedoSequenceDiagram-Logic.puml" alt="RedoSequenceDiagram" />
+
 - Action:
     - The user decides to redo the delete command using the ```redo``` command.
 
@@ -245,6 +250,11 @@ Step 5: Redoing the DeleteCommand
     - `undo` is still available (for the intial ```add``` command) and `redo` is no longer available since delete has been redone.
 
 **Note:** At this point, the user should be able to notice that the `undo` and `redo` commands can be called in a circular manner i.e. ```undo -> redo -> undo -> ...``` 
+
+#### Planned Extensions
+1. Ensure undo / redo restore order in any state
+   1. This applies to the states after list and find have been executed followed by an `UndoableCommand`
+1. Implement undo / redo for `clear`
 
 ### \[Proposed\] Possible Undo/Redo Implementation
 The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
@@ -289,7 +299,7 @@ than attempting to perform the undo.
 
 The following sequence diagram shows how an undo operation goes through the `Logic` component:
 
-<puml src="diagrams/UndoSequenceDiagram-Logic.puml" alt="UndoSequenceDiagram-Logic" />
+<puml src="diagrams/UndoSequenceDiagramProposed-Logic.puml" alt="UndoSequenceDiagram-Logic" />
 
 <box type="info" seamless>
 
