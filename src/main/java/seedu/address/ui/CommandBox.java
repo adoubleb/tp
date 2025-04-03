@@ -75,10 +75,12 @@ public class CommandBox extends UiPart<Region> {
 
         try {
             commandExecutor.execute(commandText);
-            commandHistory.resetNavigation();
             commandTextField.setText("");
         } catch (CommandException | ParseException e) {
             setStyleToIndicateCommandFailure();
+        } finally {
+            commandHistory.resetNavigation();
+            commandHistory.setIndex(1);
         }
     }
 
