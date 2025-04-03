@@ -51,10 +51,11 @@
 - 🖼️ **Image support with GUI editing**: Add `.png` profile pictures using `img/` in commands, or click the photo in the GUI to update it instantly
 - 📆 **Smart birthday sorting**: Use `list s/asc` or `list s/desc` to sort contacts by upcoming or distant birthdays
 - 💬 **Fuzzy name search**: Automatically suggests similar names when no exact match is found
+- ↩️ **Undo/Redo support**: Mistyped a command? Use `undo` and `redo` to step backward or forward through changes
 
 ---
 
-## Features
+# Features
 
 <box type="info" seamless>
 
@@ -80,21 +81,14 @@
 📎 <strong>Copying tip</strong>: If you're using a PDF, beware of line breaks when copying multi-line commands. Spaces may get lost!
 </box>
 
-
-### Viewing help : `help`
-
-Shows a help window with guidance on using the app.
-
-![help message](images/helpMessage.png)
-
-Format: `help`
-
+---
+## 📥 Managing Contacts
 
 ### Adding a person: `add`
 
 Adds a person to the address book.
 
-Format: `addn/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [img/IMAGE_PATH] [t/TAG]…​`
+Format: `addn/NAME p/[PHONE_NUMBER] e/[EMAIL] a/[ADDRESS] [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [img/IMAGE_PATH] [t/TAG]…​`
 
 #### Name Requirements
 ✔ **Must start with a letter** (A-Z, a-z)  
@@ -118,57 +112,48 @@ Mac Tip: Use <code>pwd</code> in terminal to get full working directory
 </box>
 
 Examples:
-* `add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son img//Users/nickie/sleep.png t/son`
-* `add n/Betsy Crowe p/99999999 r/Other e/betsycrowe@example.com a/Newgate Prison b/2001-03-30 no/Son's girlfriend`
-
-### Listing all persons : `list`
-
-Shows a list of all persons in the family book.
-
-Format: 
-- `list` - Sorted by insertion order
-- `list s/asc` — Sorted by closest upcoming birthday
-- `list s/desc` — Sorted by farthest upcoming birthday
+```
+add n/Nickie p/88888888 r/son 
+    e/nickie@gmail.com 
+    a/21 Lower Kent Ridge Rd, Singapore 119077 
+    nn/nickelodeon 
+    b/01-01-2001
+    no/My favorite son 
+    img//Users/nickie/sleep.png 
+    t/son
+```
+```
+add n/Betsy Crowe p/99999999 r/Other 
+    e/betsycrowe@example.com 
+    a/Newgate Prison 
+    b/03-30-2001 
+    no/Son's girlfriend
+```
 
 ### Editing a person : `edit`
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [img/IMAGE_PATH] [t/TAG]…​`
+**Format:** `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [img/IMAGE_PATH] [t/TAG]…​`
 
-* Edits the person at the specified `INDEX`. <small>(This is the number shown next to each contact in the list.)<small> 
+* Edits the person at the specified `INDEX`. <small>(This is the number shown next to each contact in the list.)<small>
 * The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
 * You can remove all the person’s tags by typing `t/` without
-    specifying any tags after it.
+  specifying any tags after it.
 
-Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+**Examples:**
+*  `edit 1 p/91234567 e/johndoe@example.com`   
+    Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
+</br>
+</br>
+*  `edit 2 n/Betsy Crower t/`   
+    Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
-### Locating persons by name: `find`
-
-Finds persons whose names **fuzzily match** any of the given keywords.
-
-Format: `find KEYWORD [MORE_KEYWORDS]`
-
-* Uses **fuzzy search**: It matches names that are similar to the keyword, even if not exact.  
-  E.g., searching for `Jon` can return names like `John`, `Jonathan`, or `Joni`.
-* The search is case-insensitive.  
-  E.g., `hans` will match `Hans`
-* The order of the keywords does not matter.  
-  E.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).  
-  E.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
-
-Examples:
-* `find Jon` returns `John Doe`, `Jonathan Sim`, `Joni Tan`
-* `find alex david` returns `Alex Yeoh`, `David Li`  
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+<box type="tip" seamless> To <strong>remove</strong> any optional field (e.g., nickname or birthday), simply leave the value blank. 
+</br>E.g., to remove a nickname: <code>edit 2 nn/</code> </box>
 
 ### Deleting a person: `delete`
 
@@ -185,17 +170,84 @@ Deletes the specified person(s) from the address book.
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1 3` deletes the 1st and 3rd persons in the results of the `find` command.
 
+
+### Listing all persons : `list`
+
+Shows a list of all persons in the family book.
+
+**Format:**
+- `list` - Sorted by insertion order
+- `list s/asc` — Sorted by closest upcoming birthday
+- `list s/desc` — Sorted by farthest upcoming birthday
+
+---
+
+## 🔍 Searching
+### Locating persons by name: `find`
+
+Finds persons whose names match any of the given keywords. If no exact or partial matches are found, the app will automatically attempt a fuzzy search to suggest similar names.
+
+**Format:** `find KEYWORD [MORE_KEYWORDS]`
+
+* Performs an exact and partial match search first.
+  If no results are found, a fuzzy search will suggest similar names instead.   
+  E.g., searching for `Jon` can return names like `John`, `Jonathan`, or `Joni`.
+* The search is case-insensitive.  
+  E.g., `hans` will match `Hans`
+* The order of the keywords does not matter.  
+  E.g. `Hans Bo` will match `Bo Hans`
+* Only the name is searched.
+* Only full words will be matched e.g. `Han` will not match `Hans`
+* Persons matching at least one keyword will be returned (i.e. `OR` search).  
+  E.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+
+**Examples:**
+* `find Jon` returns `John Doe`, `Jonathan Sim`, `Joni Tan`
+* `find alex david` returns `Alex Yeoh`, `David Li`  
+</br>
+  ![result for 'find alex david'](images/findAlexDavidResult.png)
+
+---
+
+## ⚙️ System Commands
+
+### Undoing the last command : `undo`
+
+Reverts the most recent supported command.
+
+**Supported commands:** `add`, `edit`, `delete`  
+Other commands like `find`, `list`, `clear`, and `help`, etc, cannot be undone.
+
+**Format:**  `undo`
+
+### Redoing the last undone command : `redo`
+
+Re-applies the most recent command that was undone using `undo`.
+
+🔄 `redo` only works if you’ve just called `undo`.  
+If there's nothing to redo, the command will do nothing.
+
+**Format:**  `redo`
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
 
-Format: `clear`
+**Format:** `clear`
+
+### Viewing help : `help`
+
+Shows a help window with guidance on using the app.
+
+![help message](images/helpMessage.png)
+
+**Format:** `help`
 
 ### Exiting the program : `exit`
 
 Exits the program.
 
-Format: `exit`
+**Format:** `exit`
 
 ### Saving the data
 
@@ -218,28 +270,31 @@ _Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
-## FAQ
+# FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Known issues
+# Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command summary
+# Command summary
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [img/IMAGE_PATH] [t/TAG]…​` <br> e.g., `add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son`
-**Clear**  | `clear`
-**Delete** | `delete INDEX…​`<br> e.g., `delete 3`, `delete 1 2 4`
+**Add**    | `add n/NAME p/[PHONE_NUMBER] e/[EMAIL] a/[ADDRESS] [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [img/IMAGE_PATH] [t/TAG]…​` <br> e.g., `add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son`
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Delete** | `delete INDEX…​`<br> e.g., `delete 3`, `delete 1 2 4`
+**List**   | `list`<br>`list s/asc`<br>`list s/desc`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List**   | `list`
+**Undo**   | `undo`<br>Reverts the most recent `add`, `edit`, or `delete` command
+**Redo**   | `redo`<br>Re-applies the most recently undone command (only if `undo` was used before)
+**Clear**  | `clear`
 **Help**   | `help`
+**Exit**  | `exit`
