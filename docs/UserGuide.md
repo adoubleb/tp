@@ -18,7 +18,7 @@
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+1. Download the latest `.jar` file from [here](https://github.com/AY2425S2-CS2103T-T14-1/tp/releases).
 
 1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
 
@@ -43,6 +43,17 @@
 
 --------------------------------------------------------------------------------------------------------------------
 
+## Key Features at a Glance
+
+- ✅ **Speed meets simplicity**: Fast command-line input for power users, with a clean GUI for ease of use
+- 🔁 **Command history navigation**: Use ↑ and ↓ arrows to recall past commands effortlessly
+- 🗑️ **Confirmable actions**: Commands like `delete` and `clear` require confirmation to prevent accidents
+- 🖼️ **Image support with GUI editing**: Add `.png` profile pictures using `img/` in commands, or click the photo in the GUI to update it instantly
+- 📆 **Smart birthday sorting**: Use `list s/asc` or `list s/desc` to sort contacts by upcoming or distant birthdays
+- 💬 **Fuzzy name search**: Automatically suggests similar names when no exact match is found
+
+---
+
 ## Features
 
 <box type="info" seamless>
@@ -61,15 +72,18 @@
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
-* If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
+<box type="warning" seamless>
+📎 <strong>Copying tip</strong>: If you're using a PDF, beware of line breaks when copying multi-line commands. Spaces may get lost!
+</box>
+
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the help page.
+Shows a help window with guidance on using the app.
 
 ![help message](images/helpMessage.png)
 
@@ -80,41 +94,50 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `addn/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [t/TAG]…​`
+Format: `addn/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [img/IMAGE_PATH] [t/TAG]…​`
 
-### Name Requirements
+#### Name Requirements
 ✔ **Must start with a letter** (A-Z, a-z)  
 ✔ **Cannot end with a special character** (@, ., -, etc.)  
 ✔ **No consecutive special characters** (e.g., `--`, `@@`, `..`)
 
-💡 **All `/` must be escaped with `\` to be recognized correctly**
 
-E.g. **To include "s/o" in a name, type it as** `"s\/o"`
+<box type="tip" seamless>
+💡 <strong>Escaping slashes:</strong> All <code>/</code> must be escaped with <code>\</code> to be recognized correctly.<br>
+E.g. To include <code>"s/o"</code> in a name, type it as <code>"s\/o"</code>
+</box>
 
-[//]: # (<box type="tip" seamless>)
+#### Image Support:
+✔ **Only `.png` supported for now**  
+✔ **Use `img/<IMAGE_PATH>` to specify the image path**  
+✔ **Image path must be absolute**  
+<small>*(An absolute path is the full location from the system root, e.g., `/Users/alex/images/photo.png`)*</small>
 
-[//]: # ()
-[//]: # (**Tip:** A person can have any number of tags &#40;including 0&#41;)
-
-[//]: # (</box>)
+<box type="tip" seamless>
+Mac Tip: Use <code>pwd</code> in terminal to get full working directory
+</box>
 
 Examples:
-* `add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son t/son`
+* `add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son img//Users/nickie/sleep.png t/son`
 * `add n/Betsy Crowe p/99999999 r/Other e/betsycrowe@example.com a/Newgate Prison b/2001-03-30 no/Son's girlfriend`
 
 ### Listing all persons : `list`
 
-Shows a list of all persons in the address book.
+Shows a list of all persons in the family book.
 
-Format: `list`
+Format: 
+- `list` - Sorted by insertion order
+- `list s/asc` — Sorted by closest upcoming birthday
+- `list s/desc` — Sorted by farthest upcoming birthday
 
 ### Editing a person : `edit`
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [img/IMAGE_PATH] [t/TAG]…​`
 
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the person at the specified `INDEX`. <small>(This is the number shown next to each contact in the list.)<small> 
+* The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
@@ -127,20 +150,24 @@ Examples:
 
 ### Locating persons by name: `find`
 
-Finds persons whose names contain any of the given keywords.
+Finds persons whose names **fuzzily match** any of the given keywords.
 
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* Uses **fuzzy search**: It matches names that are similar to the keyword, even if not exact.  
+  E.g., searching for `Jon` can return names like `John`, `Jonathan`, or `Joni`.
+* The search is case-insensitive.  
+  E.g., `hans` will match `Hans`
+* The order of the keywords does not matter.  
+  E.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* Persons matching at least one keyword will be returned (i.e. `OR` search).  
+  E.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
+* `find Jon` returns `John Doe`, `Jonathan Sim`, `Joni Tan`
+* `find alex david` returns `Alex Yeoh`, `David Li`  
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
 ### Deleting a person: `delete`
@@ -209,7 +236,7 @@ _Details coming soon ..._
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [t/TAG]…​` <br> e.g., `add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son`
+**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [img/IMAGE_PATH] [t/TAG]…​` <br> e.g., `add n/Nickie p/88888888 r/son e/nickie@gmail.com a/21 Lower Kent Ridge Rd, Singapore 119077 nn/nickelodeon b/2001-01-01 no/My favorite son`
 **Clear**  | `clear`
 **Delete** | `delete INDEX…​`<br> e.g., `delete 3`, `delete 1 2 4`
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/RELATIONSHIP] [nn/NICKNAME] [b/BIRTHDAY] [no/NOTES] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
